@@ -1,1 +1,4 @@
-print("hello world")
+pip installs 
+
+pip install matplotlib
+pip install pillow
