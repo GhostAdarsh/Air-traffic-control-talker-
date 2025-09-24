@@ -1,6 +1,11 @@
 # import modules here: 
 import pygame 
 from pygame import * 
+import matplotlib 
+from matplotlib import pyplot as plt 
+from matplotlib import image 
+
+
 print("X")
 
 # TASK - load an image and setr it as background - DONE
@@ -24,10 +29,13 @@ running = True
 while running: 
     #colour scheme 
     screen.fill((0,0,0))
+    
     screen.blit(background, (0, 0))
+    
     for event in pygame.event.get():
-        keys = pygame.get_pressed()
-        if keys[pygame.K_TAB]:      
+        # if tab key pressed, quits game
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_TAB]:
             pygame.quit()
         if event.type == pygame.QUIT: 
             running = False
@@ -35,6 +43,9 @@ while running:
 
 
 # TASK - create and plot coordinate on the 15 places on the background - set these as finishing points 
+
+#pygame.draw.circle(surface, color, center, radius, width)
+
 
 
 pygame.quit() 
