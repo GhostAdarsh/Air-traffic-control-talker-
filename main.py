@@ -25,13 +25,20 @@ pygame.display.set_icon(win_icon)
 #set window title 
 pygame.display.set_caption("Air Traffic Talker")
 
+# coordinate points 
+points = [(100, 100), (200, 200), (300, 300)]
+
+#create clock 
+clock = pygame.time.Clock() 
+
+
+
+
 running = True
 while running: 
     #colour scheme 
     screen.fill((0,0,0))
-    
     screen.blit(background, (0, 0))
-    
     for event in pygame.event.get():
         # if tab key pressed, quits game
         keys = pygame.key.get_pressed()
@@ -39,13 +46,26 @@ while running:
             pygame.quit()
         if event.type == pygame.QUIT: 
             running = False
+
+
+    
+        for point in points: 
+            pygame.draw.circle(screen, "red", point, 5)
+        
+        clock.tick(60)
+        
+
+
+
+
+
+
     pygame.display.update()
 
 
 # TASK - create and plot coordinate on the 15 places on the background - set these as finishing points 
 
 #pygame.draw.circle(surface, color, center, radius, width)
-
 
 
 pygame.quit() 

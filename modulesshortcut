@@ -1,0 +1,8 @@
+install: 
+
+pip install pillow
+pip install pygame
+pip install matplotlib
+pip install os-sys
+pip install SpeechRecognition
+
