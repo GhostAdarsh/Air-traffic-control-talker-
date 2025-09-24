@@ -1,9 +1,10 @@
-# import modules here: 
+# import modules and objects here: 
 import pygame 
 from pygame import * 
 import matplotlib 
 from matplotlib import pyplot as plt 
 from matplotlib import image 
+from objectplanes import Planes
 
 
 print("X")
@@ -25,11 +26,16 @@ pygame.display.set_icon(win_icon)
 #set window title 
 pygame.display.set_caption("Air Traffic Talker")
 
-# coordinate points 
+# coordinate points - time consuming do this @ home 
 points = [(100, 100), (200, 200), (300, 300)]
 
 #create clock 
 clock = pygame.time.Clock() 
+
+
+
+
+
 
 
 
@@ -47,12 +53,12 @@ while running:
         if event.type == pygame.QUIT: 
             running = False
 
-
-    
-        for point in points: 
+    for point in points: 
             pygame.draw.circle(screen, "red", point, 5)
+    
         
-        clock.tick(60)
+    clock.tick(100)   
+        
         
 
 
@@ -63,9 +69,15 @@ while running:
     pygame.display.update()
 
 
-# TASK - create and plot coordinate on the 15 places on the background - set these as finishing points 
+# TASK - create and plot coordinate on the 15 places on the background - set these as finishing points - DONE (lines  28 and 54 above)
 
-#pygame.draw.circle(surface, color, center, radius, width)
+# TASK - create object (planes) - set image to them and make them follow a path - diffictult - use OOP 
+
+a = Planes("BA277")
+         
+
+
+
 
 
 pygame.quit() 
