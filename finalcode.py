@@ -19,7 +19,9 @@ i = 0
 
 run = True
 while run: 
+    window.fill(0,0,0)
     window.blit(bg_img, (0,0))
+    
     for event in pygame.event.get():
         if event.type == QUIT:
             run = False
