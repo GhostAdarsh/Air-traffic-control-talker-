@@ -26,8 +26,9 @@ while running:
     screen.fill((0,0,0))
     screen.blit(background, (0, 0))
     for event in pygame.event.get():
-        keys 
-        
+        keys = pygame.get_pressed()
+        if keys[pygame.K_TAB]:      
+            pygame.quit()
         if event.type == pygame.QUIT: 
             running = False
     pygame.display.update()
