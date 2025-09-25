@@ -39,7 +39,7 @@ pygame.display.update()
 
 #image show function 
 
-'''def startup(): # adds background and 2D grid 
+def startup(): # adds background and 2D grid 
         print("x")
         # background: 
         img = Image.open('LondonHeathrowNEA.jpg')
@@ -71,7 +71,7 @@ pygame.display.update()
             def __init__(self):
                 self.coordinates = None
                 self.checkpoints = None
-    #startup() '''
+    #startup()
 
 
 

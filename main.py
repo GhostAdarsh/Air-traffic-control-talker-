@@ -26,11 +26,17 @@ pygame.display.set_icon(win_icon)
 #set window title 
 pygame.display.set_caption("Air Traffic Talker")
 
-# coordinate points - time consuming do this @ home 
-points = [(100, 100), (200, 200), (300, 300)]
+# coordinate points - time consuming do this @ home (did this only for T5 PLANES)
+points = [(360, 390), (360, 450), (490, 410), (407, 400), (429,400), (469, 450)]
+
+# checkpoint coordinates - this is the junctions at the taxiway - takeoff and landing only  
+checkpts = [(384, 358), (320,340), ]
+
+landpts = [(300, 300), (400, 400)]
+
 
 #create clock 
-clock = pygame.time.Clock() 
+clock = pygame.time.Clock()     
 
 
 
@@ -55,7 +61,8 @@ while running:
 
     for point in points: 
             pygame.draw.circle(screen, "red", point, 5)
-    
+    for checkpt in checkpts: 
+            pygame.draw.circle(screen, "green", checkpt, 3)
         
     clock.tick(100)   
         
