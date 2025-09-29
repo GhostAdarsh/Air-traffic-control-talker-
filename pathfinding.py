@@ -1,25 +1,28 @@
-print("x")
+print("hello") 
+# apply pygame to pathfinding (still watching yt vid)
+import pygame, sys 
 import pathfinding 
-from pathfinding import * 
-from pathfinding.core.grid import Grid 
-from pathfinding.finder.a_star import AStarFinder
 
-matrix = [
-    1, 1, 1, 1, 1,
-    1, 0, 1, 1, 1,
-    1, 1, 1, 1, 1,
-]
-grid = Grid(matrix= matrix) 
+pygame.init()
+screen = pygame.display.set_mode((1280 , 736))
+clock = pygame.time.Clock() 
 
-# start and end nodes 
-start = grid.node(0,0)
-end = grid.node(5,2)
 
-#creaste a finder with a movement style 
-finder = AStarFinder
+# game ssetup 
+bg_surf = pygame.image.load("LHRNEA.png").convert()
+bg_surf = pygame.transform.scale()
+while True: 
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        # reused tab key bcs cba to click x on a window
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_TAB]:
+            pygame.quit()
+    screen.blit(bg_surf, (0,0))
+    
 
-# use finder to find path 
-path,runs = finder.find_path(start,end, grid) 
 
-# print result 
-print(path) 
+    pygame.display.update()
+    clock.tick(60)
