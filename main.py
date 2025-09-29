@@ -25,7 +25,7 @@ pygame.display.set_icon(win_icon)
 #set window title 
 pygame.display.set_caption("Air Traffic Talker")
 
-# coordinate points 
+# coordinate points  - will be painstaking 
 points = [(100, 100), (200, 200), (300, 300)]
 
 #create clock 
@@ -49,11 +49,11 @@ while running:
 
 
     
-        for point in points: 
+    for point in points: 
             pygame.draw.circle(screen, "red", point, 5)
-        
-        clock.tick(60)
-        
+            
+    clock.tick(100)    
+
 
 
 
