@@ -1,14 +1,15 @@
-# import modules here: 
+# import modules and objects here: 
 import pygame 
 from pygame import * 
 import matplotlib 
 from matplotlib import pyplot as plt 
 from matplotlib import image 
+from objectplanes import Planes
 
 
 print("X")
 
-# TASK - load an image and setr it as background - DONE
+# TASK A - load an image and setr it as background - DONE
 
 #create screen
 screen = pygame.display.set_mode((1250,800))
@@ -25,15 +26,29 @@ pygame.display.set_icon(win_icon)
 #set window title 
 pygame.display.set_caption("Air Traffic Talker")
 
+<<<<<<< HEAD
 # coordinate points  - will be painstaking 
 points = [(100, 100), (200, 200), (300, 300)]
+=======
+# coordinate points - time consuming do this @ home (did this only for T5 PLANES)
+points = [(360, 390), (360, 450), (490, 410), (407, 400), (429,400), (469, 450)]
+# checkpoint coordinates - this is the junctions at the taxiway - takeoff and landing only  
+checkpts = [(384, 358), (320,340), ]
+landpts = [(300, 300), (400, 400)]
+
+>>>>>>> e938ae7be6c529085ed1a6aa75223d9217b88670
 
 #create clock 
-clock = pygame.time.Clock() 
+clock = pygame.time.Clock()     
 
 
 
 
+
+
+
+
+# while loop to keep code running 
 running = True
 while running: 
     #colour scheme 
@@ -47,6 +62,7 @@ while running:
         if event.type == pygame.QUIT: 
             running = False
 
+<<<<<<< HEAD
 
     
     for point in points: 
@@ -54,6 +70,19 @@ while running:
             
     clock.tick(100)    
 
+=======
+    # draws the coordinate pts 
+    for point in points: 
+            pygame.draw.circle(screen, "red", point, 5)
+    for checkpt in checkpts: 
+            pygame.draw.circle(screen, "green", checkpt, 3)
+    for landpt in landpts:
+            pygame.draw.circle(screen, "blue", landpt, 3)
+        
+    clock.tick(100)   
+        
+        
+>>>>>>> e938ae7be6c529085ed1a6aa75223d9217b88670
 
 
 
@@ -63,9 +92,22 @@ while running:
     pygame.display.update()
 
 
-# TASK - create and plot coordinate on the 15 places on the background - set these as finishing points 
+# TASK  B - create and plot coordinate on the 15 places on the background - set these as finishing points - DONE (lines  28 and 54 above)
 
-#pygame.draw.circle(surface, color, center, radius, width)
+# TASK C - create object (planes) - set image to them and make them follow a path - diffictult - use OOP 
+# split task c to 2 pts 
+# watch pathfinding algorithm found on yt - work on that eg 
+a = Planes("BA277")
+b = Planes("BA776")
+c = Planes("BA928")
+d = Planes("")     
+e = Planes("")
+
+departures = [a, b, c, d, e]
+
+for departure in departures():
+      print("X")
+
 
 
 pygame.quit() 
