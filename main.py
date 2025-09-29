@@ -83,9 +83,15 @@ while running:
 # split task c to 2 pts 
 # watch pathfinding algorithm found on yt - work on that eg 
 a = Planes("BA277")
-         
+b = Planes("BA776")
+c = Planes("BA928")
+d = Planes("")     
+e = Planes("")
 
+departures = [a, b, c, d, e]
 
+for departure in departures():
+      print("X")
 
 
 
