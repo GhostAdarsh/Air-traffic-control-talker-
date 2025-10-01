@@ -28,6 +28,7 @@ class Pathfinder:
         
         
 
+
     def create_path(self):
         # start pt 
         start_x, start_y =  [1,1]
@@ -43,6 +44,7 @@ class Pathfinder:
         # path 
         finder = AStarFinder(diagonal_movement =  DiagonalMovement.always)
         self.path = finder.find_path(start, end, self.grid)
+        self.grid.cleanup()
         print(self.path)
 
 

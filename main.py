@@ -18,9 +18,22 @@ class Pathfinder:
               self.matrix = matrix 
               self.grid = Grid(matrix = matrix)
               self.select_surf = pygame.image.load('crosshairX.png').convert_alpha()
+        def __init__(self, matrix):
+        #setup - added coordinates whereever mouse cursor is 
+                self.matrix = matrix
+                self.grid = Grid(matrix = matrix)
+                self.select_surf = pygame.image.load('crosshairX.png').convert_alpha()
 
+                self.path = []     
+        def draw_active_cell(self):
+           mouse_pos = pygame.mouse.get_pos()
+           print(mouse_pos)
+           row = mouse_pos[1] // 32
+           col = mouse_pos[0] // 32 
+        def update(self):
+           self.draw_active_cell()
               # pathfinding 
-              self.path = [] 
+           self.path = [] 
         def draw_active_cell(self):
                 # the mouse part isnt needed in the main.py code 
                 mouse_pos = pygame.mouse.get_pos()
@@ -114,8 +127,8 @@ matrix = [
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0],
-      ]
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0]]
+      
 
 grid = Grid(matrix= matrix)
 
@@ -135,7 +148,7 @@ path,runs = finder.find_path(start, end, grid)
 
 
 
-
+pathfinder = Pathfinder(matrix)
 # while loop to keep code running 
 running = True
 while running: 
@@ -157,6 +170,9 @@ while running:
             pygame.draw.circle(screen, "green", checkpt, 3)
     for landpt in landpts:
             pygame.draw.circle(screen, "blue", landpt, 3)
+
+
+    pathfinder.draw_active_cell()
         
     clock.tick(100)   
         
