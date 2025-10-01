@@ -23,10 +23,10 @@ class Pathfinder:
         print(mouse_pos)
         row = mouse_pos[1] // 32 
         col = mouse_pos[0] // 32 
-        current_cell_value = self.matrix[row][col]
-        if current_cell_value == 0:
-            rect = pygame.Rect((col * 32,row * 32), (32,32))
-            screen.blit(self.select_surf, rect)
+        rect = pygame.Rect((col * 32, row * 32), (32,32))
+        screen.blit(self.select_surf, rect)
+        
+        
 
     def create_path(self):
         # start pt 
