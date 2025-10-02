@@ -7,6 +7,7 @@ from matplotlib import image
 import pathfinding 
 from pathfinding.core.grid import Grid 
 from pathfinding.finder.a_star import AStarFinder
+from pathfinding.core.diagonal_movement import DiagonalMovement
 from objectplanes import Planes
 
 
@@ -14,10 +15,7 @@ from objectplanes import Planes
 # class pathfinder 
 
 class Pathfinder:
-        def __init__(self, matrix): 
-              self.matrix = matrix 
-              self.grid = Grid(matrix = matrix)
-              self.select_surf = pygame.image.load('crosshairX.png').convert_alpha()
+        
         def __init__(self, matrix):
         #setup - added coordinates whereever mouse cursor is 
                 self.matrix = matrix
