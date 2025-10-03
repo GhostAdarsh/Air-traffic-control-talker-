@@ -13,7 +13,7 @@ pygame.init()
 # set window dimensions 
 
 window = pygame.display.set_mode((1000, 800))
-bg_img = pygame.image.load.img("LondonHeathrowNEA.jpg")
+bg_img = pygame.image.load("LondonHeathrowNEA.jpg")
 bg = pygame.transform.scale(bg_img, (1000, 800))
 i = 0 
 
