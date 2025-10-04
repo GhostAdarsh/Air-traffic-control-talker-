@@ -1,4 +1,29 @@
-pip installs 
+ alright this is the log ill be using to document my coding process so far ,
 
-pip install matplotlib
-pip install pillow
+up until now, i have completed: 
+
+importing an image onto the screen: 
+
+dabbled  first into matplotlib and started manually plotting coordinates  - big waste of time as it was inefficient 
+then i started to use the pygame module because it is a better option - i couldnt find a way to implement pathfinding using matplotlib without an exessive use of mathematics 
+to find out graphs- it would have to be highly accurate for a single path from the apron to the runway 
+ 
+
+
+plotting coordinates into the same screen - initially used matplot lib for this and then changed to pygame and drawed circles - better option to use pygame 
+i have plotted apron points, checkpoints (holding point son the runway) and runway poinjtsw (where the plane takes off)
+used a list for this and outputterd the list in pygame  
+
+
+now i am currently working on pathfinding and the movement of objects from the apron to the runways: 
+
+right now i have used a yt video to help with understanding the ins and outs of pathfinding, of course comparing the 2 different pathfinding algorithms (Dijkstra and A*)
+which perfectly fits my purpose of the code
+initally followed the code to see how they did it initially and then tweaked and implemented similar methodologies into my code #
+understood about using the matrix and mapping the binary digits into the matrix to allow the object to move past of block the object 
+ 4/10/25 log 
+
+
+
+
+
