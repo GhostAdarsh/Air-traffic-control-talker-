@@ -42,11 +42,11 @@ class Pathfinder:
                 rect = pygame.Rect((col * 32, row * 32), (32,32))
                 screen.blit(self.select_surf, rect)
 
-                print(row, col)
+                #print(row, col)
 
                 # prints the index of the matrix - whether it is 1 or 0 so i can map out the plane path better 
 
-                #print(matrix[row][col])
+                print(matrix[row][col])
 
 
 
