@@ -230,7 +230,8 @@ matrix = [
       
 
 
-# threshold - 
+# threshold - where x = 61 ANYTHING FIRTHER FROM 61 (except runways are to be made 0s )
+
 
 
 
