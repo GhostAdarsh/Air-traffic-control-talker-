@@ -26,7 +26,7 @@ class Pathfinder:
         rect = pygame.Rect((col * 16, row * 16), (16,16))
         screen.blit(self.select_surf, rect)
 
-        print(matrix[row][col])
+        #print(matrix[row][col])
 
         
         
