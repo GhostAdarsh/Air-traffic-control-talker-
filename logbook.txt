@@ -26,6 +26,9 @@ understood about using the matrix and mapping the binary digits into the matrix 
 
 things that i am stuck on NOW (6/10/25): 
 i have no idea on how to make the matrix/ grid fit the dimensions of my image - i have heard on the .transform metod but i dont think it will work 
+solved problem - changed to pixel shift from 32 to 8 - made it easier for mapping and folowing the paths on the image and have finished the  2D grid to only focus on terminal 5 
+
+
 
 
 
