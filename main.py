@@ -45,7 +45,7 @@ class Pathfinder:
                 #screen.blit(self.select_surf, rect)
                 screen.blit(self.actual_image, rect)
 
-                print(row, col)
+                #print(row, col)
 
                 # prints the index of the matrix - whether it is 1 or 0 so i can map out the plane path better 
 
@@ -79,6 +79,7 @@ class Pathfinder:
                 finder = AStarFinder(diagonal_movement =  DiagonalMovement.always)
                 self.path = finder.find_path(start, end, self.grid)
                 print(self.path)
+
 
         def update(self):
               
@@ -251,6 +252,8 @@ while running:
             pygame.quit()
         if event.type == pygame.QUIT: 
             running = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+               pathfinder.create_path()
 
     # draws the coordinate pts 
     for point in points: 
