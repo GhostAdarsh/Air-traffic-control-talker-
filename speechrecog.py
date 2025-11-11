@@ -1,76 +1,44 @@
-'''print("hello world")
-# nat lang processing? ?? 
-
-import spacy 
-import nltk 
-nltk.download('punkt')
-import speech_recognition as sr 
-from nltk.tokenize import sent_tokenize, word_tokenize
-r = sr.Recognizer() 
-example_string = "Muad'Dib learned rapidly because his first training was in how to learn"
-
-# tokenise string: 
-sent_tokenize(example_string)
-
-aims - find text to analyse (this will be voice input)
-preprocess text for analysis 
-
-analyse text 
-
-and then come up with a solution (in game movements)
-
-
-'''
-
-
-#from nltk.tokenize import sent_tokenize, word_tokenize 
-
-#example_string = "Muad'Dib learned rapidly because his first training was in how to learn."
-#sent_tokenize(example_string)
-
-
-import speech_recognition as sr 
+print("hello world")
+import pyttsx3 
 import pyaudio
-import pyttsx3
-import google
-
-'''
-
-def icao_input(recognizer, microphone):
-
-    r = sr.Recognizer()
-    with sr.Microphone() as source: 
-        print("Adjusting for ambinet noise")
-        r.adjust_for_ambient_noise(source)
-        print("say smthn!")
-        audio = r.listen(source)
+import speech_recognition as sr 
+import os 
+from openai import OpenAI
 
 
-icao_input()
 
-'''
+# getting the computer voice: 
+
+engine = pyttsx3.init('sapi5')
+voices = engine.getProperty('voices')
+engine.setProperty('voice', voices[0].id)
+
+#allowing compuiter to speak (?) 
+print("initialising Air Talker")
+def speak(text):
+    engine.say(text)
+    engine.runAndWait()
+speak("hi")
 
 recognizer = sr.Recognizer()
+mic = sr.Microphone()
 
-while True: 
-    try: 
+with mic as source: 
+    recognizer.adjust_for_ambient_noise(source)
+    print("Listening")
 
-        with sr.Microphone() as mic:
-            recognizer.adjust_for_ambient_noise(mic, duration= 0.2)
-            audio = recognizer.listen(mic)
+while True:
+    with mic as source: 
+        print("Listening")
+        audio = recognizer.listen(source)
 
-            text = recognizer.recognize_bing(audio)
-            text = text.lower()
+    try:
+        text = recognizer.recognize_google_cloud(audio)
+        print("text")
+        if "stop lsitening" in text.lower():
+            print("stopping")
+            break 
+    except sr.UnknownValueError:
+        print("repeat phrase")
 
-            print("Recognizeed {text}")
 
-
-            pass
-    except sr.UnknownValueError():
-        recognizer = sr.Recognizer()
-        continue
-
-        pass
-
-def icao_input():
-    print("hello world")
