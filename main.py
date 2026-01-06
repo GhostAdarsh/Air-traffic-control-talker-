@@ -68,9 +68,10 @@ class Pathfinder:
 
 
                 # start pt 
-                randomiserX = random.randint(0,5)
-                randomiserY = random.randint()
-                start_x, start_y =  [points(randomiser)]
+                randomiserX, randomiserY = random.randint(0,5)
+                
+                start_x, start_y =  [points(randomiserX)]
+                
                 start = self.grid.node(start_x, start_y)
 
                 #end pt 
