@@ -1,6 +1,5 @@
 # import modules and objects here: 
 import pygame 
-from pygame import * 
 import matplotlib 
 from matplotlib import pyplot as plt 
 from matplotlib import image 
@@ -9,6 +8,8 @@ from pathfinding.core.grid import Grid
 from pathfinding.finder.a_star import AStarFinder
 from pathfinding.core.diagonal_movement import DiagonalMovement
 from objectplanes import Planes
+import random 
+
 
 
 
@@ -67,7 +68,9 @@ class Pathfinder:
 
 
                 # start pt 
-                start_x, start_y =  [1,1]
+                randomiserX = random.randint(0,5)
+                randomiserY = random.randint()
+                start_x, start_y =  [points(randomiser)]
                 start = self.grid.node(start_x, start_y)
 
                 #end pt 
@@ -119,7 +122,9 @@ landpts = [(300, 300), (400, 400)]
 
 
 #create clock 
-clock = pygame.time.Clock()     
+clock = pygame.time.Clock()  
+
+
 
 
 
