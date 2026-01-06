@@ -129,7 +129,9 @@ finder = AStarFinder()
 path,runs = finder.find_path(start, end, grid)
 
 
-
+# PIXEL BOUNDARIES  = 300 < X < 890 
+# PIXEL BOUNDARIES = 290 < Y < 560 (y axis increases from top to bottom - hence 290px up to 560px down)
+        
 
 
 
