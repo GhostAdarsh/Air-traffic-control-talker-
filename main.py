@@ -25,8 +25,6 @@ class Pathfinder:
                 self.grid = Grid(matrix = matrix)
                 self.select_surf = pygame.image.load('crosshairX.png').convert_alpha()
                 self.actual_image = pygame.transform.scale(self.select_surf, (8,8))
-
-
                 self.path = []   
 
         def update(self):
@@ -71,7 +69,7 @@ class Pathfinder:
                 #check pts for apron points = [(360, 390), (360, 450), (490, 410), (407, 400), (429,400), (469, 450)]
                 mouse_pos = pygame.mouse.get_pos()
                 
-                start_x, start_y = points[0]
+                start_x, start_y = [12, 13]
                 start = self.grid.node(start_x, start_y)
 
                 #end pt 
