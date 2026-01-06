@@ -4,9 +4,9 @@ import matplotlib
 from matplotlib import pyplot as plt 
 from matplotlib import image 
 import pathfinding 
-from pathfinding.core.grid import Grid 
-from pathfinding.finder.a_star import AStarFinder
-from pathfinding.core.diagonal_movement import DiagonalMovement
+from pathfinding.core.grid import Grid  
+from pathfinding.finder.a_star import AStarFinder 
+from pathfinding.core.diagonal_movement import DiagonalMovement 
 from objectplanes import Planes
 import random 
 
@@ -68,15 +68,15 @@ class Pathfinder:
 
 
                 # start pt 
-                randomiserX, randomiserY = random.randint(0,5)
+                #check pts for apron points = [(360, 390), (360, 450), (490, 410), (407, 400), (429,400), (469, 450)]
+                mouse_pos = pygame.mouse.get_pos()
                 
-                start_x, start_y =  [points(randomiserX)]
-                
+                start_x, start_y = points[0]
                 start = self.grid.node(start_x, start_y)
 
                 #end pt 
                 mouse_pos = pygame.mouse.get_pos()
-                end_x, end_y = mouse_pos[0] // 32, mouse_pos[1] // 32
+                end_x, end_y = landpts[0]
                 end = self.grid.node(end_x, end_y)
          
                 # path 
@@ -117,6 +117,7 @@ pygame.display.set_caption("Air Traffic Talker")
 
 # coordinate points - time consuming do this @ home (did this only for T5 PLANES)
 points = [(360, 390), (360, 450), (490, 410), (407, 400), (429,400), (469, 450)]
+
 # checkpoint coordinates - this is the junctions at the taxiway - takeoff and landing only  
 checkpts = [(384, 358), (320,340), ]
 landpts = [(300, 300), (400, 400)]
