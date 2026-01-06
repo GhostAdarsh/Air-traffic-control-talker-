@@ -11,8 +11,8 @@ from objectplanes import Planes
 import random 
 
 
-
-
+PATH_COLOR = (0, 255, 0) # GREEEN
+CELL_SIZE = min(6, 7)
 # class pathfinder 
 
 class Pathfinder:
@@ -40,14 +40,11 @@ class Pathfinder:
                 #print(mouse_pos)
                 row = mouse_pos[1] // 8 # i had to scale down the mouse positions by 8s
                 col = mouse_pos[0] // 8
+                current_cell_value = self.matrix[row][col]
                 rect = pygame.Rect((col * 8, row * 8), (8,8))
-                #screen.blit(self.select_surf, rect)
                 screen.blit(self.actual_image, rect)
-
                 #print(row, col)
-
                 # prints the index of the matrix - whether it is 1 or 0 so i can map out the plane path better 
-
                 #print(matrix[row][col])
                 
 
@@ -62,19 +59,26 @@ class Pathfinder:
                 # 38, 38 to 38, 125
                 # 69, 41 to 69, 125
 
+        def draw_path(screen, path):
+               for row, col in path:
+                    rect = pygame.Rect(
+                           col * CELL_SIZE, 
+                           row * CELL_SIZE,
+                           CELL_SIZE, 
+                           CELL_SIZE
+                    )
+                    pygame.draw.rect(screen, PATH_COLOR, rect)
+
+               
         def create_path(self): # not yet
-
-
                 # start pt 
-                #check pts for apron points = [(360, 390), (360, 450), (490, 410), (407, 400), (429,400), (469, 450)]
                 mouse_pos = pygame.mouse.get_pos()
-                
-                start_x, start_y = [12, 13]
+                start_x, start_y = [48, 45]
                 start = self.grid.node(start_x, start_y)
 
                 #end pt 
                 mouse_pos = pygame.mouse.get_pos()
-                end_x, end_y = landpts[0]
+                end_x, end_y = [38, 40]
                 end = self.grid.node(end_x, end_y)
          
                 # path 
@@ -234,11 +238,7 @@ matrix = [
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
       
-
-
 # threshold - where x = 61 ANYTHING FIRTHER FROM 61 (except runways are to be made 0s )
-
-
 # PIXEL BOUNDARIES  = 300 < X < 890 
 # PIXEL BOUNDARIES = 290 < Y < 560 (y axis increases from top to bottom - hence 290px up to 560px down)
         
@@ -272,6 +272,7 @@ while running:
 
 
     pathfinder.draw_active_cell()
+    
         
     clock.tick(100)   
         
