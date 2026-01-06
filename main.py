@@ -16,10 +16,7 @@ CELL_SIZE = min(6, 7)
 # class pathfinder 
 
 class Pathfinder:
-        
         def __init__(self, matrix):
-
-
         #setup - added coordinates whereever mouse cursor is 
                 self.matrix = matrix
                 self.grid = Grid(matrix = matrix)
@@ -58,18 +55,7 @@ class Pathfinder:
 
                 # 38, 38 to 38, 125
                 # 69, 41 to 69, 125
-
-        def draw_path(screen, path):
-               for row, col in path:
-                    rect = pygame.Rect(
-                           col * CELL_SIZE, 
-                           row * CELL_SIZE,
-                           CELL_SIZE, 
-                           CELL_SIZE
-                    )
-                    pygame.draw.rect(screen, PATH_COLOR, rect)
-
-               
+      
         def create_path(self): # not yet
                 # start pt 
                 mouse_pos = pygame.mouse.get_pos()
@@ -84,13 +70,30 @@ class Pathfinder:
                 # path 
                 finder = AStarFinder(diagonal_movement =  DiagonalMovement.always)
                 self.path = finder.find_path(start, end, self.grid)
+                self.grid.cleanup()
                 print(self.path)
 
+        def draw_path(self): 
+               if self.path:
+                    points = []
+                    for points in self.path:
+                           x = point[0] * 8
+                           y = point[1] * 8
+                           points.append((x,y))
+                    pygame.draw.lines(screen, "#064e24", False, points, 3)
+
+
+
+
+
+
+                
 
         def update(self):
               
               self.draw_active_cell()
               self.create_path() 
+              self.draw_path()
 
 print("X")
 
@@ -271,7 +274,7 @@ while running:
             pygame.draw.circle(screen, "blue", landpt, 3)
 
 
-    pathfinder.draw_active_cell()
+    pathfinder.update()
     
         
     clock.tick(100)   
