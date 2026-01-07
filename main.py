@@ -44,6 +44,7 @@ class Pathfinder:
                 # prints the index of the matrix - whether it is 1 or 0 so i can map out the plane path better 
                 #print(matrix[row][col])
                 
+                
 
 
 
@@ -73,14 +74,19 @@ class Pathfinder:
                 self.grid.cleanup()
                 print(self.path)
 
-        def draw_path(self): 
-               if self.path:
-                    points = []
-                    for points in self.path:
-                           x = point[0] * 8
-                           y = point[1] * 8
-                           points.append((x,y))
-                    pygame.draw.lines(screen, "#064e24", False, points, 3)
+        def draw_path(self):
+               if self.path: 
+                      points = []
+                      for points in self.path:
+                             x = point[0] * 8
+                             y = point[1] * 8
+                             
+                      pygame.draw.lines((screen),('#4a4a4a'), (False), (points), (5))
+                      
+
+
+
+      
 
 
 
@@ -92,7 +98,7 @@ class Pathfinder:
         def update(self):
               
               self.draw_active_cell()
-              self.create_path() 
+              
               self.draw_path()
 
 print("X")
@@ -275,16 +281,11 @@ while running:
 
 
     pathfinder.update()
+
     
         
     clock.tick(100)   
         
-        
-
-
-
-
-
 
     pygame.display.update()
 
