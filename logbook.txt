@@ -1,0 +1,44 @@
+ alright this is the log ill be using to document my coding process so far ,
+
+up until now, i have completed: 
+
+importing an image onto the screen: 
+
+dabbled  first into matplotlib and started manually plotting coordinates  - big waste of time as it was tedious
+then i started to use the pygame module because it is a better option - i couldnt find a way to implement pathfinding using matplotlib without an exessive use of mathematics 
+to find out graphs- it would have to be highly accurate for a single path from the apron to the runway 
+ 
+
+
+plotting coordinates into the same screen - initially used matplot lib for this and then changed to pygame and drawed circles - better option to use pygame 
+i have plotted apron points, checkpoints (holding point son the runway) and runway poinjtsw (where the plane takes off)
+used a list for this and outputterd the list in pygame  
+
+
+now i am currently working on pathfinding and the movement of objects from the apron to the runways: 
+
+right now i have used a yt video to help with understanding the ins and outs of pathfinding, of course comparing the 2 different pathfinding algorithms (Dijkstra and A*)
+which perfectly fits my purpose of the code
+initally followed the code to see how they did it initially and then tweaked and implemented similar methodologies into my code #
+understood about using the matrix and mapping the binary digits into the matrix to allow the object to move past of block the object 
+ 4/10/25 log 
+
+
+things that i am stuck on NOW (6/10/25): 
+i have no idea on how to make the matrix/ grid fit the dimensions of my image - i have heard on the .transform metod but i dont think it will work 
+solved problem - changed to pixel shift from 32 to 8 - made it easier for mapping and folowing the paths on the image and have finished the  2D grid to only focus on terminal 5 
+
+
+
+
+
+
+
+i really need to finish pathfinding because once it is finished, i can then work on the voice prompts; using the ICAO handbook to thingy the voice prompts to simulate basic asss commands 
+bcs once pathfinding is done, everythings falls through 
+bcs during junctions, i can make the plane stop and the user can voice their inputs to guide the plane throught the holding points. 
+
+
+
+
+
