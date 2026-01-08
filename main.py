@@ -21,7 +21,7 @@ class Pathfinder:
                 self.grid = Grid(matrix = matrix)
                 self.select_surf = pygame.image.load('crosshairX.png').convert_alpha()
                 self.actual_image = pygame.transform.scale(self.select_surf, (8,8))
-                self.path = []   
+                self.path = []                                               
 
         def draw_active_cell(self):
 
@@ -34,7 +34,7 @@ class Pathfinder:
                 rect = pygame.Rect((col * 8, row * 8), (8,8))
                 screen.blit(self.actual_image, rect)
                 self.path = [] 
-                print(row, col)
+                #print(row, col)
                 # prints the index of the matrix - whether it is 1 or 0 so i can map out the plane path better 
                 #print(matrix[row][col])
                 # make a note of the coordinate points and the thingies 
@@ -59,18 +59,18 @@ class Pathfinder:
                 finder = AStarFinder(diagonal_movement =  DiagonalMovement.always)
                 self.path = finder.find_path(start, end, self.grid)
                 self.grid.cleanup()
-                print(self.path)
+                draw = print(self.path)
                 self.path = [] 
 
         def draw_path(self):  
                if self.path: 
                       points = []
                       for point in self.path:
-                             x = point[0] 
-                             y = point[1] 
+                             x = point[0] * 8 
+                             y = point[1] * 8 
                              points.append((x,y))
                       pygame.draw.lines(screen,"#ff0000", True, points, 5)
-                      
+                      return points     
                       
 
 
@@ -258,7 +258,7 @@ while running:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
                pathfinder.create_path()
-               pathfinder.draw_path()
+               
 
     # draws the coordinate pts 
     for apronpt in apronpts: 
