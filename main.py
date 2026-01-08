@@ -23,12 +23,6 @@ class Pathfinder:
                 self.actual_image = pygame.transform.scale(self.select_surf, (8,8))
                 self.path = []   
 
-        '''def update(self):
-           
-                self.draw_active_cell()
-              # pathfinding 
-                self.path = [] '''
-
         def draw_active_cell(self):
 
                 # the mouse part isnt needed in the main.py code 
@@ -43,47 +37,40 @@ class Pathfinder:
                 #print(row, col)
                 # prints the index of the matrix - whether it is 1 or 0 so i can map out the plane path better 
                 #print(matrix[row][col])
-                
-                
-
-
-
                 # make a note of the coordinate points and the thingies 
                 #switch from printing row, col -  to matrix row col 
                 # column 9 - 17, row 9 - 31
-
                 # updated coordinates: 
-
                 # 38, 38 to 38, 125
                 # 69, 41 to 69, 125
       
         def create_path(self): # not yet
                 # start pt 
-                mouse_pos = pygame.mouse.get_pos()
+                #mouse_pos = pygame.mouse.get_pos()
                 start_x, start_y = [48, 45]
                 start = self.grid.node(start_x, start_y)
 
                 #end pt 
-                mouse_pos = pygame.mouse.get_pos()
+                #mouse_pos = pygame.mouse.get_pos()
                 end_x, end_y = [38, 40]
                 end = self.grid.node(end_x, end_y)
          
                 # path 
                 finder = AStarFinder(diagonal_movement =  DiagonalMovement.always)
-                self.path = finder.find_path(start, end, self.grid)
+                self.path, = finder.find_path(start, end, self.grid)
                 self.grid.cleanup()
                 print(self.path)
                 self.path = [] 
 
-        def draw_path(self):
+        def draw_path(self):  
                if self.path: 
                       points = []
-                      for points in self.path:
-                             x = point[0] * 8
+                      for point in self.path:
+                             x = point[0] * 8 
                              y = point[1] * 8
                              points.append((x,y))
-                      pygame.draw.lines(screen,'#4a4a4a', False, points, 6)
-                      self.path = []
+                      pygame.draw.lines(screen,"#ff0000", False, points, 5)
+                      
                       
 
 
@@ -99,11 +86,9 @@ class Pathfinder:
 
         def update(self):
               
-              self.draw_active_cell()
-              
+              self.draw_active_cell()      
               self.draw_path()
-              self.path = []
-
+             
 print("X")
 
 
@@ -130,7 +115,7 @@ pygame.display.set_icon(win_icon)
 pygame.display.set_caption("Air Traffic Talker")
 
 # coordinate points - time consuming do this @ home (did this only for T5 PLANES)
-points = [(360, 390), (360, 450), (490, 410), (407, 400), (429,400), (469, 450)]
+apronpts = [(360, 390), (360, 450), (490, 410), (407, 400), (429,400), (469, 450)]
 
 # checkpoint coordinates - this is the junctions at the taxiway - takeoff and landing only  
 checkpts = [(384, 358), (320,340), ]
@@ -275,12 +260,13 @@ while running:
                pathfinder.create_path()
 
     # draws the coordinate pts 
-    for point in points: 
-            pygame.draw.circle(screen, "red", point, 5)
+    for apronpt in apronpts: 
+            pygame.draw.circle(screen, "red", apronpt, 5)
     for checkpt in checkpts: 
             pygame.draw.circle(screen, "green", checkpt, 3)
     for landpt in landpts:
             pygame.draw.circle(screen, "blue", landpt, 3)
+
 
 
     pathfinder.update()
