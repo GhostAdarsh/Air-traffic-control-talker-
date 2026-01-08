@@ -57,7 +57,7 @@ class Pathfinder:
          
                 # path 
                 finder = AStarFinder(diagonal_movement =  DiagonalMovement.always)
-                self.path, = finder.find_path(start, end, self.grid)
+                self.path = finder.find_path(start, end, self.grid)
                 self.grid.cleanup()
                 print(self.path)
                 self.path = [] 
@@ -258,6 +258,7 @@ while running:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
                pathfinder.create_path()
+               pathfinder.draw_path()
 
     # draws the coordinate pts 
     for apronpt in apronpts: 
