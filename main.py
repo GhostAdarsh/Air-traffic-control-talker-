@@ -66,10 +66,10 @@ class Pathfinder:
                if self.path: 
                       points = []
                       for point in self.path:
-                             x = point[0] * 32
-                             y = point[1] * 32
+                             x = point[0] 
+                             y = point[1] 
                              points.append((x,y))
-                      pygame.draw.lines(screen,"#ff0000", False, points, 5)
+                      pygame.draw.lines(screen,"#ff0000", True, points, 5)
                       
                       
 
@@ -87,7 +87,7 @@ class Pathfinder:
         def update(self):
               
               self.draw_active_cell()      
-              #self.draw_path()
+              self.draw_path()
              
 print("X")
 
