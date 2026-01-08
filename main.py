@@ -34,7 +34,7 @@ class Pathfinder:
                 rect = pygame.Rect((col * 8, row * 8), (8,8))
                 screen.blit(self.actual_image, rect)
                 self.path = [] 
-                #print(row, col)
+                print(row, col)
                 # prints the index of the matrix - whether it is 1 or 0 so i can map out the plane path better 
                 #print(matrix[row][col])
                 # make a note of the coordinate points and the thingies 
@@ -66,8 +66,8 @@ class Pathfinder:
                if self.path: 
                       points = []
                       for point in self.path:
-                             x = point[0] * 8 
-                             y = point[1] * 8
+                             x = point[0] * 32
+                             y = point[1] * 32
                              points.append((x,y))
                       pygame.draw.lines(screen,"#ff0000", False, points, 5)
                       
@@ -87,7 +87,7 @@ class Pathfinder:
         def update(self):
               
               self.draw_active_cell()      
-              self.draw_path()
+              #self.draw_path()
              
 print("X")
 
