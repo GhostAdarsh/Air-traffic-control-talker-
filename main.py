@@ -11,8 +11,7 @@ from objectplanes import Planes
 import random 
 
 
-PATH_COLOR = (0, 255, 0) # GREEEN
-CELL_SIZE = min(6, 7)
+
 # class pathfinder 
 
 class Pathfinder:
@@ -24,11 +23,11 @@ class Pathfinder:
                 self.actual_image = pygame.transform.scale(self.select_surf, (8,8))
                 self.path = []   
 
-        def update(self):
+        '''def update(self):
            
                 self.draw_active_cell()
               # pathfinding 
-                self.path = [] 
+                self.path = [] '''
 
         def draw_active_cell(self):
 
@@ -40,6 +39,7 @@ class Pathfinder:
                 current_cell_value = self.matrix[row][col]
                 rect = pygame.Rect((col * 8, row * 8), (8,8))
                 screen.blit(self.actual_image, rect)
+                self.path = [] 
                 #print(row, col)
                 # prints the index of the matrix - whether it is 1 or 0 so i can map out the plane path better 
                 #print(matrix[row][col])
@@ -73,6 +73,7 @@ class Pathfinder:
                 self.path = finder.find_path(start, end, self.grid)
                 self.grid.cleanup()
                 print(self.path)
+                self.path = [] 
 
         def draw_path(self):
                if self.path: 
@@ -80,8 +81,9 @@ class Pathfinder:
                       for points in self.path:
                              x = point[0] * 8
                              y = point[1] * 8
-                             
-                      pygame.draw.lines((screen),('#4a4a4a'), (False), (points), (5))
+                             points.append((x,y))
+                      pygame.draw.lines(screen,'#4a4a4a', False, points, 6)
+                      self.path = []
                       
 
 
@@ -100,6 +102,7 @@ class Pathfinder:
               self.draw_active_cell()
               
               self.draw_path()
+              self.path = []
 
 print("X")
 
