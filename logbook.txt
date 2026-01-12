@@ -38,7 +38,7 @@ i really need to finish pathfinding because once it is finished, i can then work
 bcs once pathfinding is done, everythings falls through 
 bcs during junctions, i can make the plane stop and the user can voice their inputs to guide the plane throught the holding points. 
 
-
+entry 6/1/26 - still stuck on the same thing - have NO idea what going on how to do it and such 
 
 
 
