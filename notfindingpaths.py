@@ -54,10 +54,8 @@ class Pathfinder:
     def draw_path(self):
         if self.path: 
             points = []
-            #pygame.draw.lines(screen '#4a4a4a', False,points, 5)
-            # LEARN EVERYTHING IN  THAT VIDEO - YOU FINISH IT TODAY. 
-            # then whatever u learnt, pick what bits fit into main.py and dibble dabble form ther on 
-            # ALSO I NEED TO FIND A WAY TO MATCH my image to the matrix that ive used - that way i can map out areas where the object can/ cannot go 
+            pygame.draw.lines(screen, '#4a4a4a', False,points, 5)
+
             
     
 

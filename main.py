@@ -11,8 +11,7 @@ from objectplanes import Planes
 import random 
 
 
-PATH_COLOR = (0, 255, 0) # GREEEN
-CELL_SIZE = min(6, 7)
+
 # class pathfinder 
 
 class Pathfinder:
@@ -73,15 +72,16 @@ class Pathfinder:
                 self.path = finder.find_path(start, end, self.grid)
                 self.grid.cleanup()
                 print(self.path)
+                return self.path
 
         def draw_path(self):
                if self.path: 
                       points = []
                       for points in self.path:
                              x = point[0] * 8
-                             y = point[1] * 8
-                             
-                      pygame.draw.lines((screen),('#4a4a4a'), (False), (points), (5))
+                             y = point[1] * 8 
+                             points.append((x,y))
+                      pygame.draw.lines(screen,'#4a4a4a', False, points, 5)
                       
 
 
