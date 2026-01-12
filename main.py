@@ -30,7 +30,7 @@ class Pathfinder:
                 #print(mouse_pos)
                 row = mouse_pos[1] // 8 # i had to scale down the mouse positions by 8s
                 col = mouse_pos[0] // 8
-                current_cell_value = self.matrix[row][col]
+                #current_cell_value = self.matrix[row][col]
                 rect = pygame.Rect((col * 8, row * 8), (8,8))
                 screen.blit(self.actual_image, rect)
                 self.path = [] 
@@ -43,6 +43,7 @@ class Pathfinder:
                 # updated coordinates: 
                 # 38, 38 to 38, 125
                 # 69, 41 to 69, 125
+                #print(current_cell_value)
       
         def create_path(self): # not yet
                 # start pt 
@@ -60,17 +61,23 @@ class Pathfinder:
                 self.path = finder.find_path(start, end, self.grid)
                 self.grid.cleanup()
                 print(self.path)
-                return self.path
+                
+                
+                
+
+                
+                
 
         def draw_path(self):  
                if self.path: 
-                      points = [self.path]
+                      points = []
                       for points in self.path:
-                             x = points[0] * 8
-                             y = points[1] * 8 
+                             x = points[0] * 32
+                             y = points[1] * 32
                              points.append((x,y))
-                      pygame.draw.lines(screen,'#4a4a4a', False, points, 5)
-                      
+                             print(self.path)
+                      pygame.draw.lines(screen,"#ae00ff", False, points, 5)
+                              
 
 
 
