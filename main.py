@@ -64,22 +64,6 @@ class Pathfinder:
                        x, y = node.x, node.y 
                 self.grid.cleanup()
                 print(self.path)
-                
-                
-                
-
-                
-                
-
-        '''def draw_path(self):  
-               if self.path: 
-                      points = []
-                      for points in self.path:
-                             x = node.x 
-                             y = node.y 
-                             points.append((x * TILE_SIZE, y * TILE_SIZE))
-                             print(self.path)
-                      pygame.draw.lines(screen,"#ae00ff", False, points, 5)'''
                               
 
 
@@ -102,13 +86,6 @@ class Pathfinder:
                        points, 
                        4
                 )
-
-
-
-
-
-
-                
 
         def update(self):
               
