@@ -10,6 +10,7 @@ from pathfinding.core.diagonal_movement import DiagonalMovement
 from objectplanes import Planes
 import random 
 
+TILE_SIZE = 8
 
 
 # class pathfinder 
@@ -34,7 +35,7 @@ class Pathfinder:
                 rect = pygame.Rect((col * 8, row * 8), (8,8))
                 screen.blit(self.actual_image, rect)
                 self.path = [] 
-                #print(row, col)
+                print(row, col)
                 # prints the index of the matrix - whether it is 1 or 0 so i can map out the plane path better 
                 #print(matrix[row][col])
                 # make a note of the coordinate points and the thingies 
@@ -53,12 +54,14 @@ class Pathfinder:
 
                 #end pt 
                 #mouse_pos = pygame.mouse.get_pos()
-                end_x, end_y = [38, 40]
+                end_x, end_y = [38, 39]
                 end = self.grid.node(end_x, end_y)
          
                 # path 
                 finder = AStarFinder(diagonal_movement =  DiagonalMovement.always)
                 self.path = finder.find_path(start, end, self.grid)
+                for node in self.path[0]:
+                       x, y = node.x, node.y 
                 self.grid.cleanup()
                 print(self.path)
                 
@@ -68,20 +71,37 @@ class Pathfinder:
                 
                 
 
-        def draw_path(self):  
+        '''def draw_path(self):  
                if self.path: 
                       points = []
                       for points in self.path:
-                             x = points[0] * 32
-                             y = points[1] * 32
-                             points.append((x,y))
+                             x = node.x 
+                             y = node.y 
+                             points.append((x * TILE_SIZE, y * TILE_SIZE))
                              print(self.path)
-                      pygame.draw.lines(screen,"#ae00ff", False, points, 5)
+                      pygame.draw.lines(screen,"#ae00ff", False, points, 5)'''
                               
 
 
+        def draw_path(self): 
+               if not self.path:
+                      return 
+               
+               points = [] 
 
-      
+
+               for node in self.path[0]: 
+                      x = node.x 
+                      y = node.y 
+                      points.append((x * TILE_SIZE, y * TILE_SIZE))
+
+               pygame.draw.lines(
+                       screen, 
+                       "purple", 
+                       False, 
+                       points, 
+                       4
+                )
 
 
 
@@ -264,6 +284,7 @@ while running:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
                pathfinder.create_path()
+               pathfinder.draw_path()
                
 
     # draws the coordinate pts 
