@@ -34,7 +34,7 @@ class Pathfinder:
                 rect = pygame.Rect((col * 8, row * 8), (8,8))
                 screen.blit(self.actual_image, rect)
                 self.path = [] 
-                #print(row, col)
+                print(row, col)
                 # prints the index of the matrix - whether it is 1 or 0 so i can map out the plane path better 
                 #print(matrix[row][col])
                 # make a note of the coordinate points and the thingies 
@@ -48,7 +48,7 @@ class Pathfinder:
         def create_path(self): # not yet
                 # start pt 
                 #mouse_pos = pygame.mouse.get_pos()
-                start_x, start_y = [48, 45]
+                start_x, start_y = [45, 49]
                 start = self.grid.node(start_x, start_y)
 
                 #end pt 
@@ -75,15 +75,7 @@ class Pathfinder:
                 
                 
 
-        '''def draw_path(self):  
-               if self.path: 
-                      points = []
-                      for points in self.path:
-                             x = points[0] * 32
-                             y = points[1] * 32
-                             points.append((x,y))
-                             print(self.path)
-                      pygame.draw.lines(screen,"#ae00ff", False, points, 5)'''
+       
                               
         def draw_path(self):
                if not self.path:
@@ -105,7 +97,11 @@ class Pathfinder:
                        4
                 )
 
-      
+        def randon_points(self): 
+               print("x")
+               apronpts = [] # list of a tuple carying integer coordinates 
+               randomiser = random[apronpts]
+               print(randomiser)
 
 
 
@@ -123,35 +119,23 @@ print("X")
 
 
 # TASK A - load an image and setr it as background - DONE
-
 #create screen
-
 screen = pygame.display.set_mode((1280,800)) # edited the image width nd height for easier thingyies    
-
 #add background
 background = pygame.image.load("LondonHeathrowNEA.jpg")
 #background = pygame.transform.scale(background, (col, row))
-
-
-
 #scale background 
 pygame.transform.scale(background, (50, 50))
-
 # set icon 
 win_icon = pygame.image.load("flightradar24.jfif")
 pygame.display.set_icon(win_icon)
-
 #set window title 
 pygame.display.set_caption("Air Traffic Talker")
-
 # coordinate points - time consuming do this @ home (did this only for T5 PLANES)
 apronpts = [(360, 390), (360, 450), (490, 410), (407, 400), (429,400), (469, 450)]
-
 # checkpoint coordinates - this is the junctions at the taxiway - takeoff and landing only  
 checkpts = [(384, 358), (320,340), ]
 landpts = [(300, 300), (400, 400)]
-
-
 #create clock 
 clock = pygame.time.Clock()  
 
@@ -289,6 +273,7 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
                pathfinder.create_path()
                pathfinder.draw_path()
+               pathfinder.randon_points()
                
 
     # draws the coordinate pts 
