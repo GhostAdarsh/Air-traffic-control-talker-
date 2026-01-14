@@ -34,10 +34,8 @@ class Pathfinder:
                 rect = pygame.Rect((col * 8, row * 8), (8,8))
                 screen.blit(self.actual_image, rect)
                 self.path = [] 
-                print(row, col)
                 #print(row, col)
                 # prints the index of the matrix - whether it is 1 or 0 so i can map out the plane path better 
-                #rint(matrix[row][col])
                 #print(matrix[row][col])
                 # make a note of the coordinate points and the thingies 
                 #switch from printing row, col -  to matrix row col 
@@ -50,24 +48,19 @@ class Pathfinder:
         def create_path(self): # not yet
                 # start pt 
                 #mouse_pos = pygame.mouse.get_pos()
-                start_x, start_y = [45, 48] # 45,48 apron 1  / 41,38 cleared for takeoff 
                 start_x, start_y = [48, 45]
                 start = self.grid.node(start_x, start_y)
 
                 #end pt 
                 #mouse_pos = pygame.mouse.get_pos()
-                end_x, end_y = [41, 38]
                 end_x, end_y = [38, 40]
                 end = self.grid.node(end_x, end_y)
          
                 # path 
                 finder = AStarFinder(diagonal_movement =  DiagonalMovement.always)
                 self.path = finder.find_path(start, end, self.grid)
-                for node in self.path[0]:
-                       x, y = node.x, node.y 
                 self.grid.cleanup()
                 print(self.path)
-                              
                 
         def gridNode(self): # thi is to convert the gridnode objects in the list to x,y coordinates 
                self.path = []
@@ -77,6 +70,27 @@ class Pathfinder:
 
 
                
+                
+
+                
+                
+
+        def draw_path(self):  
+               if self.path: 
+                      points = []
+                      for points in self.path:
+                             x = points[0] * 32
+                             y = points[1] * 32
+                             points.append((x,y))
+                             print(self.path)
+                      pygame.draw.lines(screen,"#ae00ff", False, points, 5)
+                              
+
+
+
+      
+
+
 
 
 
