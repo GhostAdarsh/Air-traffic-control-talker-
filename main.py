@@ -12,6 +12,9 @@ import random
 
 TILE_SIZE = 8 
 
+
+
+              
 # class pathfinder 
 
 class Pathfinder:
@@ -44,11 +47,20 @@ class Pathfinder:
                 # 38, 38 to 38, 125
                 # 69, 41 to 69, 125
                 #print(current_cell_value)
+
+
+        def randon_points(self): 
+               print("x")
+               self.randon = random.choice(apronpts)
+               a,b = self.randon
+               print(f"{a}, {b}")
+               return a,b 
+        
       
         def create_path(self): # not yet
                 # start pt 
                 #mouse_pos = pygame.mouse.get_pos()
-                start_x, start_y = [45, 49]
+                start_x, start_y = [45,49]
                 start = self.grid.node(start_x, start_y)
 
                 #end pt 
@@ -61,6 +73,7 @@ class Pathfinder:
                 self.path = finder.find_path(start, end, self.grid)
                 self.grid.cleanup()
                 print(self.path)
+                
                 
         def gridNode(self): # thi is to convert the gridnode objects in the list to x,y coordinates 
                self.path = []
@@ -97,11 +110,10 @@ class Pathfinder:
                        4
                 )
 
-        def randon_points(self): 
-               print("x")
-               apronpts = [] # list of a tuple carying integer coordinates 
-               randomiser = random[apronpts]
-               print(randomiser)
+    
+
+               
+               
 
 
 
@@ -137,7 +149,10 @@ apronpts = [(360, 390), (360, 450), (490, 410), (407, 400), (429,400), (469, 450
 checkpts = [(384, 358), (320,340), ]
 landpts = [(300, 300), (400, 400)]
 #create clock 
-clock = pygame.time.Clock()  
+clock = pygame.time.Clock() 
+randon = random.choice(apronpts)
+a,b = randon
+print(f"{a}, {b}")
 
 
 
@@ -271,9 +286,10 @@ while running:
         if event.type == pygame.QUIT: 
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
+               pathfinder.randon_points()
                pathfinder.create_path()
                pathfinder.draw_path()
-               pathfinder.randon_points()
+               
                
 
     # draws the coordinate pts 
@@ -301,13 +317,13 @@ while running:
 # TASK C - create object (planes) - set image to them and make them follow a path - diffictult - use OOP 
 # split task c to 2 pts 
 # watch pathfinding algorithm found on yt - work on that eg 
-a = Planes("BA277")
-b = Planes("BA776")
-c = Planes("BA928")
-d = Planes("")     
-e = Planes("")
+india = Planes("BA277")
+japan = Planes("BA776")
+florida = Planes("BA928")
+germany = Planes("")     
+switzerland = Planes("")
 
-departures = [a, b, c, d, e]
+departures = [india, japan, florida, germany, switzerland]
 
 for departure in departures():
       print("X")
