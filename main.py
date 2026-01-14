@@ -53,7 +53,7 @@ class Pathfinder:
 
                 #end pt 
                 #mouse_pos = pygame.mouse.get_pos()
-                end_x, end_y = [38, 40]
+                end_x, end_y = [41, 38]
                 end = self.grid.node(end_x, end_y)
          
                 # path 
@@ -75,7 +75,7 @@ class Pathfinder:
                 
                 
 
-        def draw_path(self):  
+        '''def draw_path(self):  
                if self.path: 
                       points = []
                       for points in self.path:
@@ -83,10 +83,27 @@ class Pathfinder:
                              y = points[1] * 32
                              points.append((x,y))
                              print(self.path)
-                      pygame.draw.lines(screen,"#ae00ff", False, points, 5)
+                      pygame.draw.lines(screen,"#ae00ff", False, points, 5)'''
                               
+        def draw_path(self):
+               if not self.path:
+                      return 
+               
+               points = [] 
 
 
+               for node in self.path[0]: 
+                      x = node.x 
+                      y = node.y 
+                      points.append((x * TILE_SIZE, y * TILE_SIZE))
+
+               pygame.draw.lines(
+                       screen, 
+                       "red", 
+                       False, 
+                       points, 
+                       4
+                )
 
       
 
@@ -271,6 +288,7 @@ while running:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
                pathfinder.create_path()
+               pathfinder.draw_path()
                
 
     # draws the coordinate pts 
