@@ -10,7 +10,7 @@ from pathfinding.core.diagonal_movement import DiagonalMovement
 from objectplanes import Planes
 import random 
 
-
+TILE_SIZE = 8 
 
 # class pathfinder 
 
