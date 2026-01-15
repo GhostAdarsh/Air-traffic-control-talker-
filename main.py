@@ -44,11 +44,18 @@ class Pathfinder:
                 # 38, 38 to 38, 125
                 # 69, 41 to 69, 125
                 #print(current_cell_value)
+
+        def random_points(self): 
+               print("x")
+               self.random_point = random.choice(pts)
+               start_x, start_y = self.random_point
+               return start_x, start_y
+               return self.random_point
       
         def create_path(self): # not yet
                 # start pt 
                 #mouse_pos = pygame.mouse.get_pos()
-                start_x, start_y = [45, 49]
+                start_x, start_y = self.random_point
                 start = self.grid.node(start_x, start_y)
 
                 #end pt 
@@ -97,12 +104,7 @@ class Pathfinder:
                        4
                 )
 
-        def random_points(self): 
-               print("x")
-               random_point = random.choice(pts)
-               start_x, start_y = random_point
-               return start_x, start_y
-               return random_point
+        
         
         
                
@@ -117,7 +119,8 @@ class Pathfinder:
                 
 
         def update(self):
-              self.draw_active_cell()      
+              self.random_points()
+                   
               self.draw_path()
              
 print("X")
