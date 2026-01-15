@@ -12,9 +12,6 @@ import random
 
 TILE_SIZE = 8 
 
-
-
-              
 # class pathfinder 
 
 class Pathfinder:
@@ -37,7 +34,7 @@ class Pathfinder:
                 rect = pygame.Rect((col * 8, row * 8), (8,8))
                 screen.blit(self.actual_image, rect)
                 self.path = [] 
-                #print(row, col)
+                print(row, col)
                 # prints the index of the matrix - whether it is 1 or 0 so i can map out the plane path better 
                 #print(matrix[row][col])
                 # make a note of the coordinate points and the thingies 
@@ -47,23 +44,11 @@ class Pathfinder:
                 # 38, 38 to 38, 125
                 # 69, 41 to 69, 125
                 #print(current_cell_value)
-
-        def random_points(self):  ## sucsess! 
-               #print("x")    
-               self.random_point = random.choice(pts)
-               #print(self.random_point)
-               start_x, start_y = self.random_point
-               return start_x, start_y
-               return self.random_point 
-               '''self.randon = random.choice(apronpts)
-               a,b = self.randon
-               print(f"{a}, {b}")
-               return a,b '''
-            
-        def create_path(self): # not yet - too cold too cold 
+      
+        def create_path(self): # not yet
                 # start pt 
                 #mouse_pos = pygame.mouse.get_pos()
-                start_x, start_y = self.random_point
+                start_x, start_y = [45, 49]
                 start = self.grid.node(start_x, start_y)
 
                 #end pt 
@@ -75,13 +60,23 @@ class Pathfinder:
                 finder = AStarFinder(diagonal_movement =  DiagonalMovement.always)
                 self.path = finder.find_path(start, end, self.grid)
                 self.grid.cleanup()
-                #print(self.path)
-                             
+                print(self.path)
+                
         def gridNode(self): # thi is to convert the gridnode objects in the list to x,y coordinates 
                self.path = []
                for i in self.path():
                       print("x")
-                                                   
+                       
+
+
+               
+                
+
+                
+                
+
+       
+                              
         def draw_path(self):
                if not self.path:
                       return 
@@ -102,9 +97,27 @@ class Pathfinder:
                        4
                 )
 
+        def random_points(self): 
+               print("x")
+               random_point = random.choice(pts)
+               start_x, start_y = random_point
+               return start_x, start_y
+               return random_point
+        
+        
+               
+               
+
+
+
+
+
+
+
+                
+
         def update(self):
-              self.random_points()
-              #self.draw_active_cell()
+              self.draw_active_cell()      
               self.draw_path()
              
 print("X")
@@ -123,21 +136,17 @@ win_icon = pygame.image.load("flightradar24.jfif")
 pygame.display.set_icon(win_icon)
 #set window title 
 pygame.display.set_caption("Air Traffic Talker")
+
+# gridnode pts 
+
+pts = [(45,48),(45,56),(61,51),(55,50),(53,56),(50,50)]
 # coordinate points - time consuming do this @ home (did this only for T5 PLANES)
-
-#grid pts
-pts = [(45,48), (45,56), (61,51), (50,50), (53,56), (58,56)]
-
-#pygame.draw function - for plotting dots 
 apronpts = [(360, 390), (360, 450), (490, 410), (407, 400), (429,400), (469, 450)]
 # checkpoint coordinates - this is the junctions at the taxiway - takeoff and landing only  
 checkpts = [(384, 358), (320,340), ]
 landpts = [(300, 300), (400, 400)]
 #create clock 
-clock = pygame.time.Clock() 
-randon = random.choice(apronpts)
-a,b = randon
-print(f"{a}, {b}")
+clock = pygame.time.Clock()  
 
 
 
@@ -271,10 +280,9 @@ while running:
         if event.type == pygame.QUIT: 
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
-               pathfinder.random_points()
                pathfinder.create_path()
                pathfinder.draw_path()
-               
+               pathfinder.random_points()
                
 
     # draws the coordinate pts 
@@ -302,13 +310,13 @@ while running:
 # TASK C - create object (planes) - set image to them and make them follow a path - diffictult - use OOP 
 # split task c to 2 pts 
 # watch pathfinding algorithm found on yt - work on that eg 
-india = Planes("BA277")
-japan = Planes("BA776")
-florida = Planes("BA928")
-germany = Planes("")     
-switzerland = Planes("")
+a = Planes("BA277")
+b = Planes("BA776")
+c = Planes("BA928")
+d = Planes("")     
+e = Planes("")
 
-departures = [india, japan, florida, germany, switzerland]
+departures = [a, b, c, d, e]
 
 for departure in departures():
       print("X")

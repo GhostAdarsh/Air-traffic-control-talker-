@@ -1,4 +1,5 @@
 #OOP class planes 
+import pygame 
 
 print("helloworld")
 
