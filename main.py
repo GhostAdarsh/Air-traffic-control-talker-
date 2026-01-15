@@ -45,13 +45,12 @@ class Pathfinder:
                 # 69, 41 to 69, 125
                 #print(current_cell_value)
 
-        def random_points(self): 
-               print("x")
+        def random_points(self): #suscesses
                self.random_point = random.choice(pts)
                start_x, start_y = self.random_point
                return start_x, start_y
                return self.random_point
-      
+        
         def create_path(self): # not yet
                 # start pt 
                 #mouse_pos = pygame.mouse.get_pos()
@@ -67,22 +66,12 @@ class Pathfinder:
                 finder = AStarFinder(diagonal_movement =  DiagonalMovement.always)
                 self.path = finder.find_path(start, end, self.grid)
                 self.grid.cleanup()
-                print(self.path)
+                #print(self.path)
                 
         def gridNode(self): # thi is to convert the gridnode objects in the list to x,y coordinates 
                self.path = []
                for i in self.path():
-                      print("x")
-                       
-
-
-               
-                
-
-                
-                
-
-       
+                      print("x")      
                               
         def draw_path(self):
                if not self.path:
@@ -101,26 +90,12 @@ class Pathfinder:
                        "red", 
                        False, 
                        points, 
-                       4
+                       3
                 )
-
-        
-        
-        
-               
-               
-
-
-
-
-
-
-
-                
 
         def update(self):
               self.random_points()
-                   
+              #self.draw_active_cell()     
               self.draw_path()
              
 print("X")
