@@ -3,7 +3,7 @@ import pyttsx3
 import pyaudio
 import speech_recognition as sr 
 import os 
-from openai import OpenAI
+
 
 
 
