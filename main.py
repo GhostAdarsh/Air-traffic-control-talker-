@@ -22,7 +22,10 @@ class Pathfinder:
                 self.grid = Grid(matrix = matrix)
                 self.select_surf = pygame.image.load('crosshairX.png').convert_alpha()
                 self.actual_image = pygame.transform.scale(self.select_surf, (8,8))
-                self.path = []                                               
+                self.path = []              
+
+                # plen 
+                self.character = pygame.sprite.GroupSingle(Planes())        
 
         def draw_active_cell(self):
 
@@ -98,6 +101,13 @@ class Pathfinder:
               self.random_points()  
               #self.draw_active_cell()     
               self.draw_path()
+
+
+              #PLEN UPTAE AND DRAW: 
+              self.plane.update() 
+              self.plane.draw(screen)
+
+
              
 print("X")
 
