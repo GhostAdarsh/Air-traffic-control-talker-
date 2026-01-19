@@ -15,8 +15,9 @@ TILE_SIZE = 8
 # class pathfinder 
 
 class Pathfinder:
+
         def __init__(self, matrix):
-        #setup - added coordinates whereever mouse cursor is 
+                #setup - added coordinates whereever mouse cursor is 
                 self.matrix = matrix
                 self.grid = Grid(matrix = matrix)
                 self.select_surf = pygame.image.load('crosshairX.png').convert_alpha()
