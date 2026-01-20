@@ -7,7 +7,7 @@ import pathfinding
 from pathfinding.core.grid import Grid  
 from pathfinding.finder.a_star import AStarFinder 
 from pathfinding.core.diagonal_movement import DiagonalMovement 
-from objectplanes import Planes
+
 import random 
 
 TILE_SIZE = 8 
@@ -25,8 +25,7 @@ class Pathfinder:
                 self.path = []              
 
                 # plen 
-                self.character = pygame.sprite.GroupSingle(Planes())        
-
+                    
         def draw_active_cell(self):
 
                 # the mouse part isnt needed in the main.py code 
@@ -71,6 +70,7 @@ class Pathfinder:
                 self.path = finder.find_path(start, end, self.grid)
                 self.grid.cleanup()
                 #print(self.path)
+                return self.path
                 
         def gridNode(self): # thi is to convert the gridnode objects in the list to x,y coordinates 
                self.path = []
@@ -82,7 +82,6 @@ class Pathfinder:
                       return 
                
                points = [] 
-
 
                for node in self.path[0]: 
                       x = node.x 
@@ -101,11 +100,44 @@ class Pathfinder:
               self.random_points()  
               #self.draw_active_cell()     
               self.draw_path()
+              
+              
 
 
-              #PLEN UPTAE AND DRAW: 
-              self.plane.update() 
-              self.plane.draw(screen)
+
+#object creation 
+class Plane: 
+        def __init__(self, route, speed):
+               print("x")
+               self.path = [] 
+               #self.route = [] 
+               self.route = route 
+               self.speed = speed
+
+               self.current_index = 0 
+               self.position = pygame.Vector2(route[0])
+
+               self.checkpoints = set() 
+               self.state = "moving"
+
+        def update(self, dt):
+
+               if self.state == "moving":
+                    self._follow_pathfollow_path(dt) 
+
+
+        def _follow_path(self, dt):
+               if self.current_index >= len(self.path): 
+                      return 
+               
+               target = pygame 
+                      
+               
+               
+
+
+
+
 
 
              
@@ -274,6 +306,9 @@ while running:
                pathfinder.random_points()
                
                
+               
+               
+               
 
     # draws the coordinate pts 
     for apronpt in apronpts: 
@@ -300,16 +335,9 @@ while running:
 # TASK C - create object (planes) - set image to them and make them follow a path - diffictult - use OOP 
 # split task c to 2 pts 
 # watch pathfinding algorithm found on yt - work on that eg 
-a = Planes("BA277")
-b = Planes("BA776")
-c = Planes("BA928")
-d = Planes("")     
-e = Planes("")
 
-departures = [a, b, c, d, e]
 
-for departure in departures():
-      print("X")
+
 
 
 
