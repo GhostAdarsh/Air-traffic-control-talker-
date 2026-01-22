@@ -4,7 +4,7 @@ import pathfinding
 from pathfinding.core.grid import Grid 
 from pathfinding.finder.a_star import AStarFinder
 from pathfinding.core.diagonal_movement import DiagonalMovement
-from objectplanes import Planes
+
 
 # inital setup s
 
@@ -14,6 +14,9 @@ pygame.transform.scale(background, (50,50))
 win_icon = pygame.image.load("flightradar24.jfif")
 pygame.display.set_icon(win_icon)
 pygame.display.set_caption("Air Traffic Talker")
+
+clock = pygame.time.Clock() 
+
 
 running = True
 while running: 

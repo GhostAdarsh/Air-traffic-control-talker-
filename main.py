@@ -102,38 +102,31 @@ class Pathfinder:
               self.draw_path()
               
               
+# class plane 
 
+class Plane(pygame.sprite.Sprite):
+       def __init__(self):
+              super().__init__()
+              self.name = "BA277"
+              self.path = [] 
+              self.image = image 
+              self.rect = self.image.get_rect()
 
-
-#object creation 
-class Plane: 
-        def __init__(self, route, speed):
+       def show_object(self, screen):
                print("x")
-               self.path = [] 
-               #self.route = [] 
-               self.route = route 
-               self.speed = speed
+               self.rect.topleft = (x, y)
+               screen.blit(self.image, self.rect)
 
-               self.current_index = 0 
-               self.position = pygame.Vector2(route[0])
+       def update(self):
+              self.show_object()
 
-               self.checkpoints = set() 
-               self.state = "moving"
-
-        def update(self, dt):
-
-               if self.state == "moving":
-                    self._follow_pathfollow_path(dt) 
+              
 
 
-        def _follow_path(self, dt):
-               if self.current_index >= len(self.path): 
-                      return 
-               
-               target = pygame 
-                      
-               
-               
+
+
+       
+
 
 
 
@@ -141,7 +134,7 @@ class Plane:
 
 
              
-print("X")
+
 
 
 # TASK A - load an image and setr it as background - DONE
@@ -159,7 +152,6 @@ pygame.display.set_icon(win_icon)
 pygame.display.set_caption("Air Traffic Talker")
 
 # gridnode pts 
-
 pts = [(45,48),(45,56),(61,51),(55,50),(53,56),(50,50)]
 fpts = [(41,38), (68,42)]
 # coordinate points - time consuming do this @ home (did this only for T5 PLANES)
@@ -304,6 +296,7 @@ while running:
                pathfinder.create_path()
                pathfinder.draw_path()
                pathfinder.random_points()
+               Plane.show_object()
                
                
                
@@ -335,6 +328,10 @@ while running:
 # TASK C - create object (planes) - set image to them and make them follow a path - diffictult - use OOP 
 # split task c to 2 pts 
 # watch pathfinding algorithm found on yt - work on that eg 
+
+plane_img = pygame.image.load("triple7.png").convert_alpha() 
+hyd = Plane(plane_img)
+hyd.show_object(background, 450, 480)
 
 
 

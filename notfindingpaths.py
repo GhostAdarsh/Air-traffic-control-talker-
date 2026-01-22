@@ -72,7 +72,7 @@ clock = pygame.time.Clock()
 
 
 # game set 
-bg_surf = pygame.image.load("LHRNEA.png").convert()
+bg_surf = pygame.image.load("LondondHeathrowNEA.jpg").convert()
 
 
 matrix = [
