@@ -104,7 +104,7 @@ class Pathfinder:
               
 # class plane 
 
-class Plane(pygame.sprite.Sprite):
+'''class Plane(pygame.sprite.Sprite):
        def __init__(self):
               super().__init__()
               self.name = "BA277"
@@ -118,7 +118,7 @@ class Plane(pygame.sprite.Sprite):
                screen.blit(self.image, self.rect)
 
        def update(self):
-              self.show_object()
+              self.show_object()'''
 
               
 
@@ -296,7 +296,7 @@ while running:
                pathfinder.create_path()
                pathfinder.draw_path()
                pathfinder.random_points()
-               Plane.show_object()
+               
                
                
                
@@ -329,9 +329,9 @@ while running:
 # split task c to 2 pts 
 # watch pathfinding algorithm found on yt - work on that eg 
 
-plane_img = pygame.image.load("triple7.png").convert_alpha() 
+'''plane_img = pygame.image.load("triple7.png").convert_alpha() 
 hyd = Plane(plane_img)
-hyd.show_object(background, 450, 480)
+hyd.show_object(background, 450, 480)'''
 
 
 
