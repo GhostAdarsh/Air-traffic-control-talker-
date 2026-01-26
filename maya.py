@@ -1,32 +1,45 @@
-#module import 
-import pygame 
-import pathfinding 
-from pathfinding.core.grid import Grid 
-from pathfinding.finder.a_star import AStarFinder
-from pathfinding.core.diagonal_movement import DiagonalMovement
+import speech_recognition as sr 
+import pyttsx3
+import pygame
+import pyaudio 
+pygame.init() 
+r = sr.Recognizer()
 
-
-# inital setup s
-
-screen = pygame.display.set_mode((1280, 800))
+screen = pygame.display.set_mode((1280,800)) # edited the image width nd height for easier thingyies    
+#add background
 background = pygame.image.load("LondonHeathrowNEA.jpg")
-pygame.transform.scale(background, (50,50))
-win_icon = pygame.image.load("flightradar24.jfif")
-pygame.display.set_icon(win_icon)
-pygame.display.set_caption("Air Traffic Talker")
-
-clock = pygame.time.Clock() 
 
 
-running = True
+class Planes: 
+
+    def __init__(self):
+        print("X")
+        
+        
+
+    def record_Audio(): 
+        print("x")
+
+
+running = True 
 while running: 
+    #colour scheme 
     screen.fill((0,0,0))
     screen.blit(background, (0, 0))
+    #speechrecog
+    with sr.Microphone() as mic:
+        r.adjust_for_ambient_noise(mic, duration=0.2)
+        audio = r.listen(mic)
+
+        text = r.recognize_amazon(audio)
+        text = text.lower()
+
+        print(f"Recognized {text}")
+        
     for event in pygame.event.get():
+        # if tab key pressed, quits game
         keys = pygame.key.get_pressed()
         if keys[pygame.K_TAB]:
             pygame.quit()
-        if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT: 
             running = False
-
-
