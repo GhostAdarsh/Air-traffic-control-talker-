@@ -4,13 +4,36 @@ import pygame
 import pyaudio 
 import google 
 import smtplib
+import os
+import datetime
+import wikipedia
+import boto3 
+
+polly = boto3.client(
+    "polly", 
+    region_name = "eu-west-2"    
+)
 pygame.init() 
 r = sr.Recognizer()
 
 screen = pygame.display.set_mode((1280,800)) # edited the image width nd height for easier thingyies    
 #add background
 background = pygame.image.load("LondonHeathrowNEA.jpg")
+pygame.transform.scale(background, (50,50))
+clock = pygame.time.Clock() 
 
+
+# add engine voice 
+engine = pyttsx3.init("sapi5")
+voices = engine.getProperty("voices")
+for voice in voices: 
+    if 'David' in voice.name: 
+        engine.setProperty('voice', voice.id)
+
+def speak(text): 
+    engine.say(text)
+    engine.runAndWait()
+speak("initialising JARVIS")
 
 class Planes: 
 
@@ -21,12 +44,13 @@ class Planes:
 
     def record_Audio(): 
         print("x")
+        speak("recording audio")
         with sr.Microphone() as mic: 
 
             r.adjust_for_ambient_noise(mic, duration = 0.2)
             audio = r.listen(mic)
 
-            text = r.recognize_google_cloud(audio)
+            text = r.recognize_amazon(audio)
             text = text.lower() 
 
             print(f"Recognised {text}")
@@ -48,3 +72,10 @@ while running:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
             Planes.record_Audio()
+
+
+    pygame.display.update() 
+
+    clock.tick(100)
+
+
