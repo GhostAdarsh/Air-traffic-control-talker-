@@ -8,6 +8,8 @@ import os
 import datetime
 import wikipedia
 import boto3 
+from gtts import gTTS
+from playsound import playsound
 
 polly = boto3.client(
     "polly", 
@@ -15,6 +17,7 @@ polly = boto3.client(
 )
 pygame.init() 
 r = sr.Recognizer()
+
 
 screen = pygame.display.set_mode((1280,800)) # edited the image width nd height for easier thingyies    
 #add background
@@ -33,7 +36,7 @@ for voice in voices:
 def speak(text): 
     engine.say(text)
     engine.runAndWait()
-speak("initialising JARVIS")
+
 
 class Planes: 
 
@@ -60,6 +63,8 @@ while running:
     #colour scheme 
     screen.fill((0,0,0))
     screen.blit(background, (0, 0))
+    
+
     #speechrecog
     
         
