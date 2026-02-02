@@ -7,14 +7,10 @@ import smtplib
 import os
 import datetime
 import wikipedia
-import boto3 
 from gtts import gTTS
 from playsound import playsound
 
-polly = boto3.client(
-    "polly", 
-    region_name = "eu-west-2"    
-)
+
 pygame.init() 
 r = sr.Recognizer()
 
@@ -53,7 +49,7 @@ class Planes:
             r.adjust_for_ambient_noise(mic, duration = 0.2)
             audio = r.listen(mic)
 
-            text = r.recognize_amazon(audio)
+            text = 1
             text = text.lower() 
 
             print(f"Recognised {text}")
