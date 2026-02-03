@@ -1,6 +1,6 @@
 import speech_recognition as sr
-
-r = sr.Recognizer()
+import pyttsx3
+'''r = sr.Recognizer()
 
 with sr.Microphone() as source:
     print("Listening...")
@@ -15,4 +15,12 @@ except sr.UnknownValueError:
     print("Could not understand audio")
 
 except sr.RequestError as e:
-    print("Google error:", e)
+    print("Google error:", e)'''
+
+engine = pyttsx3.init("sapi5")
+voices = engine.getProperty("voices")
+def speak(text): 
+    engine.say(text)
+    engine.runAndWait()
+
+speak("initialising JARVIS")

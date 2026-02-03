@@ -104,22 +104,25 @@ class Pathfinder:
               
 # class plane 
 
-'''class Plane(pygame.sprite.Sprite):
+class Plane(pygame.sprite.Sprite):
+       # spawn an object onto the screeen 
        def __init__(self):
-              super().__init__()
-              self.name = "BA277"
+              super().__init__() 
+              self.pos = None
               self.path = [] 
-              self.image = image 
-              self.rect = self.image.get_rect()
 
-       def show_object(self, screen):
-               print("x")
-               self.rect.topleft = (x, y)
-               screen.blit(self.image, self.rect)
+       def spawn(self): 
+              self.pos_x, self.pos.y = random.choice(apronpts)
+              self.pos = random.choice(apronpts)
+              
 
-       def update(self):
-              self.show_object()'''
+       def show_object(self, screen): 
+              if self.pos is not None:
+                pygame.draw.circle(screen, "purple", self.pos, 6)
+              
+# spawned where the path start node and the purple dot are the same then i can tie n image ot it 
 
+       
               
 
 
@@ -279,6 +282,7 @@ matrix = [
 
 
 pathfinder = Pathfinder(matrix)
+plane = Plane()
 # while loop to keep code running 
 running = True
 while running: 
@@ -296,6 +300,7 @@ while running:
                pathfinder.create_path()
                pathfinder.draw_path()
                pathfinder.random_points()
+               plane.spawn()
                
                
                
@@ -314,6 +319,8 @@ while running:
 
 
     pathfinder.update()
+    plane.show_object(screen)
+    
 
     
         
@@ -329,9 +336,7 @@ while running:
 # split task c to 2 pts 
 # watch pathfinding algorithm found on yt - work on that eg 
 
-'''plane_img = pygame.image.load("triple7.png").convert_alpha() 
-hyd = Plane(plane_img)
-hyd.show_object(background, 450, 480)'''
+
 
 
 
