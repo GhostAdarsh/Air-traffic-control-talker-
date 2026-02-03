@@ -1,6 +1,6 @@
 import speech_recognition as sr
 import pyttsx3
-'''r = sr.Recognizer()
+r = sr.Recognizer()
 
 with sr.Microphone() as source:
     print("Listening...")
@@ -15,7 +15,7 @@ except sr.UnknownValueError:
     print("Could not understand audio")
 
 except sr.RequestError as e:
-    print("Google error:", e)'''
+    print("Google error:", e)
 
 engine = pyttsx3.init("sapi5")
 voices = engine.getProperty("voices")

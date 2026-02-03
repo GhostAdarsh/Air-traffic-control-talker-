@@ -112,7 +112,7 @@ class Plane(pygame.sprite.Sprite):
               self.image = pygame.image.load("myFavplane.png").convert_alpha() 
               self.rect = self.image.get_rect() 
               self.pos = None
-              self.path = [] 
+              self.path = []  
 
        def spawn(self): 
               self.pos = random.choice(apronpts)
