@@ -78,6 +78,7 @@ class Pathfinder:
                       print("x")      
                               
         def draw_path(self):
+              
                if not self.path:
                       return 
                
@@ -105,20 +106,25 @@ class Pathfinder:
 # class plane 
 
 class Plane(pygame.sprite.Sprite):
-       # spawn an object onto the screeen 
+       # spawn an object onto the screeen at the randomised points 
        def __init__(self):
               super().__init__() 
+              self.image = pygame.image.load("the350.png").convert_alpha() 
+              self.rect = self.image.get_rect() 
               self.pos = None
               self.path = [] 
 
        def spawn(self): 
-              self.pos_x, self.pos.y = random.choice(apronpts)
               self.pos = random.choice(apronpts)
               
 
        def show_object(self, screen): 
               if self.pos is not None:
-                pygame.draw.circle(screen, "purple", self.pos, 6)
+                #self.pixel = pygame.draw.circle(screen, "purple", self.pos, 6)
+                #self.pixel = pygame.image.load("the350.png")
+                self.rect.center = self.pos
+                screen.blit(self.image, self.rect)     
+                print(self.pos)
               
 # spawned where the path start node and the purple dot are the same then i can tie n image ot it 
 
