@@ -109,7 +109,7 @@ class Plane(pygame.sprite.Sprite):
        # spawn an object onto the screeen at the randomised points 
        def __init__(self):
               super().__init__() 
-              self.image = pygame.image.load("the350.png").convert_alpha() 
+              self.image = pygame.image.load("myFavplane.png").convert_alpha() 
               self.rect = self.image.get_rect() 
               self.pos = None
               self.path = [] 
