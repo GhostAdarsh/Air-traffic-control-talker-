@@ -1,5 +1,6 @@
 # import modules and objects here: 
 import pygame 
+import math
 import matplotlib 
 from matplotlib import pyplot as plt 
 from matplotlib import image 
@@ -57,7 +58,7 @@ class Pathfinder:
         def create_path(self): # not yet
                 # start pt 
                 #mouse_pos = pygame.mouse.get_pos()
-                start_x, start_y = self.random_point_start
+                start_x, start_y = self.random_points()
                 start = self.grid.node(start_x, start_y)
 
                 #end pt 
@@ -128,8 +129,42 @@ class Plane(pygame.sprite.Sprite):
                 screen.blit(self.image, self.rect)     
                 print(self.pos)
               
-       def adjust_image(self):
+
+
+class Pathfollower:
+
+       def __init__(self, path, speed):
               print("x")
+              self.speed = speed 
+              self.path = path
+              self.pos = pygame.Vector2(path[0])
+
+              self.index = 1 
+              self.angle = 0 
+
+       def spawn(self):
+             self.pos = random.choice(apronpts)
+
+
+       def show_object(self, screen): 
+              if self.pos is not None:
+                #self.pixel = pygame.draw.circle(screen, "purple", self.pos, 6)
+                #self.pixel = pygame.image.load("the350.png")
+                self.rect.center = self.pos
+                screen.blit(self.image, self.rect)     
+                print(self.pos)
+
+              
+       def update(self, dt):
+              if self.index >= len(self.path):
+                     return 
+              target = pygame.Vector2(self.path[self.index])
+              direction = target - self.pos 
+
+              if direction.length() < 4: 
+                     self.index +=1 
+
+
               
 # spawned where the path start node and the purple dot are the same then i can tie n image ot it 
 
@@ -278,6 +313,9 @@ matrix = [
 
 pathfinder = Pathfinder(matrix)
 plane = Plane()
+pathfollower = Pathfollower()
+route = pathfinder.create_path()
+print(route)
 # while loop to keep code running 
 running = True
 while running: 
@@ -295,7 +333,11 @@ while running:
                pathfinder.create_path()
                pathfinder.draw_path()
                pathfinder.random_points()
-               plane.spawn()
+               pathfollower.spawn()
+               
+               
+               
+
                
                
                
