@@ -64,6 +64,7 @@ class Pathfinder:
                 #mouse_pos = pygame.mouse.get_pos()
                 end_x, end_y = [41,38]
                 end = self.grid.node(end_x, end_y)
+                
          
                 # path 
                 finder = AStarFinder(diagonal_movement =  DiagonalMovement.always)
@@ -114,7 +115,8 @@ class Plane(pygame.sprite.Sprite):
               self.pos = None
               self.path = []  
 
-       def spawn(self): 
+
+       def spawn(self): #spawning @ random points 
               self.pos = random.choice(apronpts)
               
 
@@ -126,26 +128,13 @@ class Plane(pygame.sprite.Sprite):
                 screen.blit(self.image, self.rect)     
                 print(self.pos)
               
+       def adjust_image(self):
+              print("x")
+              
 # spawned where the path start node and the purple dot are the same then i can tie n image ot it 
 
        
               
-
-
-
-
-       
-
-
-
-
-
-
-
-             
-
-
-
 # TASK A - load an image and setr it as background - DONE
 #create screen
 screen = pygame.display.set_mode((1280,800)) # edited the image width nd height for easier thingyies    
