@@ -23,11 +23,15 @@ class Pathfinder:
                 self.grid = Grid(matrix = matrix)
                 self.select_surf = pygame.image.load('crosshairX.png').convert_alpha()
                 self.actual_image = pygame.transform.scale(self.select_surf, (8,8))
+                # plae imgs 
+                self.image =  pygame.image.load("myFavplane.png").convert_alpha()
+                self.rect = self.image.get_rect()
                 self.path = []              
 
+
                 # plen 
-                    
-        def draw_active_cell(self):
+
+        '''def draw_active_cell(self):
 
                 # the mouse part isnt needed in the main.py code 
                 mouse_pos = pygame.mouse.get_pos()
@@ -38,7 +42,7 @@ class Pathfinder:
                 rect = pygame.Rect((col * 8, row * 8), (8,8))
                 screen.blit(self.actual_image, rect)
                 self.path = [] 
-                print(row, col)
+                #print(row, col)
                 # prints the index of the matrix - whether it is 1 or 0 so i can map out the plane path better 
                 #print(matrix[row][col])
                 # make a note of the coordinate points and the thingies 
@@ -47,7 +51,7 @@ class Pathfinder:
                 # updated coordinates: 
                 # 38, 38 to 38, 125
                 # 69, 41 to 69, 125
-                #print(current_cell_value)
+                #print(current_cell_value)'''
 
         def random_points(self): #suscesses
                self.random_point_start = random.choice(pts)
@@ -60,6 +64,7 @@ class Pathfinder:
                 #mouse_pos = pygame.mouse.get_pos()
                 start_x, start_y = self.random_points()
                 start = self.grid.node(start_x, start_y)
+                
 
                 #end pt 
                 #mouse_pos = pygame.mouse.get_pos()
@@ -103,73 +108,21 @@ class Pathfinder:
               self.random_points()  
               #self.draw_active_cell()     
               self.draw_path()
-              
-              
+              return self.path             
 # class plane 
 
-class Plane(pygame.sprite.Sprite):
-       # spawn an object onto the screeen at the randomised points 
-       def __init__(self):
-              super().__init__() 
-              self.image = pygame.image.load("myFavplane.png").convert_alpha() 
-              self.rect = self.image.get_rect() 
-              self.pos = None
-              self.path = []  
 
 
-       def spawn(self): #spawning @ random points 
-              self.pos = random.choice(apronpts)
+       
               
 
-       def show_object(self, screen): 
-              if self.pos is not None:
-                #self.pixel = pygame.draw.circle(screen, "purple", self.pos, 6)
-                #self.pixel = pygame.image.load("the350.png")
-                self.rect.center = self.pos
-                screen.blit(self.image, self.rect)     
-                print(self.pos)
-              
-
-
-class Pathfollower:
-
-       def __init__(self, path, speed):
-              print("x")
-              self.speed = speed 
-              self.path = path
-              self.pos = pygame.Vector2(path[0])
-
-              self.index = 1 
-              self.angle = 0 
-
-       def spawn(self):
-             self.pos = random.choice(apronpts)
-
-
-       def show_object(self, screen): 
-              if self.pos is not None:
-                #self.pixel = pygame.draw.circle(screen, "purple", self.pos, 6)
-                #self.pixel = pygame.image.load("the350.png")
-                self.rect.center = self.pos
-                screen.blit(self.image, self.rect)     
-                print(self.pos)
-
-              
-       def update(self, dt):
-              if self.index >= len(self.path):
-                     return 
-              target = pygame.Vector2(self.path[self.index])
-              direction = target - self.pos 
-
-              if direction.length() < 4: 
-                     self.index +=1 
 
 
               
 # spawned where the path start node and the purple dot are the same then i can tie n image ot it 
 
        
-              
+        
 # TASK A - load an image and setr it as background - DONE
 #create screen
 screen = pygame.display.set_mode((1280,800)) # edited the image width nd height for easier thingyies    
@@ -312,8 +265,8 @@ matrix = [
 
 
 pathfinder = Pathfinder(matrix)
-plane = Plane()
-pathfollower = Pathfollower()
+
+
 route = pathfinder.create_path()
 print(route)
 # while loop to keep code running 
@@ -333,8 +286,7 @@ while running:
                pathfinder.create_path()
                pathfinder.draw_path()
                pathfinder.random_points()
-               pathfollower.spawn()
-               
+                   
                
                
 
@@ -356,7 +308,7 @@ while running:
 
 
     pathfinder.update()
-    plane.show_object(screen)
+    
     
 
     
