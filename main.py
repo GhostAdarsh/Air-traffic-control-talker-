@@ -112,7 +112,10 @@ class Plane(pygame.sprite.Sprite):
               self.image = pygame.image.load("myFavplane.png").convert_alpha() 
               self.rect = self.image.get_rect() 
               self.pos = None
-              self.path = []  
+              self.path_index = 0 
+              self.position = None 
+              self.speed = 120 
+              
 
        def spawn(self): 
               self.pos = random.choice(apronpts)
@@ -120,11 +123,17 @@ class Plane(pygame.sprite.Sprite):
 
        def show_object(self, screen): 
               if self.pos is not None:
-                #self.pixel = pygame.draw.circle(screen, "purple", self.pos, 6)
-                #self.pixel = pygame.image.load("the350.png")
                 self.rect.center = self.pos
                 screen.blit(self.image, self.rect)     
                 print(self.pos)
+
+       def follow_path(self, dt):
+              self.path = [] 
+              if self.path_index >= len(self.path):
+                     return 
+              target = pygame.Vector2(self.path[self.path_index])
+              direction = target - self.pos
+              
               
 # spawned where the path start node and the purple dot are the same then i can tie n image ot it 
 
