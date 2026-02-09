@@ -1,5 +1,6 @@
 # import modules and objects here: 
 import pygame 
+import math
 import matplotlib 
 from matplotlib import pyplot as plt 
 from matplotlib import image 
@@ -22,11 +23,15 @@ class Pathfinder:
                 self.grid = Grid(matrix = matrix)
                 self.select_surf = pygame.image.load('crosshairX.png').convert_alpha()
                 self.actual_image = pygame.transform.scale(self.select_surf, (8,8))
+                # plae imgs 
+                self.image =  pygame.image.load("myFavplane.png").convert_alpha()
+                self.rect = self.image.get_rect()
                 self.path = []              
 
+
                 # plen 
-                    
-        def draw_active_cell(self):
+
+        '''def draw_active_cell(self):
 
                 # the mouse part isnt needed in the main.py code 
                 mouse_pos = pygame.mouse.get_pos()
@@ -37,7 +42,7 @@ class Pathfinder:
                 rect = pygame.Rect((col * 8, row * 8), (8,8))
                 screen.blit(self.actual_image, rect)
                 self.path = [] 
-                print(row, col)
+                #print(row, col)
                 # prints the index of the matrix - whether it is 1 or 0 so i can map out the plane path better 
                 #print(matrix[row][col])
                 # make a note of the coordinate points and the thingies 
@@ -46,7 +51,7 @@ class Pathfinder:
                 # updated coordinates: 
                 # 38, 38 to 38, 125
                 # 69, 41 to 69, 125
-                #print(current_cell_value)
+                #print(current_cell_value)'''
 
         def random_points(self): #suscesses
                self.random_point_start = random.choice(pts)
@@ -57,13 +62,15 @@ class Pathfinder:
         def create_path(self): # not yet
                 # start pt 
                 #mouse_pos = pygame.mouse.get_pos()
-                start_x, start_y = self.random_point_start
+                start_x, start_y = self.random_points()
                 start = self.grid.node(start_x, start_y)
+                
 
                 #end pt 
                 #mouse_pos = pygame.mouse.get_pos()
                 end_x, end_y = [41,38]
                 end = self.grid.node(end_x, end_y)
+                
          
                 # path 
                 finder = AStarFinder(diagonal_movement =  DiagonalMovement.always)
@@ -101,8 +108,7 @@ class Pathfinder:
               self.random_points()  
               #self.draw_active_cell()     
               self.draw_path()
-              
-              
+              return self.path             
 # class plane 
 
 class Plane(pygame.sprite.Sprite):
@@ -117,8 +123,8 @@ class Plane(pygame.sprite.Sprite):
               self.speed = 120 
               
 
-       def spawn(self): 
-              self.pos = random.choice(apronpts)
+
+       
               
 
        def show_object(self, screen): 
@@ -134,27 +140,13 @@ class Plane(pygame.sprite.Sprite):
               target = pygame.Vector2(self.path[self.path_index])
               direction = target - self.pos
               
+
+
               
 # spawned where the path start node and the purple dot are the same then i can tie n image ot it 
 
        
-              
-
-
-
-
-       
-
-
-
-
-
-
-
-             
-
-
-
+        
 # TASK A - load an image and setr it as background - DONE
 #create screen
 screen = pygame.display.set_mode((1280,800)) # edited the image width nd height for easier thingyies    
@@ -297,7 +289,10 @@ matrix = [
 
 
 pathfinder = Pathfinder(matrix)
-plane = Plane()
+
+
+route = pathfinder.create_path()
+print(route)
 # while loop to keep code running 
 running = True
 while running: 
@@ -315,7 +310,10 @@ while running:
                pathfinder.create_path()
                pathfinder.draw_path()
                pathfinder.random_points()
-               plane.spawn()
+                   
+               
+               
+
                
                
                
@@ -334,7 +332,7 @@ while running:
 
 
     pathfinder.update()
-    plane.show_object(screen)
+    
     
 
     
