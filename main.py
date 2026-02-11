@@ -26,12 +26,17 @@ class Pathfinder:
                 # plae imgs 
                 self.image =  pygame.image.load("myFavplane.png").convert_alpha()
                 self.rect = self.image.get_rect()
-                self.path = []              
+                self.path = []     
+
+                # plane 
+                self.character = pygame.sprite.GroupSingle(Plane())
 
 
                 # plen 
 
-        '''def draw_active_cell(self):
+              print("x")
+
+        '''def draw_active_cell(self): # i dont think this is needed icl 
 
                 # the mouse part isnt needed in the main.py code 
                 mouse_pos = pygame.mouse.get_pos()
@@ -77,6 +82,7 @@ class Pathfinder:
                 self.path = finder.find_path(start, end, self.grid)
                 self.grid.cleanup()
                 #print(self.path)
+                self.Plane.sprite.set_path(self.path)
                 return self.path
                 
         def gridNode(self): # thi is to convert the gridnode objects in the list to x,y coordinates 
@@ -108,38 +114,65 @@ class Pathfinder:
               self.random_points()  
               #self.draw_active_cell()     
               self.draw_path()
-              return self.path             
+              self.plane.update()   
+              self.plane.draw(screen)
+
+                        
 # class plane 
 
+
 class Plane(pygame.sprite.Sprite):
-       # spawn an object onto the screeen at the randomised points 
-       def __init__(self):
-              super().__init__() 
-              self.image = pygame.image.load("myFavplane.png").convert_alpha() 
-              self.rect = self.image.get_rect() 
-              self.pos = None
-              self.path_index = 0 
-              self.position = None 
-              self.speed = 120 
-              
+    def __init__(self, path, spawn_area):
+          #basics
+          super().__init__()
+          self.image = pygame.image.load('myFavplane.png').convert_alpha()
+          self.rect = self.image.get_rect()
+
+          #movement      
+          self.pos = self.rect.center
+          self.speed = 0.6
+          self.direction = pygame.math.Vector2(0,0)
+
+
+          #random points       
+          spawn_point = random.choice(pts)
+          self.path = [] 
+          self.collision_rects = [] 
+
+    def get_coord(self):
+          col = self.rect.centerx // 8 
+          row = self.rect.centery // 8
+          return (col,  row)
+
+    def set_path(self, path): 
+          self.path = path 
+          self.create_collision_rects()
+          self.get_direction() 
+
+    def create_collision_rects(self):
+           if self.path: 
+                self.create_collision_rects = [] 
+                for point in self.path: 
+                      x = (point[0] * 32) + 8
+                      y = (point[1] * 32) + 8
+                      rect = pygame.Rect((x -2,y -2), (4,4))
+                      self.collision_rects.append(rect)
+
+    
+    def get_direction(self):
+          if self.collision_rects: 
+                start = pygame.math.Vector2(self.pos)
+                end = 4 
+                self.direction = (end - start).normalize()
+         
+
+                             
+
 
 
        
               
 
-       def show_object(self, screen): 
-              if self.pos is not None:
-                self.rect.center = self.pos
-                screen.blit(self.image, self.rect)     
-                print(self.pos)
-
-       def follow_path(self, dt):
-              self.path = [] 
-              if self.path_index >= len(self.path):
-                     return 
-              target = pygame.Vector2(self.path[self.path_index])
-              direction = target - self.pos
-              
 
 
               
@@ -311,7 +344,6 @@ while running:
                pathfinder.draw_path()
                pathfinder.random_points()
                    
-               
                
 
                
