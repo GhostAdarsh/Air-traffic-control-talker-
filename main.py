@@ -139,7 +139,6 @@ class Plane:
               self.moving = True
               self.checkpoints = [] '''
 
-
        def update(self): 
               
               
@@ -178,6 +177,7 @@ class Plane:
                      self.index += 1 
                      if target_grid in self.checkpoints:
                             self.moving = False'''
+              
        def draw(self, screen): 
               rect = self.image.get_rect(center=(self.x, self.y))
               screen.blit(self.image, rect)
@@ -212,7 +212,7 @@ pygame.display.set_caption("Air Traffic Talker")
 
 # gridnode pts 
 pts = [(45,48),(45,56),(61,51),(55,50),(53,56),(50,50)]
-fpts = [(41,38), (68, 38)]
+fpts = [(41,38), (68, 43)]
 # coordinate points - time consuming do this @ home (did this only for T5 PLANES)
 apronpts = [(360, 390), (360, 450), (490, 410), (407, 400), (429,400), (469, 450)]
 # checkpoint coordinates - this is the junctions at the taxiway - takeoff and landing only  
@@ -371,6 +371,7 @@ while running:
 
             # once mouse button is clicked: 
         if event.type == pygame.MOUSEBUTTONDOWN:
+              #this was tessting the pathfinder functions 
                #pathfinder.create_path()
                #pathfinder.draw_path()
                #pathfinder.random_points()
@@ -383,12 +384,14 @@ while running:
                #calling the finder 
                current_path = pathfinder.create_path(start, end)
 
+              # blits the image once path has been calulated 
                if  current_path: 
                       plane = Plane("myFavplane.png", current_path)
                       print(current_path)
                else: 
                       print("no path found")
     
+    # updates plane position as it travels node 
     if plane: 
         plane.update()              
                 
@@ -400,7 +403,8 @@ while running:
                 for x, y in current_path
         ]
         pygame.draw.lines(screen, (255,0,0), False, points, 3)     
-
+    
+    # draws the plane img on screen 
     if plane:
                 plane.draw(screen)          
     pygame.display.flip()           
