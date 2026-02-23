@@ -10,7 +10,7 @@ import pathfinding
 from pathfinding.core.grid import Grid 
 from pathfinding.finder.a_star import AStarFinder
 from pathfinding.core.diagonal_movement import DiagonalMovement 
-
+import random
 
 #from objectplanes import Planes
 
@@ -36,11 +36,24 @@ class Pathfinder:
                 col = mouse_pos[0] // 32 
                 rect = pygame.Rect((col * 32, row * 32), (32,32))
                 screen.blit(self.select_surf, rect)
+        def random_points(self):  ## sucsess! 
+               #print("x")    
+               self.random_point = random.choice(pts)
+               #print(self.random_point)
+               start_x, start_y = self.random_point
+               return start_x, start_y
+               return self.random_point 
+               
         def create_path(self):
                 # start pt 
                 start_x, start_y =  [0,0]
                 start = self.grid.node(start_x, start_y)
+                    #mouse_pos = pygame.mouse.get_pos()
+                #start_x, start_y = [45,49]
+                start_x, start_y = self.random_point
+                start = self.grid.node(start_x, start_y)
 
+                #end pt 
                 #end pt 
                 #mouse_pos = pygame.mouse.get_pos()
                 end_x, end_y = [15, 0]
