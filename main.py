@@ -403,7 +403,8 @@ while running:
                 for x, y in current_path
         ]
         pygame.draw.lines(screen, (255,0,0), False, points, 3)     
-    
+    else: 
+           print("x")
     # draws the plane img on screen 
     if plane:
                 plane.draw(screen)          

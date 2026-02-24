@@ -14,7 +14,7 @@ import random
 
 #from objectplanes import Planes
 
-
+CELL_SIZE = 8
 
 # class pathfinder 
 
@@ -40,7 +40,7 @@ class Pathfinder:
                #print("x")    
                self.random_point = random.choice(pts)
                #print(self.random_point)
-               start_x, start_y = self.random_point
+               start_x, start_y = self.random_points
                return start_x, start_y
                return self.random_point 
                
@@ -63,6 +63,18 @@ class Pathfinder:
                 finder = AStarFinder(diagonal_movement =  DiagonalMovement.always)
                 self.path = finder.find_path(start, end, self.grid)
                 print(self.path)
+        
+        def draw_path(screen, path):
+               for row, col in path:
+                    rect = pygame.Rect(
+                           col * CELL_SIZE, 
+                           row * CELL_SIZE,
+                           CELL_SIZE, 
+                           CELL_SIZE
+                    )
+                    pygame.draw.rect(screen, "red", rect)
+
+
 
         def update(self):
               #self.draw_active_cell()
@@ -88,6 +100,7 @@ pygame.display.set_icon(win_icon)
 pygame.display.set_caption("Air Traffic Talker")
 
 # coordinate points - time consuming do this @ home (did this only for T5 PLANES)
+pts = [(45,48),(45,56),(61,51),(55,50),(53,56),(50,50)]
 points = [(360, 390), (360, 450), (490, 410), (407, 400), (429,400), (469, 450)]
 # checkpoint coordinates - this is the junctions at the taxiway - takeoff and landing only  
 checkpts = [(384, 358), (320,340), ]
