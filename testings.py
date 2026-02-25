@@ -63,6 +63,12 @@ class Pathfinder:
                 finder = AStarFinder(diagonal_movement =  DiagonalMovement.always)
                 self.path = finder.find_path(start, end, self.grid)
                 print(self.path)
+        def gridNode(self): # thi is to convert the gridnode objects in the list to x,y coordinates 
+               self.path = []
+               for i in self.path():
+                      print("x")
+        
+               
         
         def draw_path(screen, path):
                for row, col in path:
@@ -187,6 +193,8 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
               print("x")
               pathfinder.update()
+              pathfinder.create_path() 
+              
 
 
     # draws the coordinate pts 
