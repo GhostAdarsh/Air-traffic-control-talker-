@@ -8,5 +8,6 @@ pip install SpeechRecognition
 pip install pathfinding 
 pip install opencv-python
 pip install pyttsx3
+pip install vosk
 
 dfgnjsdfjibgnsidefbhn

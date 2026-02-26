@@ -9,12 +9,18 @@ from matplotlib import image
 import pathfinding 
 from pathfinding.core.grid import Grid 
 from pathfinding.finder.a_star import AStarFinder
+<<<<<<< HEAD
 from pathfinding.core.diagonal_movement import DiagonalMovement
+=======
+from pathfinding.core.diagonal_movement import DiagonalMovement 
+import random
+
+>>>>>>> aba2858929ac14c29dc1e9b82a800db9809d9cce
 #from objectplanes import Planes
 import random 
 
 
-
+CELL_SIZE = 8
 
 # class pathfinder 
 
@@ -43,6 +49,7 @@ class Pathfinder:
                 # the mouse part isnt needed in the main.py code 
                 mouse_pos = pygame.mouse.get_pos()
                 #print(mouse_pos)
+<<<<<<< HEAD
                 row = mouse_pos[1] // 8 # i had to scale down the mouse positions by 8s
                 col = mouse_pos[0] // 8
                 rect = pygame.Rect((col * 8, row * 8), (8,8))
@@ -70,22 +77,59 @@ class Pathfinder:
         def create_path(self): # not yet
 
 
+=======
+                row = mouse_pos[1] // 32 
+                col = mouse_pos[0] // 32 
+                rect = pygame.Rect((col * 32, row * 32), (32,32))
+                screen.blit(self.select_surf, rect)
+        def random_points(self):  ## sucsess! 
+               #print("x")    
+               self.random_point = random.choice(pts)
+               #print(self.random_point)
+               start_x, start_y = self.random_points
+               return start_x, start_y
+               return self.random_point 
+               
+        def create_path(self):
+>>>>>>> aba2858929ac14c29dc1e9b82a800db9809d9cce
                 # start pt 
                 start_x, start_y =  [1,1]
                 randomiserX = random.randint(0,5)
                 randomiserY = random.randint(0,5)
                 start_x, start_y =  [points(randomiserX)]
                 start = self.grid.node(start_x, start_y)
+                    #mouse_pos = pygame.mouse.get_pos()
+                #start_x, start_y = [45,49]
+                start_x, start_y = self.random_point
+                start = self.grid.node(start_x, start_y)
 
                 #end pt 
+<<<<<<< HEAD
                 mouse_pos = pygame.mouse.get_pos()
                 end_x, end_y = mouse_pos[0] // 32, mouse_pos[1] // 32
+=======
+                #end pt 
+                #mouse_pos = pygame.mouse.get_pos()
+                end_x, end_y = [15, 0]
+>>>>>>> aba2858929ac14c29dc1e9b82a800db9809d9cce
                 end = self.grid.node(end_x, end_y)
          
                 # path 
                 finder = AStarFinder(diagonal_movement =  DiagonalMovement.always)
                 self.path = finder.find_path(start, end, self.grid)
                 print(self.path)
+        
+        def draw_path(screen, path):
+               for row, col in path:
+                    rect = pygame.Rect(
+                           col * CELL_SIZE, 
+                           row * CELL_SIZE,
+                           CELL_SIZE, 
+                           CELL_SIZE
+                    )
+                    pygame.draw.rect(screen, "red", rect)
+
+
 
 
         def update(self):
@@ -119,6 +163,7 @@ pygame.display.set_icon(win_icon)
 pygame.display.set_caption("Air Traffic Talker")
 
 # coordinate points - time consuming do this @ home (did this only for T5 PLANES)
+pts = [(45,48),(45,56),(61,51),(55,50),(53,56),(50,50)]
 points = [(360, 390), (360, 450), (490, 410), (407, 400), (429,400), (469, 450)]
 # checkpoint coordinates - this is the junctions at the taxiway - takeoff and landing only  
 checkpts = [(384, 358), (320,340), ]
