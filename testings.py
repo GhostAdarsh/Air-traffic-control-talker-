@@ -100,22 +100,37 @@ class Pathfinder:
                 # path 
                 finder = AStarFinder(diagonal_movement =  DiagonalMovement.always)
                 self.path, _ = finder.find_path(start, end, self.grid)
+                path = [(node.x, node.y) for node in self.path]
+
                 #print(self.path)
+                print(path)
                 return self.path 
+                return 
+        def gridNode(self): 
+               self.path = [] 
+               for i in self.path: 
+                      print("x")
+                      
         
-        
-        def draw_path(self, screen):
-               for row, col in self.path:
-                    rect = pygame.Rect(
-                           col * CELL_SIZE, 
-                           row * CELL_SIZE,
-                           CELL_SIZE, 
-                           CELL_SIZE
-                    )
-                    pygame.draw.lines(screen, "red", False, self.path, 5)
+        def draw_path(self):
+              
+               if not self.path:
+                      return 
+               
+               points = [] 
 
+               for node in self.path[0]: 
+                      x = node.x 
+                      y = node.y 
+                      points.append((x * CELL_SIZE, y * CELL_SIZE))
 
-
+               pygame.draw.lines(
+                       screen, 
+                       "red", 
+                       False, 
+                       points, 
+                       3
+                )
 
         def update(self):
               #self.draw_active_cell()
@@ -309,7 +324,7 @@ while running:
 
 
     if path: 
-           pathfinder.draw_path(screen)
+           pathfinder.draw_path()
 
 
     ## DRAW SECTION 
