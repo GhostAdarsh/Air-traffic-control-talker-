@@ -10,7 +10,7 @@ class VoiceControl:
         self.valid_holding_points = holding_points
     
     def process_voice(self):
-        text = self.recognise_commad() 
+        text = self.recognise_command() 
         if not text: 
             self.computer_voice("Repeat")
             return
