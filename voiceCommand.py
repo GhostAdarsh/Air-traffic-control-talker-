@@ -1,6 +1,16 @@
 # import modules here 
 import vosk 
 import pyaudio
+import queue 
+import sounddevice as sd 
+import json 
+from vosk import Model, KaldiRecognizer
+
+#load model 
+model = Model("vosk-model-smallen-us-0.15")
+recognizer = KaldiRecognizer(model, 16000)
+
+q = queue.Queue() 
 
 aircraft_list = [] 
 holding_points = []
@@ -25,7 +35,11 @@ class VoiceControl:
         self.execute_command(command)
 
     def recognise_command(self):
-        pass 
+        print("Listening...")
+        while True: 
+            data = self.q.get() 
+            if self.recognizer.AcceptWaveform(data): 
+                result = json.loads(self.recognizer.Result()) 
     def parse_command(self, text): 
         pass
     def execute_command(self, command):
