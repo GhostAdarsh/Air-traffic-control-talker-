@@ -1,5 +1,7 @@
 # import modules here 
-import Vosk 
+import vosk 
+import pyaudio
+
 aircraft_list = [] 
 holding_points = []
 
