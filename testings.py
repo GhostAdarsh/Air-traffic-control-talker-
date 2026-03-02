@@ -61,42 +61,42 @@ class Pathfinder:
                print(f"{a}, {b}")
                return a,b '''
             
-        def create_path(self): # not yet - too cold too cold 
+        def create_path(self, start, end): # not yet - too cold too cold 
                 # start pt 
                 #mouse_pos = pygame.mouse.get_pos()
-                start_x, start_y = self.random_point
-                start = self.grid.node(start_x, start_y)
+                
+                #start = self.grid.node(start_x, start_y)
+                start_node = self.grid.node(start[0], start[1])
 
                 #end pt 
                 #mouse_pos = pygame.mouse.get_pos()
-                end_x, end_y = [41, 38]
-                end = self.grid.node(end_x, end_y)
+                #end_x, end_y = [41, 38]
+                #end = self.grid.node(end_x, end_y)
+                end_node = self.grid.node(end[0], end[1])
+
          
                 # path 
                 finder = AStarFinder(diagonal_movement =  DiagonalMovement.always)
-                self.path = finder.find_path(start, end, self.grid)
+                self.path, _  = finder.find_path(start_node, end_node, self.grid)
                 
-                print(self.path)
+                
                 self.grid.cleanup()
+
+                path = [(node.x, node.y) for node in self.path]
+                print(path)
+
+
+                return path 
+        
+        
+        
                 #print(self.path)
                              
         def gridNode(self): # thi is to convert the gridnode objects in the list to x,y coordinates 
                self.path = []
                for i in self.path():
                       print("x")
-        
-               
-        
-        def draw_path(screen, path):
-               for row, col in path:
-                    rect = pygame.Rect(
-                           col * TILE_SIZE, 
-                           row * TILE_SIZE,
-                           TILE_SIZE, 
-                           TILE_SIZE
-                    )
-                    pygame.draw.rect(screen, "red", rect)
-                                                   
+                                                
         def draw_path(self):
                if not self.path:
                       return 
@@ -123,7 +123,42 @@ class Pathfinder:
               self.draw_path()
 
 
- 
+class Plane: 
+       def __init__(self, image, path):
+              self.image = pygame.image.load("myFavplane.png").convert_alpha() 
+              self.path = path # this path is calculated from pathfinding 
+              self.ndex = 0
+              self.speed = 0.6
+
+
+              #spawn at first coorinate in path: 
+              x,y = path[0]
+              self.x = x
+              self.y = y
+
+
+       def update(self):
+
+              if self.current_index < len(self.path): 
+
+                     target_x, target_y = self.path[self.current_index]
+
+                     dx = target_x - self.x 
+                     dy = target_y - self.y
+
+                     distance = (dx**2 + dy**2) ** 0.5 
+                     if distance < 5: 
+                            self.current_index += 1 
+                     else: 
+                            self.x += dx / distance * self.speed 
+                            self.y += dy / distance * self.speed  
+              
+       def draw(self, screen): 
+              screen.blit(self.image, (self.x, self.y))
+
+
+
+
        
              
 print("X")
@@ -146,6 +181,7 @@ pygame.display.set_caption("Air Traffic Talker")
 
 #grid pts
 pts = [(45,48), (45,56), (61,51), (50,50), (53,56), (58,56)]
+fpts = fpts = [(41,38), (68, 43)]
 
 #pygame.draw function - for plotting dots 
 apronpts = [(360, 390), (360, 450), (490, 410), (407, 400), (429,400), (469, 450)]
@@ -277,6 +313,15 @@ matrix = [
 
 pathfinder = Pathfinder(matrix)
 
+start = random.choice(pts)
+end = random.choice(fpts)
+
+test_path = pathfinder.create_path(start, end)
+
+plane = Plane("myFavplane.png", test_path)
+
+
+
 # while loop to keep code running 
 running = True
 while running: 
@@ -284,6 +329,8 @@ while running:
     screen.fill((0,0,0))
     screen.blit(background, (0, 0))
     for event in pygame.event.get():
+    
+
         # if tab key pressed, quits game
         keys = pygame.key.get_pressed()
         if keys[pygame.K_TAB]:
@@ -293,7 +340,14 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
               print("x")
               pathfinder.update()
-              pathfinder.create_path() 
+              pathfinder.create_path()
+
+              
+        '''
+                if plane: 
+        plane.draw(screen)'''      
+
+
               
 
         
