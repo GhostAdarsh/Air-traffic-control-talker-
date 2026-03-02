@@ -8,7 +8,7 @@ import json
 from vosk import Model, KaldiRecognizer
 
 #load model 
-model = Model("vosk-model-smallen-us-0.15")
+model = Model("vosk-model-small-en-us-0.15")
 recognizer = KaldiRecognizer(model, 16000)
 
 q = queue.Queue() 

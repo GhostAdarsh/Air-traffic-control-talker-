@@ -124,9 +124,9 @@ class Plane:
               self.image = pygame.image.load("myFavplane.png").convert_alpha()
               self.path = path 
               self.index = 0 
-              self.speed = 0.6 
+              self.speed = 0.6 # pizels per frame 
 
-              # start at first node 
+              # start at first tile center 
               x, y = path[0]
               self.x = x * TILE_SIZE + TILE_SIZE //2 
               self.y = y * TILE_SIZE + TILE_SIZE //2 
@@ -142,14 +142,18 @@ class Plane:
        def update(self): 
               
               if self.index >= len(self.path): 
-                     return 
+                     print("path finished")
+                     return # stops at the end 
               
+              # setting x y coords to path 
               target_x, target_y = self.path[self.index + 1]
               target_x = target_x * TILE_SIZE + TILE_SIZE //2 
               target_y = target_y * TILE_SIZE + TILE_SIZE //2
-
+              
+              #distance of coordinates minus the current position 
               dx = target_x - self.x
               dy = target_y - self.y 
+
 
               distance = (dx**2 + dy**2) ** 0.5
 
@@ -208,6 +212,8 @@ win_icon = pygame.image.load("flightradar24.jfif")
 pygame.display.set_icon(win_icon)
 #set window title 
 pygame.display.set_caption("Air Traffic Talker")
+# plane image 
+plane_img = "myFavplane.png"
 
 # gridnode pts 
 pts = [(45,48),(45,56),(61,51),(55,50),(53,56),(50,50)]
@@ -385,7 +391,7 @@ while running:
 
               # blits the image once path has been calulated 
                if  current_path: 
-                      plane = Plane("myFavplane.png", current_path)
+                      plane = Plane(plane_img, current_path)
                       print(current_path)
                else: 
                       print("no path found")
