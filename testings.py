@@ -75,6 +75,7 @@ class Pathfinder:
                 # path 
                 finder = AStarFinder(diagonal_movement =  DiagonalMovement.always)
                 self.path = finder.find_path(start, end, self.grid)
+                
                 print(self.path)
                 self.grid.cleanup()
                 #print(self.path)
@@ -122,7 +123,7 @@ class Pathfinder:
               self.draw_path()
 
 
-         
+ 
        
              
 print("X")
@@ -295,9 +296,7 @@ while running:
               pathfinder.create_path() 
               
 
-        pathfinder.random_points()
-        pathfinder.create_path()
-        pathfinder.draw_path()
+        
                
                
                

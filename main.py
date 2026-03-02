@@ -142,15 +142,19 @@ class Plane:
        def update(self): 
               
               if self.index >= len(self.path): 
+                     print("path finished")
                      return 
               
+              # setting x y coords to path 
               target_x, target_y = self.path[self.index + 1]
               target_x = target_x * TILE_SIZE + TILE_SIZE //2 
               target_y = target_y * TILE_SIZE + TILE_SIZE //2
-
+              
+              #distance of coordinates minus the current position 
               dx = target_x - self.x
               dy = target_y - self.y 
 
+              
               distance = (dx**2 + dy**2) ** 0.5
 
               if distance < self.speed: 
