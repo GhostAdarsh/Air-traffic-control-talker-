@@ -1,9 +1,6 @@
-# back the othe plane class :
-
-
-
 # import modules and objects here: 
 import pygame 
+import math
 import matplotlib 
 from matplotlib import pyplot as plt 
 from matplotlib import image 
@@ -11,26 +8,29 @@ import pathfinding
 from pathfinding.core.grid import Grid  
 from pathfinding.finder.a_star import AStarFinder 
 from pathfinding.core.diagonal_movement import DiagonalMovement 
-#from objectplanes import Planes
+
 import random 
 
 TILE_SIZE = 8 
 
-
-
-              
 # class pathfinder 
 
 class Pathfinder:
+
         def __init__(self, matrix):
-        #setup - added coordinates whereever mouse cursor is 
+                #setup - added coordinates whereever mouse cursor is 
                 self.matrix = matrix
                 self.grid = Grid(matrix = matrix)
                 self.select_surf = pygame.image.load('crosshairX.png').convert_alpha()
                 self.actual_image = pygame.transform.scale(self.select_surf, (8,8))
-                self.path = []                                               
+                # plae imgs 
+                self.image =  pygame.image.load("myFavplane.png").convert_alpha()
+                self.rect = self.image.get_rect()
+                self.path = []     
 
-        def draw_active_cell(self):
+                print("x")
+
+        def draw_active_cell(self): # i dont think this is needed icl 
 
                 # the mouse part isnt needed in the main.py code 
                 mouse_pos = pygame.mouse.get_pos()
@@ -41,7 +41,7 @@ class Pathfinder:
                 rect = pygame.Rect((col * 8, row * 8), (8,8))
                 screen.blit(self.actual_image, rect)
                 self.path = [] 
-                #print(row, col)
+                print(row, col)
                 # prints the index of the matrix - whether it is 1 or 0 so i can map out the plane path better 
                 #print(matrix[row][col])
                 # make a note of the coordinate points and the thingies 
@@ -52,58 +52,50 @@ class Pathfinder:
                 # 69, 41 to 69, 125
                 #print(current_cell_value)
 
-        def random_points(self):  ## sucsess! 
-               #print("x")    
-               self.random_point = random.choice(pts)
-               #print(self.random_point)
-               start_x, start_y = self.random_point
+        def random_points(self): #suscesses
+               self.random_point_start = random.choice(pts)
+               start_x, start_y = self.random_point_start
                return start_x, start_y
-               return self.random_point 
-               '''self.randon = random.choice(apronpts)
-               a,b = self.randon
-               print(f"{a}, {b}")
-               return a,b '''
-            
-        def create_path(self): # not yet - too cold too cold 
-
+               return self.random_point_start     
+        
+        def create_path(self, start, end): # not yet
                 # start pt 
                 #mouse_pos = pygame.mouse.get_pos()
-                start_x, start_y = self.random_point
-                start = self.grid.node(start_x, start_y)
+                #start_x, start_y = self.random_points()
+                start_node = self.grid.node(start[0], start[1])
+                
 
                 #end pt 
                 #mouse_pos = pygame.mouse.get_pos()
-                end_x, end_y = [41, 38]
-                end = self.grid.node(end_x, end_y)
+                #end_x, end_y = [41,38]
+                end_node = self.grid.node(end[0], end[1])
+                
          
                 # path 
                 finder = AStarFinder(diagonal_movement =  DiagonalMovement.always)
-                self.path = finder.find_path(start, end, self.grid)
+                #self.path = finder.find_path(start, end, self.grid)
+                raw_path, _ = finder.find_path(start_node, end_node, self.grid)
+                
+
                 self.grid.cleanup()
                 #print(self.path)
-                             
 
+                # convert Gridnodes to x y coordinates 
+                path = [(node.x, node.y) for node in raw_path]
+
+                return path
+                
         def gridNode(self): # thi is to convert the gridnode objects in the list to x,y coordinates 
                self.path = []
                for i in self.path():
-                      print("x")
-                                                   
-
-
-
-
-
-
-
-
-
-
+                      print("x")      
+                              
         def draw_path(self):
+              
                if not self.path:
                       return 
                
                points = [] 
-
 
                for node in self.path[0]: 
                       x = node.x 
@@ -115,29 +107,98 @@ class Pathfinder:
                        "red", 
                        False, 
                        points, 
-                       4
+                       3
                 )
 
-
-
-
-
-
-
-
-
-
-
-
-
         def update(self):
-              self.random_points()
-              #self.draw_active_cell()
+              self.random_points()  
+              #self.draw_active_cell()     
               self.draw_path()
-             
-print("X")
+              
+                        
+# class plane 
 
 
+class Plane: 
+       def __init__(self, image_path, path):
+              self.image = pygame.image.load("myFavplane.png").convert_alpha()
+              self.path = path 
+              self.index = 0 
+              self.speed = 0.6 # pizels per frame 
+
+              # start at first tile center 
+              x, y = path[0]
+              self.x = x * TILE_SIZE + TILE_SIZE //2 
+              self.y = y * TILE_SIZE + TILE_SIZE //2 
+
+              '''start = path[0]
+              self.pos = pygame.math.Vector2(
+                     start[0] * TILE_SIZE + TILE_SIZE // 2,
+                     start[1] * TILE_SIZE + TILE_SIZE // 2 
+              )
+              self.moving = True
+              self.checkpoints = [] '''
+
+       def update(self): 
+              
+              if self.index >= len(self.path): 
+                     print("path finished")
+                     return # stops at the end 
+              
+              # setting x y coords to path 
+              target_x, target_y = self.path[self.index + 1]
+              target_x = target_x * TILE_SIZE + TILE_SIZE //2 
+              target_y = target_y * TILE_SIZE + TILE_SIZE //2
+              
+              #distance of coordinates minus the current position 
+              dx = target_x - self.x
+              dy = target_y - self.y 
+
+
+              distance = (dx**2 + dy**2) ** 0.5
+
+              if distance < self.speed: 
+                     self.index += 1 
+              else: 
+                     self.x += self.speed * dx / distance
+                     self.y += self.speed * dy / distance
+
+
+                #scaling target grid and directions
+              '''target_grid = self.path[self.index]
+              target_pos = pygame.math.Vector2(
+                     target_grid[0] * TILE_SIZE + TILE_SIZE //2, 
+                     target_grid[1] * TILE_SIZE + TILE_SIZE //2
+              )         
+              direction = target_pos - self.pos 
+                        #moves to next node at the speed 
+              if direction.length() > 0: 
+                     direction = direction.normalize()
+                     self.pos += direction * self.speed
+                #if close to node - move to target 
+              if self.pos.distance_to(target_pos) < 2: 
+                     self.index += 1 
+                     if target_grid in self.checkpoints:
+                            self.moving = False'''
+              
+       def draw(self, screen): 
+              rect = self.image.get_rect(center=(self.x, self.y))
+              screen.blit(self.image, rect)
+
+                        
+
+
+
+       
+              
+
+
+
+              
+# spawned where the path start node and the purple dot are the same then i can tie n image ot it 
+
+       
+        
 # TASK A - load an image and setr it as background - DONE
 #create screen
 screen = pygame.display.set_mode((1280,800)) # edited the image width nd height for easier thingyies    
@@ -151,18 +212,19 @@ win_icon = pygame.image.load("flightradar24.jfif")
 pygame.display.set_icon(win_icon)
 #set window title 
 pygame.display.set_caption("Air Traffic Talker")
+# plane image 
+plane_img = "myFavplane.png"
+
+# gridnode pts 
+pts = [(45,48),(45,56),(61,51),(55,50),(53,56),(50,50)]
+fpts = [(41,38), (68, 43)]
 # coordinate points - time consuming do this @ home (did this only for T5 PLANES)
-
-#grid pts
-pts = [(45,48), (45,56), (61,51), (50,50), (53,56), (58,56)]
-
-#pygame.draw function - for plotting dots 
 apronpts = [(360, 390), (360, 450), (490, 410), (407, 400), (429,400), (469, 450)]
 # checkpoint coordinates - this is the junctions at the taxiway - takeoff and landing only  
 checkpts = [(384, 358), (320,340), ]
 landpts = [(300, 300), (400, 400)]
 #create clock 
-clock = pygame.time.Clock() 
+clock = pygame.time.Clock()  
 
 
 
@@ -299,9 +361,10 @@ while running:
         if event.type == pygame.QUIT: 
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
-               pathfinder.random_points()
-               pathfinder.create_path()
+               #pathfinder.random_points()
+               #pathfinder.create_path()
                pathfinder.draw_path()
+               
                
                
 
