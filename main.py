@@ -18,13 +18,13 @@ TILE_SIZE = 8
 class Pathfinder:
 
         def __init__(self, matrix):
-                #setup - added coordinates whereever mouse cursor is 
+                #created the matrix and grid 
                 self.matrix = matrix
                 self.grid = Grid(matrix = matrix)
-                self.select_surf = pygame.image.load('crosshairX.png').convert_alpha()
-                self.actual_image = pygame.transform.scale(self.select_surf, (8,8))
+                #self.select_surf = pygame.image.load('crosshairX.png').convert_alpha()
+                #self.actual_image = pygame.transform.scale(self.select_surf, (8,8))
                 # plae imgs 
-                self.image =  pygame.image.load("myFavplane.png").convert_alpha()
+                #self.image =  pygame.image.load("myFavplane.png").convert_alpha()
                 self.rect = self.image.get_rect()
                 self.path = []     
 
