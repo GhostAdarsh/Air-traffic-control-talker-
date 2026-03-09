@@ -8,11 +8,26 @@ from vosk import Model, KaldiRecognizer
 
 #load model 
 #print("hell0")
-
+        # test data: 
+test_input = "speedbird one two three cleared for takeoff runway two seven"
+test_input2 = "speedbird one two thee taxi to holding point cobra"
 q = queue.Queue() 
 
-aircraft_list = [] 
-holding_points = []
+aircraft_list = ["speedbird123"] 
+holding_points = ["horka", "oster", "vikas", "cobra", "dingo"]
+
+number_map = {
+    "zero": "0",
+    "one": "1", 
+    "two": "2", 
+    "three": "3", 
+    "four": "4", 
+    "five": "5", 
+    "six": "6", 
+    "seven": "7", 
+    "eight": "8", 
+    "nine": "9"
+}
 
 class VoiceControl: 
 
@@ -29,7 +44,7 @@ class VoiceControl:
 
 
         # test data: 
-        test_input = "speedbird one two three crealed takeoffrunway two seven"
+        test_input = "speedbird one two three cleared for takeoff runway two seven"
 
         # creatubg a queue
         self.q = queue.Queue()
@@ -89,14 +104,6 @@ class VoiceControl:
                         print("recognised", text)
                         return text
             
-     
-    
-
-                
-
-
-
-
 
 ## main processing 
     def process_voice(self):
@@ -127,6 +134,7 @@ class VoiceControl:
             "runway": None, 
             "holding_point": None 
         }
+        ## action words 
         if "takeoff" in words: 
             command["action"] = "takeoff"
             print("aciton - takeoff")
@@ -138,6 +146,37 @@ class VoiceControl:
         elif "hold" in words: 
             command["action"] = "hold"
             print("action - hold")
+
+        # callsign 
+        for aircraft in self.activeAirctaft: 
+            airline = ''.join([c for c in aircraft if not c.isdigit()])
+
+            if airline in text: 
+                command["callsign"] = aircraft
+        # callsign numbers
+     
+
+        # runway numbers 
+        if "runway" in words: 
+
+            i = words.index("runway")
+            
+            if i + 2 < len(words): 
+                first = words[i+1]
+                second = words[i+2]
+
+                if first in number_map and second in number_map: 
+                    command["runway"] = number_map[first] + number_map[second]
+        ## holding points
+        for point in self.valid_holding_points: 
+            
+            if point in words:
+                command["holding_point"] = point
+
+        
+        print(command)
+
+
 
 
     def execute_command(self, command):
@@ -154,4 +193,6 @@ print("this is to be done by monday")
 #VoiceControl.recognise_command()
 
 voice = VoiceControl() 
-print(voice.recognise_command())
+#print(voice.recognise_command())
+result = voice.parse_command(test_input2)
+
