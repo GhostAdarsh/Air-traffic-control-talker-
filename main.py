@@ -10,13 +10,13 @@ import random
 
 # prerequisites: 
 holding_points = {
-    "dasso": [384,358],
-    "snapa": [320,340],
-    "rando": [448,345], 
-    "vikas": [417,338],
-    "cobra": [326,374], 
-    "oster": [393,483] 
-    }
+            "dasso": [384,358],
+            "snapa": [320,340],
+            "rando": [448,345], 
+            "vikas": [417,338],
+            "cobra": [326,374], 
+            "oster": [393,483] 
+        }
 
 
 
@@ -193,6 +193,13 @@ class Plane:
                      if target_grid in self.checkpoints:
                             self.moving = False'''
               
+
+       
+       def set_path(self, path): 
+              self.path = path 
+              self.index = 0
+
+
        def draw(self, screen): 
               rect = self.image.get_rect(center=(self.x, self.y))
               screen.blit(self.image, rect)
@@ -202,9 +209,6 @@ class Plane:
 
 
        
-              
-
-
 
               
 # spawned where the path start node and the purple dot are the same then i can tie n image ot it 
@@ -353,8 +357,10 @@ matrix = [
         
 
 
-
+# intialises pathfinder 
 pathfinder = Pathfinder(matrix)
+# initialises voice Control 
+voice = VoiceControl(aircraft_list, holding_points, pathfinder)
 
 # path 
 current_path = []
@@ -420,23 +426,10 @@ while running:
     
 
     # implement voice control: ADDED THIS LINE
-    command = voice.recognise_command()
+   
 
     # AND THESE HERE
-    if command: 
-           
-           #find the plane 
-           for plane in aircraft_list:
-                  
-                  if plane.callsign == command["callsign"]: 
-                         
-                         selected_plane = plane
-           # get destination 
-
-           destination = holding_points[command["holding_point"]]
-
-           #calculate path
-           path = pathfinder.create_path(selected_plane.position, destination)
+    
 # AND FINISHED HERE 
               
     # updates plane position as it travels node 
