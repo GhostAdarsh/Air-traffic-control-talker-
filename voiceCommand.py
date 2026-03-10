@@ -2,7 +2,7 @@
 import vosk 
 import pyaudio
 import queue 
-#import sounddevice as sd 
+import sounddevice as sd 
 import json 
 from vosk import Model, KaldiRecognizer
 
@@ -18,22 +18,24 @@ q = queue.Queue()
 aircraft_list = ["speedbird123"] 
 # coordinates for the holding points (checkpoints): 
 checkpts = [(384, 358), (320,340), (448,345), (417,338), (326,374), (344,502), (374, 502), (393,483)]
-holding_points = {
-    "dasso": [384,358],
-    "snapa": [320,340],
-    "rando": [448,345], 
-    "vikas": [417,338],
-    "cobra": [326,374], 
-    "oster": [393,483] 
-    }
-
 
 
 
 
 class VoiceControl: 
 
-    def __init__(self):
+    def __init__(self, aircraft_list, holding_points):
+        # dictionary
+        holding_points = {
+            "dasso": [384,358],
+            "snapa": [320,340],
+            "rando": [448,345], 
+            "vikas": [417,338],
+            "cobra": [326,374], 
+            "oster": [393,483] 
+        }
+
+
         self.activeAirctaft = aircraft_list
         self.valid_holding_points = holding_points
 
@@ -158,13 +160,14 @@ class VoiceControl:
                     command["runway"] = number_map[first] + number_map[second]
         ## holding points
         for point in self.valid_holding_points: 
-            
+
             if point in words:
                 command["holding_point"] = point
 
         
         print(command)
-
+        return command
+    
 
 
 
@@ -180,8 +183,8 @@ print("hello world")
 print("this is to be done by monday")
 
 #VoiceControl.recognise_command()
-
-voice = VoiceControl() 
+# HAV ENO IDEA WHATS DONE HERE
+voice = VoiceControl(aircraft_list=aircraft_list, holding_points=checkpts) 
 #print(voice.recognise_command())
 result = voice.parse_command(test_input2)
 

@@ -5,11 +5,26 @@ import pathfinding
 from pathfinding.core.grid import Grid  
 from pathfinding.finder.a_star import AStarFinder 
 from pathfinding.core.diagonal_movement import DiagonalMovement 
-#from voiceCommand import VoiceControl
-
-
+from voiceCommand import VoiceControl
 import random 
 
+# prerequisites: 
+holding_points = {
+    "dasso": [384,358],
+    "snapa": [320,340],
+    "rando": [448,345], 
+    "vikas": [417,338],
+    "cobra": [326,374], 
+    "oster": [393,483] 
+    }
+
+
+
+# airplane list: 
+aircraft_list = ["speedbird277", "speedbird123"]
+
+# initialise voice control 
+voice = VoiceControl(aircraft_list, holding_points.keys())
 TILE_SIZE = 8 
 
 # class pathfinder 
@@ -388,6 +403,9 @@ while running:
 
                #calling the finder 
                current_path = pathfinder.create_path(start, end)
+              
+               #implenting voice control into this: 
+               
 
               # blits the image once path has been calulated 
                if  current_path: 
@@ -400,6 +418,27 @@ while running:
               # testing multiple objects spawning - expected outcome : multiple objects spawn upon multi[ple mouse clicks 
               # suscess - multiple objs are created and follow that path. Action: despawn plane objects as theu reach end node
     
+
+    # implement voice control: ADDED THIS LINE
+    command = voice.recognise_command()
+
+    # AND THESE HERE
+    if command: 
+           
+           #find the plane 
+           for plane in aircraft_list:
+                  
+                  if plane.callsign == command["callsign"]: 
+                         
+                         selected_plane = plane
+           # get destination 
+
+           destination = holding_points[command["holding_point"]]
+
+           #calculate path
+           path = pathfinder.create_path(selected_plane.position, destination)
+# AND FINISHED HERE 
+              
     # updates plane position as it travels node 
     # draws the plane img on screen   
     for plane in planes:   
