@@ -25,7 +25,7 @@ class Pathfinder:
                 #self.actual_image = pygame.transform.scale(self.select_surf, (8,8))
                 # plae imgs 
                 #self.image =  pygame.image.load("myFavplane.png").convert_alpha()
-                self.rect = self.image.get_rect()
+                #self.rect = self.image.get_rect()
                 self.path = []     
 
                 print("x")
@@ -131,17 +131,13 @@ class Plane:
               self.x = x * TILE_SIZE + TILE_SIZE //2 
               self.y = y * TILE_SIZE + TILE_SIZE //2 
 
-              '''start = path[0]
-              self.pos = pygame.math.Vector2(
-                     start[0] * TILE_SIZE + TILE_SIZE // 2,
-                     start[1] * TILE_SIZE + TILE_SIZE // 2 
-              )
-              self.moving = True
-              self.checkpoints = [] '''
+              # checkpoint 
+              self.finished = False 
 
        def update(self): 
-              
-              if self.index >= len(self.path): 
+              # stops when the plane reaches the end of the path
+              if self.index >= len(self.path) - 1: 
+                     self.finished = True 
                      print("path finished")
                      return # stops at the end 
               
@@ -346,7 +342,10 @@ pathfinder = Pathfinder(matrix)
 
 # path 
 current_path = []
-plane = None 
+
+# spawns mmultiple planes
+planes = []
+
 
 #route = pathfinder.create_path()
 #print(route)
@@ -391,14 +390,21 @@ while running:
 
               # blits the image once path has been calulated 
                if  current_path: 
-                      plane = Plane(plane_img, current_path)
+                      new_plane = Plane(plane_img, current_path)
+                      planes.append(new_plane)
                       print(current_path)
                else: 
                       print("no path found")
+
+              # testing multiple objects spawning - expected outcome : multiple objects spawn upon multi[ple mouse clicks 
+              # suscess - multiple objs are created and follow that path. Action: despawn plane objects as theu reach end node
     
     # updates plane position as it travels node 
-    if plane: 
-        plane.update()              
+    # draws the plane img on screen   
+    for plane in planes:   
+        plane.update()   
+        plane.draw(screen)
+
                 
         # DRAWS THE PATH                 
     if current_path and len(current_path) > 1: 
@@ -409,9 +415,8 @@ while running:
         ]
         pygame.draw.lines(screen, (255,0,0), False, points, 3)     
     
-    # draws the plane img on screen 
-    if plane:
-                plane.draw(screen)          
+    
+                      
     pygame.display.flip()           
 
     # draws the coordinate pts 
