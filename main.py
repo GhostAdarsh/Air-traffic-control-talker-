@@ -1,14 +1,11 @@
 # import modules and objects here: 
 import pygame 
 import math
-import matplotlib 
-from matplotlib import pyplot as plt 
-from matplotlib import image 
 import pathfinding 
 from pathfinding.core.grid import Grid  
 from pathfinding.finder.a_star import AStarFinder 
 from pathfinding.core.diagonal_movement import DiagonalMovement 
-from voiceCommand import VoiceControl
+#from voiceCommand import VoiceControl
 
 
 import random 
@@ -36,14 +33,13 @@ class Pathfinder:
 
                 # the mouse part isnt needed in the main.py code 
                 mouse_pos = pygame.mouse.get_pos()
-                #print(mouse_pos)
+                print(mouse_pos)
                 row = mouse_pos[1] // 8 # i had to scale down the mouse positions by 8s
                 col = mouse_pos[0] // 8
-                #current_cell_value = self.matrix[row][col]
                 rect = pygame.Rect((col * 8, row * 8), (8,8))
-                screen.blit(self.actual_image, rect)
+                #screen.blit(self.actual_image, rect)
                 self.path = [] 
-                print(row, col)
+                #print(row, col)
                 # prints the index of the matrix - whether it is 1 or 0 so i can map out the plane path better 
                 #print(matrix[row][col])
                 # make a note of the coordinate points and the thingies 
@@ -52,7 +48,7 @@ class Pathfinder:
                 # updated coordinates: 
                 # 38, 38 to 38, 125
                 # 69, 41 to 69, 125
-                #print(current_cell_value)
+                
 
         def random_points(self): #suscesses
                self.random_point_start = random.choice(pts)
@@ -114,7 +110,7 @@ class Pathfinder:
 
         def update(self):
               self.random_points()  
-              #self.draw_active_cell()     
+              self.draw_active_cell()     
               self.draw_path()
               
                         
@@ -222,7 +218,7 @@ fpts = [(41,38), (68, 43)]
 # coordinate points - time consuming do this @ home (did this only for T5 PLANES)
 apronpts = [(360, 390), (360, 450), (490, 410), (407, 400), (429,400), (469, 450)]
 # checkpoint coordinates - this is the junctions at the taxiway - takeoff and landing only  
-checkpts = [(384, 358), (320,340), ]
+checkpts = [(384, 358), (320,340), (448,345), (417,338), (326,374), (344,502), (374, 502), (393,483)]
 landpts = [(300, 300), (400, 400)]
 #create clock 
 clock = pygame.time.Clock()  
