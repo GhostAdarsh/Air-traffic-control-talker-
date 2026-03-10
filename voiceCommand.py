@@ -2,7 +2,7 @@
 import vosk 
 import pyaudio
 import queue 
-import sounddevice as sd 
+#import sounddevice as sd 
 import json 
 from vosk import Model, KaldiRecognizer
 
@@ -17,12 +17,14 @@ q = queue.Queue()
 
 aircraft_list = ["speedbird123"] 
 # coordinates for the holding points (checkpoints): 
+checkpts = [(384, 358), (320,340), (448,345), (417,338), (326,374), (344,502), (374, 502), (393,483)]
 holding_points = {
-    "horka": [,],
-    "oster": [,],
-    "vikas": [,], 
-    "cobra": [,],
-    "dingo": [,] 
+    "dasso": [384,358],
+    "snapa": [320,340],
+    "rando": [448,345], 
+    "vikas": [417,338],
+    "cobra": [326,374], 
+    "oster": [393,483] 
     }
 
 
