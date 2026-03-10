@@ -5,6 +5,8 @@ import queue
 import sounddevice as sd 
 import json 
 from vosk import Model, KaldiRecognizer
+from main import Plane
+
 
 #load model 
 #print("hell0")
@@ -28,6 +30,15 @@ number_map = {
     "eight": "8", 
     "nine": "9"
 }
+
+holdingPoint = {
+    "horka": (1,1),
+    "oster": (2,2),
+    "vikas": (3,3), 
+    "cobra": (4,4), 
+    "dingo": (5,5)
+}
+
 
 class VoiceControl: 
 
@@ -153,7 +164,7 @@ class VoiceControl:
 
             if airline in text: 
                 command["callsign"] = aircraft
-        # callsign numbers
+        
      
 
         # runway numbers 

@@ -8,6 +8,8 @@ import pathfinding
 from pathfinding.core.grid import Grid  
 from pathfinding.finder.a_star import AStarFinder 
 from pathfinding.core.diagonal_movement import DiagonalMovement 
+from voiceCommand import VoiceControl
+
 
 import random 
 
@@ -125,6 +127,9 @@ class Plane:
               self.path = path 
               self.index = 0 
               self.speed = 0.6 # pizels per frame 
+              # initialising target 
+              self.target = None
+
 
               # start at first tile center 
               x, y = path[0]
