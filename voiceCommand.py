@@ -5,7 +5,7 @@ import queue
 import sounddevice as sd 
 import json 
 from vosk import Model, KaldiRecognizer
-from main import Plane
+
 
 
 #load model 
@@ -16,28 +16,17 @@ test_input2 = "speedbird one two thee taxi to holding point cobra"
 q = queue.Queue() 
 
 aircraft_list = ["speedbird123"] 
-holding_points = ["horka", "oster", "vikas", "cobra", "dingo"]
+# coordinates for the holding points (checkpoints): 
+holding_points = {
+    "horka": [,],
+    "oster": [,],
+    "vikas": [,], 
+    "cobra": [,],
+    "dingo": [,] 
+    }
 
-number_map = {
-    "zero": "0",
-    "one": "1", 
-    "two": "2", 
-    "three": "3", 
-    "four": "4", 
-    "five": "5", 
-    "six": "6", 
-    "seven": "7", 
-    "eight": "8", 
-    "nine": "9"
-}
 
-holdingPoint = {
-    "horka": (1,1),
-    "oster": (2,2),
-    "vikas": (3,3), 
-    "cobra": (4,4), 
-    "dingo": (5,5)
-}
+
 
 
 class VoiceControl: 
@@ -52,16 +41,11 @@ class VoiceControl:
         self.vocab = ["takeoff", "runway", "hold", "taxi", "holding point"]
         #recogniser 
         self.recogniser = KaldiRecognizer(self.model, 16000, json.dumps(self.vocab))
-
-
         # test data: 
         test_input = "speedbird one two three cleared for takeoff runway two seven"
-
         # creatubg a queue
         self.q = queue.Queue()
-
         parsed = self.parse_command(test_input)
-
         print(parsed)
 
         def callback(indata, frames, time, status):
@@ -80,41 +64,17 @@ class VoiceControl:
     def recognise_command(self):
         
         # setting the audio specifics  
-        
         print("listening")
 
             # starts recognising the voice from mic
         while True: 
             data = self.q.get() 
 
-            
-
             if self.recogniser.AcceptWaveform(data): 
                     result = json.loads(self.recogniser.Result())
                     text =  result.get("text", "")
                     text = text.strip().lower() 
                     return self.parse_command(text)
-            
-
-                    valid_words = [] 
-
-                    for command in self.vocab: 
-                        if command in text: 
-                            valid_words.append(command)
-
-                    '''if valid_words: 
-                        print("VALID commmand:", valid_words)
-                        return valid_words
-                    else: 
-                        print("invalid", text)
-                        return None'''
-
-
-                    
-                    if text != "":
-                        print("recognised", text)
-                        return text
-            
 
 ## main processing 
     def process_voice(self):
@@ -135,6 +95,22 @@ class VoiceControl:
 
     
     def parse_command(self, text):
+        # prerequisite dictionaries: 
+        number_map = {
+            "zero": "0",
+            "one": "1", 
+            "two": "2", 
+            "three": "3", 
+            "four": "4", 
+            "five": "5", 
+            "six": "6", 
+            "seven": "7", 
+            "eight": "8", 
+            "nine": "9"
+        }
+        
+       
+
         #standardises the text 
         text = text.lower().strip() 
         words = text.split() 
