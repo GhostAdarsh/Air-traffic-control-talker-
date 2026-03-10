@@ -33,7 +33,7 @@ class Pathfinder:
 
                 # the mouse part isnt needed in the main.py code 
                 mouse_pos = pygame.mouse.get_pos()
-                print(mouse_pos)
+                #print(mouse_pos)
                 row = mouse_pos[1] // 8 # i had to scale down the mouse positions by 8s
                 col = mouse_pos[0] // 8
                 rect = pygame.Rect((col * 8, row * 8), (8,8))
