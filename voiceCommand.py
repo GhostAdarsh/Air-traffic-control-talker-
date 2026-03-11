@@ -25,28 +25,19 @@ q = queue.Queue()
 aircraft_list = ["speedbird123"] 
 # coordinates for the holding points (checkpoints): 
 checkpts = [(384, 358), (320,340), (448,345), (417,338), (326,374), (344,502), (374, 502), (393,483)]
-holding_points = {
-            "dasso": [384,358],
-            "snapa": [320,340],
-            "rando": [448,345], 
-            "vikas": [417,338],
-            "cobra": [326,374], 
-            "oster": [393,483] 
-        }
 
 
 
 class VoiceControl: 
 
     def __init__(self, aircraft_list, holding_points, pathfinder):
- 
         # prerequisites: 
         self.activeAirctaft = aircraft_list
         self.valid_holding_points = holding_points
         self.pathfinder = pathfinder
           
         # dictionary
-        holding_points = {
+        self.valid_holding_points = {
             "dasso": [384,358],
             "snapa": [320,340],
             "rando": [448,345], 
@@ -135,8 +126,6 @@ class VoiceControl:
         words = text.split() 
 
         # TROUBLE SHOOTING NUMBER MAP: 
-        callsign_number = ""
-
         for word in words: 
             if word in number_map: 
                 callsign_number += number_map[word]
@@ -150,6 +139,7 @@ class VoiceControl:
             
         }
         # callsign and callsign number
+        callsign_number = ""
         for aircraft in self.activeAirctaft: 
             airline = ''.join([c for c in aircraft if not c.isdigit()])
 
@@ -160,19 +150,16 @@ class VoiceControl:
 
             if index + 1 < len(words):
                 number = words[index + 1]
-                command["callsign"] = f"speedbird[number]"
+                command["callsign"] = f"speedbird{number}"
 
             for word in words: 
 
                 if word.startswith("speedbird"):
                     number = word.replace("speedbird", "")
-                    command["callsign"] = f"speedbird[number]"
+                    command["callsign"] = f"speedbird{number}"
 
             if callsign_number: 
                 command["callsign"] = "speedbird" + callsign_number
-
-
-        
 
         ## action words 
         if "takeoff" in words: 
@@ -200,17 +187,14 @@ class VoiceControl:
                     command["runway"] = number_map[first] + number_map[second]
 
 
-        ## holding points
-        for point in self.valid_holding_points: 
+        ## holding points / destination 
+        for point, coords in self.valid_holding_points.items():
+            if point.lower() in words: 
+                command["destination"] = coords
+                break
+            
 
-            if point in words:
-                command["destination"] = point
-
-        # destination 
-        for word in words: 
-            if word in self.valid_holding_points:
-                command["destination"] = self.valid_holding_points[word]
-                # STILL DOSEND WORK LOOK AT THIS EARLY MORNING 
+        
 
         # print WHOLE command: 
         print("parsed command:", command)
@@ -235,12 +219,14 @@ class VoiceControl:
         callsign = command["callsign"]
         action = command["action"]
         destination_name = command["destination"]
-
+        self.pathfinder = pathfinding
         # finding aircraft 
         if callsign not in self.activeAirctaft:
             print("aircraft not found")
             return 
-        plane = self.activeAirctaft[callsign]
+        
+        #plen  // ALMOST THERE JUST NEED TO WORK ON EXECUTE AND MAIN.PY - FINISH THIS IN SCHOOL!
+        self.plane = self.activeAirctaft[callsign]
 
         # convert holding points to coordinates: 
         destination = self.valid_holding_points[destination_name]
@@ -248,7 +234,7 @@ class VoiceControl:
         # taxi commands 
         if action == "taxi": 
 
-            start = plane # need to add the starting point list pts
+            start = plane.grid_position # need to add the starting point list pts
             end = destination
 
             path = self.pathfinder.create_path(start, end)
