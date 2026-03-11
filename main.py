@@ -138,8 +138,10 @@ class Plane:
               self.path = path 
               self.index = 0 
               self.speed = 0.6 # pizels per frame 
+              #adddinjg stuff form voice command callsign, gridposition but not yet 
               # initialising target 
               self.target = None
+
 
 
               # start at first tile center 
