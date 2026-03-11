@@ -8,7 +8,6 @@ from vosk import Model, KaldiRecognizer
 
 #import pathfinding 
 import pathfinding
-from pathfinding import Pathfinder 
 from pathfinding.finder.a_star import AStarFinder
 from pathfinding.core.diagonal_movement import DiagonalMovement
 
@@ -33,6 +32,9 @@ class Plane:
         self.path = path 
         print("pathset:", path)
         
+## TEST PLANE: 
+plane = Plane("speedbird12", (0,0))
+planes = [plane]
 
 
 
@@ -61,11 +63,13 @@ command = {
 ## FAKE TEST S edit this later!!!! 
 class VoiceControl: 
 
-    def __init__(self, pathfinder):
+    def __init__(self):
         # prerequisites: 
         self.activeAirctaft = aircraft_list
         self.valid_holding_points = {}
-        self.pathfinder = pathfinder
+        self.pathfinder = None
+        #fake holding points: 
+        
           
         # dictionary
         self.valid_holding_points = {
@@ -170,6 +174,7 @@ class VoiceControl:
             "destination": None 
             
         }
+        
         # callsign and callsign number
         
         for aircraft in self.activeAirctaft: 
@@ -218,30 +223,21 @@ class VoiceControl:
                 if first in number_map and second in number_map: 
                     command["runway"] = number_map[first] + number_map[second]
 
-
         ## holding points / destination 
         for point, coords in self.valid_holding_points.items():
             if point.lower() in words: 
                 command["destination"] = coords
                 break
-            
-
-        
 
         # print WHOLE command: 
         print("parsed command:", command)
-
 
         # validate command 
         if command["callsign"] and command["action"] and command["destination"]: 
             print(command)
             return command 
         
-        return None 
-    
-
-        
-       
+        return command
     
 
 
@@ -255,6 +251,9 @@ class VoiceControl:
         self.callsign = callsign
         planes = []
 
+
+
+        
         # finding aircraft in list 
         plane = None 
 
@@ -305,12 +304,25 @@ class VoiceControl:
 
 # tests: 
 
-voice = VoiceControl()
+#voice = VoiceControl()
+
+#voice.pathfinder = FakePathfinder()
+
+#voice.execute_command(command, planes)
+
+voice = VoiceControl() 
 
 voice.pathfinder = FakePathfinder()
+
+plane = Plane("speedbird12", (0,0))
+planes = [plane]
+
+text = "speedbird12 taxi horka"
+
+command = voice.parse_command(text)
 
 voice.execute_command(command, planes)
 
 
-
+## IDEK ANYMORE - JUST END IT  
 
