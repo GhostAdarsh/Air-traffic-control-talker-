@@ -43,6 +43,7 @@ planes = [plane]
         # test data: 
 test_input = "speedbird one two three cleared for takeoff runway two seven"
 test_input2 = "speedbird one two thee taxi to holding point cobra"
+final_test = "speedbird one two three"
 q = queue.Queue() 
 
 aircraft_list = ["speedbird123"] 
@@ -65,7 +66,7 @@ class VoiceControl:
 
     def __init__(self):
         # prerequisites: 
-        self.activeAirctaft = aircraft_list
+        self.activeAircraft = aircraft_list
         self.valid_holding_points = {}
         self.pathfinder = None
         #fake holding points: 
@@ -177,17 +178,15 @@ class VoiceControl:
         
         # callsign and callsign number
         
-        for aircraft in self.activeAirctaft: 
+        for aircraft in self.activeAircraft: 
             airline = ''.join([c for c in aircraft if not c.isdigit()])
 
             if airline in words: 
                 command["callsign"] = aircraft
             
-            index = words.index("speedbird")
+            
 
-            if index + 1 < len(words):
-                number = words[index + 1]
-                command["callsign"] = f"speedbird{number}"
+           
 
             for word in words: 
 
@@ -201,15 +200,15 @@ class VoiceControl:
         ## action words 
         if "takeoff" in words: 
             command["action"] = "takeoff"
-            print("action - takeoff")
+            
             
         elif "taxi" in words: 
             command["action"] = "taxi"
-            print("action - taxi")
+            
 
         elif "hold" in words: 
             command["action"] = "hold"
-            print("action - hold")
+            
 
         # runway numbers 
         if "runway" in words: 
@@ -230,7 +229,7 @@ class VoiceControl:
                 break
 
         # print WHOLE command: 
-        print("parsed command:", command)
+        #print("parsed command:", command)
 
         # validate command 
         if command["callsign"] and command["action"] and command["destination"]: 
@@ -250,40 +249,36 @@ class VoiceControl:
         self.pathfinder = pathfinding
         self.callsign = callsign
         planes = []
-
-
-
         
-        # finding aircraft in list 
-        plane = None 
+        for plane in planes: 
 
-        for p in planes: 
-            if p.callsign == callsign: 
-                plane = p 
-                break
-        if plane is None: 
-            print("aircraft noit found")
-            return 
-        
-        #plen  // ALMOST THERE JUST NEED TO WORK ON EXECUTE AND MAIN.PY - FINISH THIS IN SCHOOL!
-        # convert holding points to coordinates: 
-        destination = self.valid_holding_points[destination_name]
+            if plane.callsign != command.get("callsign"): 
+                continue
+            print(f"plane matched:{plane.callsign}")
 
-        # taxi commands 
-        if action == "taxi": 
+            # taxi to holding pt 
+            if command["action"]== "taxi": 
+                destination = self.valid_holding_points[command["destination"]]
 
-            start = self.plane.grid_position # need to add the starting point list pts
-            end = destination
-
-            path = self.pathfinder.create_path(start, end)
-
-            self.plane.set_path(path)
-
-            print(f"{callsign} taxiing to {destination_name}")
-
-
-
-
+            # takeoff - fixed runway coordinate: 
+            elif command["action"] == "takeoff": 
+                runway_coords = {
+                    "27": (,), 
+                    "09": (,)
+                }
+                runway = command.get("runway", "27") # default
+                destination = runway_coords[runway]
+            else: 
+                print(f"Unkown action: {command['action']}")
+                return 
+            
+            path = self.pathfinder.create_path(
+                plane.grid_position, 
+                destination
+            )
+            plane.set_path(path)
+            
+    
     def computer_voice(self, message): 
         pass 
 
@@ -317,9 +312,12 @@ voice.pathfinder = FakePathfinder()
 plane = Plane("speedbird12", (0,0))
 planes = [plane]
 
-text = "speedbird12 taxi horka"
+#text = "speedbird12 taxi horka"
 
-command = voice.parse_command(text)
+command = voice.parse_command(test_input2)
+
+#print(command)
+
 
 voice.execute_command(command, planes)
 
