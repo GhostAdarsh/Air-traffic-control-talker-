@@ -238,38 +238,39 @@ class VoiceControl:
         
         return command
     
-
-
-
     def execute_command(self, command, planes):
         # extracting intel 
-        callsign = command["callsign"]
-        action = command["action"]
+        callsign = command.get("callsign")
+        action = command.get("action")
+        
+        
         destination_name = command["destination"]
-        self.pathfinder = pathfinding
         self.callsign = callsign
-        planes = []
+        print("plane matching")
         
         for plane in planes: 
 
-            if plane.callsign != command.get("callsign"): 
+            if plane.callsign != callsign: 
                 continue
+
             print(f"plane matched:{plane.callsign}")
 
             # taxi to holding pt 
-            if command["action"]== "taxi": 
-                destination = self.valid_holding_points[command["destination"]]
+            if action == "taxi": 
+                destination_name = command.get("destination")
+                destination = self.valid_holding_points[destination_name]
+
 
             # takeoff - fixed runway coordinate: 
             elif command["action"] == "takeoff": 
                 runway_coords = {
-                    "27": (,), 
-                    "09": (,)
+                    "27": (41,38), 
+                    "09": (68,43)
                 }
                 runway = command.get("runway", "27") # default
                 destination = runway_coords[runway]
             else: 
-                print(f"Unkown action: {command['action']}")
+                print(f"Unkown action: {action}")
                 return 
             
             path = self.pathfinder.create_path(
@@ -311,13 +312,12 @@ voice.pathfinder = FakePathfinder()
 
 plane = Plane("speedbird12", (0,0))
 planes = [plane]
+print("planes list:", [p.callsign for p in planes])
+
 
 #text = "speedbird12 taxi horka"
 
 command = voice.parse_command(test_input2)
-
-#print(command)
-
 
 voice.execute_command(command, planes)
 
