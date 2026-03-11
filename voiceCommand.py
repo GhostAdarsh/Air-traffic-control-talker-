@@ -8,6 +8,7 @@ from vosk import Model, KaldiRecognizer
 
 #import pathfinding 
 import pathfinding
+from pathfinding import Pathfinder 
 from pathfinding.finder.a_star import AStarFinder
 from pathfinding.core.diagonal_movement import DiagonalMovement
 
@@ -60,10 +61,10 @@ command = {
 ## FAKE TEST S edit this later!!!! 
 class VoiceControl: 
 
-    def __init__(self, aircraft_list, holding_points, pathfinder):
+    def __init__(self, pathfinder):
         # prerequisites: 
         self.activeAirctaft = aircraft_list
-        self.valid_holding_points = holding_points
+        self.valid_holding_points = {}
         self.pathfinder = pathfinder
           
         # dictionary
@@ -245,7 +246,7 @@ class VoiceControl:
 
 
 
-    def execute_command(self, command):
+    def execute_command(self, command, planes):
         # extracting intel 
         callsign = command["callsign"]
         action = command["action"]
@@ -295,10 +296,10 @@ class VoiceControl:
 
 #VoiceControl.recognise_command()
 # HAV ENO IDEA WHATS DONE HERE
-voice = VoiceControl(aircraft_list=aircraft_list, holding_points=checkpts, pathfinder= pathfinding) 
+#voice = VoiceControl(aircraft_list=aircraft_list, holding_points=checkpts, pathfinder= pathfinding) 
 #print(voice.recognise_command())
-result = voice.parse_command(test_input2)
-result = voice.execute_command(test_input)
+#result = voice.parse_command(test_input2)
+#result = voice.execute_command(test_input)
 
 
 
@@ -309,3 +310,7 @@ voice = VoiceControl()
 voice.pathfinder = FakePathfinder()
 
 voice.execute_command(command, planes)
+
+
+
+
