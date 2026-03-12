@@ -135,6 +135,7 @@ class VoiceControl:
             return
         
         command = self.parse_command(text)
+        print(command)
         if not command: 
             self.computer_voice("Invalid Command")
             return text
@@ -261,43 +262,8 @@ class VoiceControl:
 
 
 
-#print("hello world")
-#print("this is to be done by monday")
+print("hello world")
 
-#VoiceControl.recognise_command()
-# HAV ENO IDEA WHATS DONE HERE
-#voice = VoiceControl(aircraft_list=aircraft_list, holding_points=checkpts, pathfinder= pathfinding) 
-#print(voice.recognise_command())
-#result = voice.parse_command(test_input2)
-#result = voice.execute_command(test_input)
-# tests: 
-#voice = VoiceControl()
-#voice.pathfinder = FakePathfinder()
-#voice.execute_command(command, planes)
-
-
-plane = Plane("speedbird12", (0,0))
-planes = [plane]
-#voice = VoiceControl() 
-#voice.pathfinder = FakePathfinder()
-#voice.valid_holding_points = {"horka": (10,20)}
-
-
-#command = {"callsign": "speedbird12", "action": "takeoff","runway": "27", "destination": "horka"}
-
-
-#print("planes list:", [p.callsign for p in planes])
-
-
-#text = "speedbird12 taxi horka"
-
-#command = voice.parse_command(test_input2)
-
-#voice.execute_command(command, planes)
-
-
-## IDEK ANYMORE - JUST END IT  
-pathfinder = None
 voice = VoiceControl()
-voice.activeAircraft = aircraft_list
-voice.pathfinder = None 
+voice.process_voice()
+
