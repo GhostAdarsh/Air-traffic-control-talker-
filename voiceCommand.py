@@ -65,22 +65,23 @@ command = {
 class VoiceControl: 
 
     def __init__(self):
-        # prerequisites: 
+        # prerequisites: that will be assigned from main.py: 
+        self.valid_holding_points = {} 
         self.activeAircraft = aircraft_list
-        self.valid_holding_points = {}
         self.pathfinder = None
         #fake holding points: 
         
           
         # dictionary
-        self.valid_holding_points = {
+        '''self.valid_holding_points = {
             "dasso": [384,358],
             "snapa": [320,340],
             "rando": [448,345], 
             "vikas": [417,338],
             "cobra": [326,374], 
             "oster": [393,483] 
-        }
+        }'''
+
 
         # intialising vosk 
         self.model = Model("vosk-model-small-en-us-0.15")
@@ -145,16 +146,9 @@ class VoiceControl:
     def parse_command(self, text):
         # prerequisite dictionaries: 
         number_map = {
-            "zero": "0",
-            "one": "1", 
-            "two": "2", 
-            "three": "3", 
-            "four": "4", 
-            "five": "5", 
-            "six": "6", 
-            "seven": "7", 
-            "eight": "8", 
-            "nine": "9"
+            "zero": "0","one": "1", "two": "2", "three": "3", "four": "4", 
+            "five": "5", "six": "6", "seven": "7", 
+            "eight": "8", "nine": "9"
         }
         
         #standardises the text 
@@ -162,10 +156,10 @@ class VoiceControl:
         words = text.split() 
 
         # TROUBLE SHOOTING NUMBER MAP: 
-        callsign_number = ""
+        '''callsign_number = ""
         for word in words: 
             if word in number_map: 
-                callsign_number += number_map[word]
+                callsign_number += number_map[word]'''
 
         command  = {
             "callsign": None,
@@ -177,43 +171,35 @@ class VoiceControl:
         }
         
         # callsign and callsign number
-        for aircraft in self.activeAircraft: 
-            airline = ''.join([c for c in aircraft if not c.isdigit()])
+        for i, word in enumerate(words): 
+            # only one case: 
 
-            if airline in words: 
-                command["callsign"] = aircraft
-            
-            for word in words: 
-
-                if word.startswith("speedbird"):
-                    number = word.replace("speedbird", "")
+            if word == "speedbird": 
+                number = ""
+                j = i + 1
+                while j < len(words) and words[j] in number_map: 
+                    number += number_map[words[j]]
+                    j += 1
+                if number: 
                     command["callsign"] = f"speedbird{number}"
+                    break
 
-            if callsign_number: 
-                command["callsign"] = "speedbird" + callsign_number
 
         ## action words 
         if "takeoff" in words: 
             command["action"] = "takeoff"
-            
-            
         elif "taxi" in words: 
             command["action"] = "taxi"
-            
-
         elif "hold" in words: 
             command["action"] = "hold"
             
 
         # runway numbers 
         if "runway" in words: 
-
             i = words.index("runway")
-            
             if i + 2 < len(words): 
                 first = words[i+1]
                 second = words[i+2]
-
                 if first in number_map and second in number_map: 
                     command["runway"] = number_map[first] + number_map[second]
 
@@ -239,7 +225,6 @@ class VoiceControl:
         action = command.get("action")
         
         for plane in planes: 
-
             if plane.callsign != callsign: 
                 continue
 
@@ -250,7 +235,6 @@ class VoiceControl:
                 destination_name = command.get("destination")
                 destination = self.valid_holding_points[destination_name]
 
-
             # takeoff - fixed runway coordinate: 
             elif action == "takeoff": 
                 runway_coords = {
@@ -258,15 +242,16 @@ class VoiceControl:
                     "09": (68,43)
                 }
                 runway = command.get("runway", "27") # default
-                destination = runway_coords[runway]
+                destination = runway_coords.get(runway, (41,38))
             else: 
                 print(f"Unkown action: {action}")
                 return 
-            
-            path = self.pathfinder.create_path(
-                plane.grid_position, 
-                destination
-            )
+            # get path 
+            path = self.pathfinder.create_path(plane.grid_position, destination)
+            print(path)
+            # ensure that plath is a lsit of tuples: 
+            if isinstance(path[0], int): 
+                path=[tuple(path)]
             plane.set_path(path)
             
     
@@ -293,9 +278,9 @@ class VoiceControl:
 
 plane = Plane("speedbird12", (0,0))
 planes = [plane]
-voice = VoiceControl() 
-voice.pathfinder = FakePathfinder()
-voice.valid_holding_points = {"horka": (10,20)}
+#voice = VoiceControl() 
+#voice.pathfinder = FakePathfinder()
+#voice.valid_holding_points = {"horka": (10,20)}
 
 
 #command = {"callsign": "speedbird12", "action": "takeoff","runway": "27", "destination": "horka"}
@@ -308,8 +293,11 @@ voice.valid_holding_points = {"horka": (10,20)}
 
 #command = voice.parse_command(test_input2)
 
-voice.execute_command(command, planes)
+#voice.execute_command(command, planes)
 
 
 ## IDEK ANYMORE - JUST END IT  
-
+pathfinder = None
+voice = VoiceControl()
+voice.activeAircraft = aircraft_list
+voice.pathfinder = None 

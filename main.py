@@ -117,14 +117,17 @@ class Pathfinder:
 
 
 class Plane: 
-       def __init__(self, image_path, path):
+       def __init__(self, spawn_pos, image_path,  callsign, path):
               self.image = pygame.image.load("myFavplane.png").convert_alpha()
-              self.path = path 
               self.index = 0 
               self.speed = 0.6 # pizels per frame 
               #adddinjg stuff form voice command callsign, gridposition but not yet 
               # initialising target 
-              self.target = None
+              self.target = None # ? 
+              self.grid_position = spawn_pos
+              self.callsign = callsign
+              self.path = []
+
 
 
 
@@ -178,19 +181,29 @@ class Plane:
                      self.index += 1 
                      if target_grid in self.checkpoints:
                             self.moving = False'''
-              
+              if self.path:
+                     self.grid_position = self.path.pop(0) #moves along path 
+
 
        
        def set_path(self, path): 
               self.path = path 
-              self.index = 0
+              print("paset:", path)
+              print(f"Plane {self.callsign} path set: {self.path}")
 
 
        def draw(self, screen): 
               rect = self.image.get_rect(center=(self.x, self.y))
               screen.blit(self.image, rect)
 
-                        
+
+class FakePathfinder: 
+       def create_fake_path(self, start, end):
+              print(f"Pathfinder called: {start} -> {end}")
+              return start, end
+       
+
+                                   
 
 
 
@@ -429,13 +442,15 @@ while running:
               # suscess - multiple objs are created and follow that path. Action: despawn plane objects as theu reach end node
     
               ## VoiceControl: 
-               spawn_pos = (600,30)
-
-               plane = Plane("speedbird12", spawn_pos)
-               
+               spawn_pos = (600, 30)
+               plane = Plane("speedbird123", spawn_pos)
                aircraft_list.append(plane)
 
-               print("Plane spawned:", plane.callsign)
+               # TEST: 
+               test_input = "speedbird one two three taxi horka"
+               command = voice.parse_command(test_input)
+               voice.execute_command(command, aircraft_list)
+
 
 
 
@@ -451,7 +466,12 @@ while running:
     for plane in planes:   
         plane.update()   
         plane.draw(screen)
+    
+    for plane in aircraft_list:
+           plane.update() 
 
+           pygame.draw.rect(screen, (0,255,0), (*plane.grid_position, 20,20))
+           
                 
         # DRAWS THE PATH                 
     if current_path and len(current_path) > 1: 
