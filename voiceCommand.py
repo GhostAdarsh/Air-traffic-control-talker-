@@ -129,12 +129,12 @@ class VoiceControl:
     def process_voice(self):
         text = self.recognise_command() 
         print(text)
-
+        teast_2 = "speedbird123 taxi to holding point horka"
         if not text: 
             self.computer_voice("Repeat")
             return
         
-        command = self.parse_command(text)
+        command = self.parse_command(teast_2)
         print(command)
         if not command: 
             self.computer_voice("Invalid Command")
