@@ -177,17 +177,12 @@ class VoiceControl:
         }
         
         # callsign and callsign number
-        
         for aircraft in self.activeAircraft: 
             airline = ''.join([c for c in aircraft if not c.isdigit()])
 
             if airline in words: 
                 command["callsign"] = aircraft
             
-            
-
-           
-
             for word in words: 
 
                 if word.startswith("speedbird"):
@@ -243,11 +238,6 @@ class VoiceControl:
         callsign = command.get("callsign")
         action = command.get("action")
         
-        
-        destination_name = command["destination"]
-        self.callsign = callsign
-        print("plane matching")
-        
         for plane in planes: 
 
             if plane.callsign != callsign: 
@@ -262,7 +252,7 @@ class VoiceControl:
 
 
             # takeoff - fixed runway coordinate: 
-            elif command["action"] == "takeoff": 
+            elif action == "takeoff": 
                 runway_coords = {
                     "27": (41,38), 
                     "09": (68,43)
@@ -295,29 +285,28 @@ class VoiceControl:
 #print(voice.recognise_command())
 #result = voice.parse_command(test_input2)
 #result = voice.execute_command(test_input)
-
-
-
 # tests: 
-
 #voice = VoiceControl()
-
 #voice.pathfinder = FakePathfinder()
-
 #voice.execute_command(command, planes)
 
-voice = VoiceControl() 
-
-voice.pathfinder = FakePathfinder()
 
 plane = Plane("speedbird12", (0,0))
 planes = [plane]
-print("planes list:", [p.callsign for p in planes])
+voice = VoiceControl() 
+voice.pathfinder = FakePathfinder()
+voice.valid_holding_points = {"horka": (10,20)}
+
+
+#command = {"callsign": "speedbird12", "action": "takeoff","runway": "27", "destination": "horka"}
+
+
+#print("planes list:", [p.callsign for p in planes])
 
 
 #text = "speedbird12 taxi horka"
 
-command = voice.parse_command(test_input2)
+#command = voice.parse_command(test_input2)
 
 voice.execute_command(command, planes)
 

@@ -5,26 +5,10 @@ import pathfinding
 from pathfinding.core.grid import Grid  
 from pathfinding.finder.a_star import AStarFinder 
 from pathfinding.core.diagonal_movement import DiagonalMovement 
+# NLP Setup:
 from voiceCommand import VoiceControl
 import random 
 
-# prerequisites: 
-holding_points = {
-            "dasso": [384,358],
-            "snapa": [320,340],
-            "rando": [448,345], 
-            "vikas": [417,338],
-            "cobra": [326,374], 
-            "oster": [393,483] 
-        }
-
-
-
-# airplane list: 
-aircraft_list = ["speedbird277", "speedbird123"]
-
-# initialise voice control 
-voice = VoiceControl(aircraft_list, holding_points.keys())
 TILE_SIZE = 8 
 
 # class pathfinder 
@@ -245,6 +229,18 @@ landpts = [(300, 300), (400, 400)]
 clock = pygame.time.Clock()  
 
 
+## voice control 
+# prerequisites: 
+holding_points = {
+            "dasso": [384,358],
+            "snapa": [320,340],
+            "rando": [448,345], 
+            "vikas": [417,338],
+            "cobra": [326,374], 
+            "oster": [393,483] 
+        }
+
+aircraft_list = [] 
 
 
 
@@ -362,7 +358,13 @@ matrix = [
 # intialises pathfinder 
 pathfinder = Pathfinder(matrix)
 # initialises voice Control 
-voice = VoiceControl(aircraft_list, holding_points, pathfinder)
+#voice = VoiceControl(aircraft_list, holding_points, pathfinder)
+voice = VoiceControl()
+voice.pathfinder = pathfinder
+
+
+# TEST INPUT // TO BE REPLACED WITH  voice.recognise_command() - microphone input  
+test_input = "speedbird12 taxi horka"
 
 # path 
 current_path = []
@@ -426,6 +428,16 @@ while running:
               # testing multiple objects spawning - expected outcome : multiple objects spawn upon multi[ple mouse clicks 
               # suscess - multiple objs are created and follow that path. Action: despawn plane objects as theu reach end node
     
+              ## VoiceControl: 
+               spawn_pos = (600,30)
+
+               plane = Plane("speedbird12", spawn_pos)
+               
+               aircraft_list.append(plane)
+
+               print("Plane spawned:", plane.callsign)
+
+
 
     # implement voice control: ADDED THIS LINE
    
@@ -475,6 +487,12 @@ while running:
 
     pygame.display.flip()
     clock.tick(100)
+
+command = voice.parse_command(test_input)
+
+print("parsed:", command)
+
+voice.execute_command(command, aircraft_list)
 
 
 
