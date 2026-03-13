@@ -56,11 +56,12 @@ plane1 = Plane("speedbird12", (384,358))
 planes = [plane1]
 
 # create a fake command: 
+'''
 command = {
     "callsign": "speedbird12",
     "action": "taxi", 
     "destination": "horka"
-}
+}'''
 ## FAKE TEST S edit this later!!!! 
 class VoiceControl: 
 
@@ -254,7 +255,8 @@ class VoiceControl:
             if isinstance(path[0], int): 
                 path=[tuple(path)]
             plane.set_path(path)
-            
+            print(path)
+
     
     def computer_voice(self, message): 
         pass 
@@ -263,7 +265,18 @@ class VoiceControl:
 
 
 print("hello world")
-
+# ommand 
+command = {
+    "callsign": "speedbird123", 
+    "action": "takeoff", 
+    "runway": "27", 
+    "holding_point": None,
+    "destination": None
+}
+planes = Plane("speedbird123", (0,0))
+## still and issue - nneds sorting out before, IT NEEDS TO OUTPUT COORDINATES AND PATHS - THAT WILL BE INPUTTED IN TO THE PATHFINDER!!!
 voice = VoiceControl()
+
+voice.execute_command(command, planes)
 
 
