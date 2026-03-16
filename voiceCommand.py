@@ -223,20 +223,21 @@ class VoiceControl:
     
     def execute_command(self, command, planes):
         # extracting intel 
-        callsign = command.get("callsign")
-        action = command.get("action")
-        
+        callsign = command["callsign"]
+        action = command["action"]   
+
         for plane in planes: 
-            if plane.callsign != command["callsign"]: 
+            if plane.callsign != callsign: 
                 continue
 
             print(f"plane matched:{plane.callsign}")
 
+            
+            
             # taxi to holding pt 
             if action == "taxi": 
-                destination_name = command.get("destination")
-                
-
+                dest_name = command["destination"]
+                destination = self.valid_holding_points[dest_name]
             # takeoff - fixed runway coordinate: 
             elif action == "takeoff": 
                 runway_coords = {
@@ -244,18 +245,14 @@ class VoiceControl:
                     "09": (68,43)
                 }
                 runway = command.get("runway", "27") # default
-                destination = runway_coords.get(runway, (41,38))
+                destination = runway_coords[runway]
             else: 
                 print(f"Unkown action: {action}")
                 return 
-            # get path 
-            path = self.pathfinder.create_path(plane.grid_position, destination)
-            print(path)
-            # ensure that plath is a lsit of tuples: 
-            if isinstance(path[0], int): 
-                path=[tuple(path)]
-            plane.set_path(path)
-            print(path)
+            start_pos = plane.grid_position
+            start_pos = tuple(start_pos)
+            destination = tuple(destination)
+            return start_pos, destination
 
     
     def computer_voice(self, message): 
