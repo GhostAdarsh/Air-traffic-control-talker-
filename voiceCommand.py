@@ -227,7 +227,7 @@ class VoiceControl:
         action = command.get("action")
         
         for plane in planes: 
-            if plane.callsign != callsign: 
+            if plane.callsign != command["callsign"]: 
                 continue
 
             print(f"plane matched:{plane.callsign}")
@@ -235,7 +235,7 @@ class VoiceControl:
             # taxi to holding pt 
             if action == "taxi": 
                 destination_name = command.get("destination")
-                destination = self.valid_holding_points[destination_name]
+                
 
             # takeoff - fixed runway coordinate: 
             elif action == "takeoff": 
@@ -262,7 +262,7 @@ class VoiceControl:
         pass 
 
 
-
+planes = []
 
 print("hello world")
 # ommand 
@@ -273,9 +273,14 @@ command = {
     "holding_point": None,
     "destination": None
 }
-planes = Plane("speedbird123", (0,0))
+
+plane = Plane("speedbird123", (0,0),)
+planes.append(plane)
+voice = VoiceControl() 
+voice.pathfinder = FakePathfinder()
+voice.valid_holding_points = {"horka": (10,20)}
 ## still and issue - nneds sorting out before, IT NEEDS TO OUTPUT COORDINATES AND PATHS - THAT WILL BE INPUTTED IN TO THE PATHFINDER!!!
-voice = VoiceControl()
+
 
 voice.execute_command(command, planes)
 
