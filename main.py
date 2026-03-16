@@ -1,17 +1,16 @@
 # import modules and objects here: 
 import pygame 
 import math
-import matplotlib 
-from matplotlib import pyplot as plt 
-from matplotlib import image 
 import pathfinding 
 from pathfinding.core.grid import Grid  
 from pathfinding.finder.a_star import AStarFinder 
 from pathfinding.core.diagonal_movement import DiagonalMovement 
-
+# NLP Setup:
+from voiceCommand import VoiceControl
 import random 
 
 TILE_SIZE = 8 
+
 
 # class pathfinder 
 
@@ -24,8 +23,8 @@ class Pathfinder:
                 #self.select_surf = pygame.image.load('crosshairX.png').convert_alpha()
                 #self.actual_image = pygame.transform.scale(self.select_surf, (8,8))
                 # plae imgs 
-                self.image =  pygame.image.load("myFavplane.png").convert_alpha()
-                self.rect = self.image.get_rect()
+                #self.image =  pygame.image.load("myFavplane.png").convert_alpha()
+                #self.rect = self.image.get_rect()
                 self.path = []     
 
                 print("x")
@@ -37,11 +36,10 @@ class Pathfinder:
                 #print(mouse_pos)
                 row = mouse_pos[1] // 8 # i had to scale down the mouse positions by 8s
                 col = mouse_pos[0] // 8
-                #current_cell_value = self.matrix[row][col]
                 rect = pygame.Rect((col * 8, row * 8), (8,8))
-                screen.blit(self.actual_image, rect)
+                #screen.blit(self.actual_image, rect)
                 self.path = [] 
-                print(row, col)
+                #print(row, col)
                 # prints the index of the matrix - whether it is 1 or 0 so i can map out the plane path better 
                 #print(matrix[row][col])
                 # make a note of the coordinate points and the thingies 
@@ -50,8 +48,7 @@ class Pathfinder:
                 # updated coordinates: 
                 # 38, 38 to 38, 125
                 # 69, 41 to 69, 125
-                #print(current_cell_value)
-
+                
         def random_points(self): #suscesses
                self.random_point_start = random.choice(pts)
                start_x, start_y = self.random_point_start
@@ -112,35 +109,33 @@ class Pathfinder:
 
         def update(self):
               self.random_points()  
-              #self.draw_active_cell()     
+              self.draw_active_cell()     
               self.draw_path()
               
                         
 # class plane 
 
 class Plane: 
-       def __init__(self, image_path, path):
-              self.image = pygame.image.load("myFavplane.png").convert_alpha()
-              self.path = path 
+       def __init__(self, start_pos, callsign):
+              self.callsign = callsign
+              self.grid_position = start_pos
+              self.path = []
               self.index = 0 
-              self.speed = 0.6 # pizels per frame 
-
+              self.finished = False 
+              self.speed = 0.2 # pizels per frame
+              self.image = pygame.image.load("myFavplane.png").convert_alpha()
+              if not isinstance(start_pos, (list, tuple)) or len(start_pos) != 2:
+                     raise ValueError(f"value must not irfgaeiurgbqa got{start_pos}")
+              
               # start at first tile center 
-              x, y = path[0]
+              x, y = start_pos
               self.x = x * TILE_SIZE + TILE_SIZE //2 
               self.y = y * TILE_SIZE + TILE_SIZE //2 
 
-              '''start = path[0]
-              self.pos = pygame.math.Vector2(
-                     start[0] * TILE_SIZE + TILE_SIZE // 2,
-                     start[1] * TILE_SIZE + TILE_SIZE // 2 
-              )
-              self.moving = True
-              self.checkpoints = [] '''
-
        def update(self): 
-              
-              if self.index >= len(self.path): 
+              # stops when the plane reaches the end of the path
+              if self.index >= len(self.path) - 1: 
+                     self.finished = True 
                      print("path finished")
                      return # stops at the end 
               
@@ -152,8 +147,6 @@ class Plane:
               #distance of coordinates minus the current position 
               dx = target_x - self.x
               dy = target_y - self.y 
-
-
               distance = (dx**2 + dy**2) ** 0.5
 
               if distance < self.speed: 
@@ -162,28 +155,23 @@ class Plane:
                      self.x += self.speed * dx / distance
                      self.y += self.speed * dy / distance
 
+              if self.path:
+                     self.grid_position = self.path.pop(0) #moves along path 
 
-                #scaling target grid and directions
-              '''target_grid = self.path[self.index]
-              target_pos = pygame.math.Vector2(
-                     target_grid[0] * TILE_SIZE + TILE_SIZE //2, 
-                     target_grid[1] * TILE_SIZE + TILE_SIZE //2
-              )         
-              direction = target_pos - self.pos 
-                        #moves to next node at the speed 
-              if direction.length() > 0: 
-                     direction = direction.normalize()
-                     self.pos += direction * self.speed
-                #if close to node - move to target 
-              if self.pos.distance_to(target_pos) < 2: 
-                     self.index += 1 
-                     if target_grid in self.checkpoints:
-                            self.moving = False'''
               
+       
+       def set_path(self, path): 
+              self.path = path 
+              self.index = 0 
+              self.finished = False
+              print("paset:", path)
+              print(f"Plane {self.callsign} path set: {self.path}")
+
+
        def draw(self, screen): 
               rect = self.image.get_rect(center=(self.x, self.y))
               screen.blit(self.image, rect)
-             
+         
 # spawned where the path start node and the purple dot are the same then i can tie n image ot it 
 
        
@@ -202,7 +190,7 @@ pygame.display.set_icon(win_icon)
 #set window title 
 pygame.display.set_caption("Air Traffic Talker")
 # plane image 
-plane_img = "myFavplane.png"
+plane_img = pygame.image.load("myFavplane.png").convert_alpha()
 
 # gridnode pts 
 pts = [(45,48),(45,56),(61,51),(55,50),(53,56),(50,50)]
@@ -210,12 +198,13 @@ fpts = [(41,38), (68, 43)]
 # coordinate points - time consuming do this @ home (did this only for T5 PLANES)
 apronpts = [(360, 390), (360, 450), (490, 410), (407, 400), (429,400), (469, 450)]
 # checkpoint coordinates - this is the junctions at the taxiway - takeoff and landing only  
-checkpts = [(384, 358), (320,340), ]
+checkpts = [(384, 358), (320,340), (448,345), (417,338), (326,374), (344,502), (374, 502), (393,483)]
 landpts = [(300, 300), (400, 400)]
 #create clock 
 clock = pygame.time.Clock()  
 
 
+## voice control 
 
 
 
@@ -330,19 +319,54 @@ matrix = [
         
 
 
+# prerequisites: 
+holding_points = {
+            "dasso": [384,358],
+            "snapa": [320,340],
+            "rando": [448,345], 
+            "vikas": [417,338],
+            "cobra": [326,374], 
+            "oster": [393,483] 
+        }
 
+
+aircraft_list = [] 
+
+# intialises pathfinder 
 pathfinder = Pathfinder(matrix)
+# initialises voice Control 
+#voice = VoiceControl(aircraft_list, holding_points, pathfinder)
+voice = VoiceControl()
+voice.pathfinder = pathfinder
+
+
+# TEST INPUT // TO BE REPLACED WITH  voice.recognise_command() - microphone input  
+test_input = "speedbird12 taxi horka"
 
 # path 
 current_path = []
-plane = None 
 
-#route = pathfinder.create_path()
-#print(route)
+# spawns mmultiple planes
+planes = []
+spawn_pos = [45,48]
+plane = Plane(spawn_pos, "speedbird123") # want to add pts (so i cna randomise it)
+planes.append(plane)
+
+# voice control: 
+voice = VoiceControl() 
+voice.pathfinder = pathfinder
+voice.valid_holding_points = holding_points
 
 
-       
-
+# test input: 
+command = {
+    "callsign": "speedbird123", 
+    "action": "takeoff", 
+    "runway": "27", 
+    "holding_point": None,
+    "destination": None
+}
+test = voice.execute_command(command, planes)
 #WHOLE GAME LOOP
 # while loop to keep code running 
 running = True
@@ -365,29 +389,69 @@ while running:
 
             # once mouse button is clicked: 
         if event.type == pygame.MOUSEBUTTONDOWN:
-              #this was tessting the pathfinder functions 
-               #pathfinder.create_path()
-               #pathfinder.draw_path()
-               #pathfinder.random_points()
+              # spawn a plane at a random starting pt: 
+               spawn_pos = random.choice(pts)
+               callsign = f"speedbird{random.randint(100,999)}"
+               new_plane = Plane(spawn_pos, callsign)
+               aircraft_list.append(new_plane)  
 
+               #voice control handle command processing 
+               voice.process_voice()
+               result = voice.execute_command(command, planes)
 
-               # random coordinate points from the list 
-               start = random.choice(pts)
-               end = random.choice(fpts)
+               if result: 
+                      start, end = result
+                      
+                      current_path = pathfinder.create_path(start, end)
 
-               #calling the finder 
-               current_path = pathfinder.create_path(start, end)
+                      plane.set_path(current_path)
+ 
+               #implenting voice control into this: 
+               
 
               # blits the image once path has been calulated 
-               if  current_path: 
-                      plane = Plane(plane_img, current_path)
-                      print(current_path)
+               if  current_path and len(current_path) > 0: 
+                      start_pos = tuple(current_path[0])
+                      callsign = "speedbird123"
+                      new_plane = Plane(start_pos, callsign)
+                      new_plane.set_path(current_path)
+                      planes.append(new_plane)
+                      
                else: 
                       print("no path found")
+
+               
+
+              # testing multiple objects spawning - expected outcome : multiple objects spawn upon multi[ple mouse clicks 
+              # suscess - multiple objs are created and follow that path. Action: despawn plane objects as theu reach end node
     
+              
+              
+
+
+
+
+    # implement voice control: ADDED THIS LINE
+   
+
+    # AND THESE HERE
+    
+# AND FINISHED HERE 
+              
     # updates plane position as it travels node 
-    if plane: 
-        plane.update()              
+    # draws the plane img on screen   
+    for plane in planes:   
+        plane.update()   
+        x, y = plane.grid_position 
+
+        screen.blit(plane_img, (x*TILE_SIZE, y*TILE_SIZE))
+        
+    
+    for plane in aircraft_list:
+           plane.update() 
+
+           pygame.draw.rect(screen, (0,255,0), (*plane.grid_position, 20,20))
+           
                 
         # DRAWS THE PATH                 
     if current_path and len(current_path) > 1: 
@@ -398,9 +462,8 @@ while running:
         ]
         pygame.draw.lines(screen, (255,0,0), False, points, 3)     
     
-    # draws the plane img on screen 
-    if plane:
-                plane.draw(screen)          
+    
+                      
     pygame.display.flip()           
 
     # draws the coordinate pts 
@@ -423,7 +486,13 @@ while running:
         
 
     pygame.display.flip()
-    clock.tick(100)
+    clock.tick(15)
+
+command = voice.parse_command(test_input)
+
+print("parsed:", command)
+
+voice.execute_command(command, aircraft_list)
 
 
 
