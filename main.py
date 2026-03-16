@@ -24,7 +24,7 @@ class Pathfinder:
                 #self.select_surf = pygame.image.load('crosshairX.png').convert_alpha()
                 #self.actual_image = pygame.transform.scale(self.select_surf, (8,8))
                 # plae imgs 
-                #self.image =  pygame.image.load("myFavplane.png").convert_alpha()
+                self.image =  pygame.image.load("myFavplane.png").convert_alpha()
                 self.rect = self.image.get_rect()
                 self.path = []     
 
@@ -118,7 +118,6 @@ class Pathfinder:
                         
 # class plane 
 
-
 class Plane: 
        def __init__(self, image_path, path):
               self.image = pygame.image.load("myFavplane.png").convert_alpha()
@@ -184,17 +183,7 @@ class Plane:
        def draw(self, screen): 
               rect = self.image.get_rect(center=(self.x, self.y))
               screen.blit(self.image, rect)
-
-                        
-
-
-
-       
-              
-
-
-
-              
+             
 # spawned where the path start node and the purple dot are the same then i can tie n image ot it 
 
        
