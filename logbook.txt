@@ -40,6 +40,17 @@ bcs during junctions, i can make the plane stop and the user can voice their inp
 
 entry 6/1/26 - still stuck on the same thing - have NO idea what going on how to do it and such 
 
+entryt - 12/1/26 - found the problem <GridNode(41:42 0x17e10716a80)> is a coordinate obj and we need to extract the raw x,y coords. 
+
+what the problem was: 
+
+Gridnode objects are tuples therefore points[0] and points[1] wldnt work 
+points list was overwritten inside the loop  and was further appended so it did work 
+to fix i extracted to nodes using node.x and node.y 
 
 
-i have sucessgfully done so and so now its object moveing alonghtat luine 
+19-1/26 - what need to be done now : 
+
+Plane object creation and movement from the apron to runway 
+obj creation = 
+movement - pathfinding related 
