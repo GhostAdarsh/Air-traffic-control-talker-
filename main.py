@@ -55,30 +55,29 @@ class Pathfinder:
                return start_x, start_y
                return self.random_point_start     
         
-        def create_path(self, start, end): # not yet
+        def create_path(self, start, end): # not yet  re add start and end to code 
                 # start pt 
                 #mouse_pos = pygame.mouse.get_pos()
                 #start_x, start_y = self.random_points()
-                start_node = self.grid.node(start[0], start[1])
+                start_node = self.grid.node(start[0], start[1]) 
                 
 
                 #end pt 
                 #mouse_pos = pygame.mouse.get_pos()
                 #end_x, end_y = [41,38]
-                end_node = self.grid.node(end[0], end[1])
+                end_node = self.grid.node(end[0], end[1]) 
                 
-         
                 # path 
                 finder = AStarFinder(diagonal_movement =  DiagonalMovement.always)
                 #self.path = finder.find_path(start, end, self.grid)
                 raw_path, _ = finder.find_path(start_node, end_node, self.grid)
-                
 
                 self.grid.cleanup()
                 #print(self.path)
-
                 # convert Gridnodes to x y coordinates 
                 path = [(node.x, node.y) for node in raw_path]
+                print(path)
+                
 
                 return path
                 
@@ -390,8 +389,12 @@ while running:
 
             # once mouse button is clicked: 
         if event.type == pygame.MOUSEBUTTONDOWN:
+              # testings: 
+              
+              pathfinder.create_path()
+               
               # spawn a plane at a random starting pt: 
-               spawn_pos = random.choice(pts)
+              '''spawn_pos = random.choice(pts)
                callsign = f"speedbird{random.randint(100,999)}"
                new_plane = Plane(spawn_pos, callsign)
                aircraft_list.append(new_plane)  
@@ -421,7 +424,7 @@ while running:
                else: 
                       print("no path found")
 
-               
+               '''
 
               # testing multiple objects spawning - expected outcome : multiple objects spawn upon multi[ple mouse clicks 
               # suscess - multiple objs are created and follow that path. Action: despawn plane objects as theu reach end node
@@ -442,7 +445,7 @@ while running:
     # updates plane position as it travels node 
     # draws the plane img on screen   
     for plane in planes:   
-        plane.update()   
+        #plane.update()   
         x, y = plane.grid_position 
 
         screen.blit(plane_img, (x*TILE_SIZE, y*TILE_SIZE))
