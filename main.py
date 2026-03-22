@@ -114,7 +114,6 @@ class Pathfinder:
                         
 # class plane 
 
-
 class Plane: 
        def __init__(self, start_pos, callsign):
               self.callsign = callsign
