@@ -103,6 +103,7 @@ class Plane:
               self.x = x * TILE_SIZE + TILE_SIZE //2 
               self.y = y * TILE_SIZE + TILE_SIZE //2 
 
+              print(self.callsign, self.grid_position, self.index, self.path, self.finished, self.speed) 
        def update(self): 
               # stops when the plane reaches the end of the path
               if self.index >= len(self.path) - 1: 
@@ -128,7 +129,7 @@ class Plane:
 
               if self.path:
                      self.grid_position = self.path.pop(0) #moves along path 
-
+              
               
        
        def set_path(self, path): 
@@ -327,6 +328,7 @@ voice = VoiceControl()
 voice.pathfinder = pathfinder
 voice.valid_holding_points = holding_points
 
+print(Plane([5,5], "speedbird123"))
 
 # test input: 
 command = {
@@ -356,12 +358,13 @@ while running:
        if event.type == pygame.QUIT: 
             running = False
 
-       if event.type == pygame.K_a:
+       if event.type == pygame.K_COMMA:
               # testing area - use this during modular testing 
               #pathfinder.create_path()
-              #pathfinder.draw_active_cell() 
-              
-              pathfinder.create_path() 
+              #pathfinder.draw_active_cell()  testings here: 
+              print("x")
+              # output - when the button a is pressed, nothing happens - why? probably because i need to wokr in the update functions of the plane
+              Plane() 
               
               
 

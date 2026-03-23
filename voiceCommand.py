@@ -51,9 +51,9 @@ aircraft_list = ["speedbird123"]
 checkpts = [(384, 358), (320,340), (448,345), (417,338), (326,374), (344,502), (374, 502), (393,483)]
 
 ## creat eplanes
-plane1 = Plane("speedbird12", (384,358))
+#plane1 = Plane("speedbird12", (384,358))
 
-planes = [plane1]
+#planes = [plane1]
 
 # create a fake command: 
 '''
