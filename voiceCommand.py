@@ -136,7 +136,7 @@ class VoiceControl:
             return
         
         command = self.parse_command(teast_2)
-        print(command)
+        #print(command)
         if not command: 
             self.computer_voice("Invalid Command")
             return text
@@ -216,7 +216,7 @@ class VoiceControl:
 
         # validate command 
         if command["callsign"] and command["action"] and command["destination"]: 
-            print(command)
+            #print(command)
             return command 
         
         return command
@@ -230,7 +230,7 @@ class VoiceControl:
             if plane.callsign != callsign: 
                 continue
 
-            print(f"plane matched:{plane.callsign}")
+            #print(f"plane matched:{plane.callsign}")
 
             
             
@@ -247,7 +247,7 @@ class VoiceControl:
                 runway = command.get("runway", "27") # default
                 destination = runway_coords[runway]
             else: 
-                print(f"Unkown action: {action}")
+                #print(f"Unkown action: {action}")
                 return 
             start_pos = plane.grid_position
             start_pos = tuple(start_pos)
