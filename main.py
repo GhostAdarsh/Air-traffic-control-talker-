@@ -103,7 +103,14 @@ class Plane:
               self.x = x * TILE_SIZE + TILE_SIZE //2 
               self.y = y * TILE_SIZE + TILE_SIZE //2 
 
-              print(self.callsign, self.grid_position, self.index, self.path, self.finished, self.speed) 
+              # assert statements: 
+              # i will use the assert statements to check if the data passed is correct or not: 
+              assert plane.callsign == "speedbird123"
+              assert plane.grid_position == [45,48]
+              assert plane.index == 0 
+              assert plane.path == [] 
+              assert plane.speed == 0.2
+              assert plane.finished == False  
        def update(self): 
               # stops when the plane reaches the end of the path
               if self.index >= len(self.path) - 1: 
@@ -115,7 +122,8 @@ class Plane:
               target_x, target_y = self.path[self.index + 1]
               target_x = target_x * TILE_SIZE + TILE_SIZE //2 
               target_y = target_y * TILE_SIZE + TILE_SIZE //2
-              
+
+              print(self.index) 
               #distance of coordinates minus the current position 
               dx = target_x - self.x
               dy = target_y - self.y 
@@ -129,7 +137,7 @@ class Plane:
 
               if self.path:
                      self.grid_position = self.path.pop(0) #moves along path 
-              
+              print(self.index)
               
        
        def set_path(self, path): 
@@ -143,6 +151,11 @@ class Plane:
        def draw(self, screen): 
               rect = self.image.get_rect(center=(self.x, self.y))
               screen.blit(self.image, rect)
+
+       # YTEST FUNCTIONS: 
+       
+
+
          
 # spawned where the path start node and the purple dot are the same then i can tie n image ot it 
 
@@ -318,18 +331,19 @@ test_input = "speedbird12 taxi horka"
 current_path = []
 
 # spawns mmultiple planes
-planes = []
+'''planes = []
 spawn_pos = [45,48]
 plane = Plane(spawn_pos, "speedbird123") # want to add pts (so i cna randomise it)
-planes.append(plane)
+planes.append(plane)'''
+spawn_pos = random.choice(pts)
+plane = Plane(spawn_pos, "speedbird123")
 
 # voice control: 
 voice = VoiceControl() 
 voice.pathfinder = pathfinder
 voice.valid_holding_points = holding_points
 
-print(Plane([5,5], "speedbird123"))
-
+plane.update() 
 # test input: 
 command = {
     "callsign": "speedbird123", 
