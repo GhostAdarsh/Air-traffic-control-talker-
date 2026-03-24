@@ -103,14 +103,7 @@ class Plane:
               self.x = x * TILE_SIZE + TILE_SIZE //2 
               self.y = y * TILE_SIZE + TILE_SIZE //2 
 
-              # assert statements: 
-              # i will use the assert statements to check if the data passed is correct or not: 
-              assert plane.callsign == "speedbird123"
-              assert plane.grid_position == [45,48]
-              assert plane.index == 0 
-              assert plane.path == [] 
-              assert plane.speed == 0.2
-              assert plane.finished == False  
+                
        def update(self): 
               # stops when the plane reaches the end of the path
               if self.index >= len(self.path) - 1: 
