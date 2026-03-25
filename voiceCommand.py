@@ -41,8 +41,8 @@ planes = [plane]
 #load model 
 #print("hell0")
         # test data: 
-test_input = "speedbird one two three cleared for takeoff runway two seven"
-test_input2 = "speedbird one two thee taxi to holding point cobra"
+test_input = "plane take of at the area of the top left"
+test_input2 = "123 takeoff runway 27L"
 final_test = "speedbird one two three"
 q = queue.Queue() 
 
@@ -87,16 +87,16 @@ class VoiceControl:
         # intialising vosk 
         self.model = Model("vosk-model-small-en-us-0.15")
         # list of words 
-        self.vocab = ["takeoff", "runway", "hold", "taxi", "holding point"]
-        #recogniser 
+        self.vocab = ["takeoff", "runway", "hold", "taxi", "holding point", "zero", "one", "two", "three", "four", "speedbird", "five", "six", "seven", "eight", "nine", ]
+        #recogniser looks for self.vocab - to brush off unfiltered words 
         self.recogniser = KaldiRecognizer(self.model, 16000, json.dumps(self.vocab))
         # test data: 
         test_input = "speedbird one two three cleared for takeoff runway two seven"
         # creatubg a queue
         self.q = queue.Queue()
         # sending test input for parsing
-        parsed = self.parse_command(test_input)
-        print(parsed)
+        #parsed = self.parse_command(test_input)
+        #print(parsed)
 
         def callback(indata, frames, time, status):
             self.q.put(bytes(indata))
@@ -124,9 +124,14 @@ class VoiceControl:
                     result = json.loads(self.recogniser.Result())
                     text =  result.get("text", "")
                     text = text.strip().lower() 
+                    print(text)
+                    #Audio input: “Speedbird one two three cleared for take off runway 27” 
                     return self.parse_command(text)
+                    # TESTING CONST + recognise_command()
+                    # output: works as expected  - NOW testing wiht no audio input  - didnt speak for 10 seconds - did not recognise a thing 
 
 ## main processing 
+   #main voice processing logic 
     def process_voice(self):
         text = self.recognise_command() 
         print(text)
@@ -212,7 +217,7 @@ class VoiceControl:
                 break
 
         # print WHOLE command: 
-        #print("parsed command:", command)
+        print("parsed command:", command)
 
         # validate command 
         if command["callsign"] and command["action"] and command["destination"]: 
@@ -273,12 +278,13 @@ command = {
 
 plane = Plane("speedbird123", (0,0),)
 planes.append(plane)
-voice = VoiceControl() 
-voice.pathfinder = FakePathfinder()
-voice.valid_holding_points = {"horka": (10,20)}
+#voice = VoiceControl() 
+#voice.pathfinder = FakePathfinder()
+#voice.valid_holding_points = {"horka": (10,20)}
 ## still and issue - nneds sorting out before, IT NEEDS TO OUTPUT COORDINATES AND PATHS - THAT WILL BE INPUTTED IN TO THE PATHFINDER!!!
+#voice.execute_command(command, planes)
 
-
-voice.execute_command(command, planes)
-
-
+#MODULAR TESTINGS: 
+voice = VoiceControl() 
+voice.recognise_command()
+ 

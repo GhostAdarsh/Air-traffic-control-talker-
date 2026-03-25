@@ -20,11 +20,6 @@ class Pathfinder:
               #created the matrix and grid 
               self.matrix = matrix
               self.grid = Grid(matrix = matrix)
-              #self.select_surf = pygame.image.load('crosshairX.png').convert_alpha()
-              #self.actual_image = pygame.transform.scale(self.select_surf, (8,8))
-              # plae imgs 
-              #self.image =  pygame.image.load("myFavplane.png").convert_alpha()
-              #self.rect = self.image.get_rect()
               self.path = []     
 
               print("x")
@@ -36,7 +31,6 @@ class Pathfinder:
               row = mouse_pos[1] // 8 # i had to scale down the mouse positions by 8s
               col = mouse_pos[0] // 8
               rect = pygame.Rect((col * 8, row * 8), (8,8)) # adds rectangles 
-              #screen.blit(self.actual_image, rect)
               self.path = [] 
               #print(row, col) # comenting this line  
               # prints the index of the matrix - whether it is 1 or 0 so i can map out the plane path better 
@@ -78,7 +72,8 @@ class Pathfinder:
        def update(self):
               #start = random.choice(pts)
               #end = (41,38)
-              #self.create_path(start, end)  # altered this output: which is constantly outputting differnt paths therefore works and it measn i dont think i need the random.points function
+              #self.create_path(start, end)  # altered this output: which is constantly outputting differnt paths therefore works and it mean
+              #  dont think i need the random.points function
               #self.draw_active_cell()     
               #self.draw_path()
               pass
@@ -153,7 +148,7 @@ class Plane:
 # spawned where the path start node and the purple dot are the same then i can tie n image ot it 
 
        
-        
+## GAME SETUP: 
 # TASK A - load an image and setr it as background - DONE
 #create screen
 screen = pygame.display.set_mode((1280,800)) # edited the image width nd height for easier thingyies    
@@ -169,7 +164,6 @@ pygame.display.set_icon(win_icon)
 pygame.display.set_caption("Air Traffic Talker")
 # plane image 
 plane_img = pygame.image.load("myFavplane.png").convert_alpha()
-
 # gridnode pts 
 pts = [(45,48),(45,56),(61,51),(55,50),(53,56),(50,50)]
 fpts = [(41,38), (68, 43)]
@@ -295,7 +289,7 @@ matrix = [
 #PIXEL BOUNDARIES = 290 < Y < 560 (y axis increases from top to bottom - hence 290px up to 560px down)
         
 
-
+# PATHFINDING, PLANE AND VOICE RECOGNITION INTITIALISATION: 
 # prerequisites: 
 holding_points = {
             "dasso": [384,358],
@@ -305,37 +299,28 @@ holding_points = {
             "cobra": [326,374], 
             "oster": [393,483] 
         }
-
-
 aircraft_list = [] 
-
 # intialises pathfinder 
 pathfinder = Pathfinder(matrix)
 # initialises voice Control 
 #voice = VoiceControl(aircraft_list, holding_points, pathfinder)
 voice = VoiceControl()
 voice.pathfinder = pathfinder
-
-
 # TEST INPUT // TO BE REPLACED WITH  voice.recognise_command() - microphone input  
 test_input = "speedbird12 taxi horka"
-
 # path 
 current_path = []
-
 # spawns mmultiple planes
-'''planes = []
+planes = []
 spawn_pos = [45,48]
 plane = Plane(spawn_pos, "speedbird123") # want to add pts (so i cna randomise it)
-planes.append(plane)'''
+planes.append(plane)
 spawn_pos = random.choice(pts)
 plane = Plane(spawn_pos, "speedbird123")
-
 # voice control: 
 voice = VoiceControl() 
 voice.pathfinder = pathfinder
 voice.valid_holding_points = holding_points
-
 plane.update() 
 # test input: 
 command = {
@@ -346,6 +331,10 @@ command = {
     "destination": None
 }
 #test = voice.execute_command(command, planes)
+
+
+
+
 #WHOLE GAME LOOP
 # while loop to keep code running 
 running = True
@@ -370,7 +359,8 @@ while running:
               #pathfinder.create_path()
               #pathfinder.draw_active_cell()  testings here: 
               print("x")
-              # output - when the button a is pressed, nothing happens - why? probably because i need to wokr in the update functions of the plane
+              # output - when the button a is pressed, nothing happens - 
+              # why? probably because i need to wokr in the update functions of the plane
               Plane() 
               
               
@@ -413,19 +403,6 @@ while running:
               # testing multiple objects spawning - expected outcome : multiple objects spawn upon multi[ple mouse clicks 
               # suscess - multiple objs are created and follow that path. Action: despawn plane objects as theu reach end node
     
-              
-              
-
-
-
-
-    # implement voice control: ADDED THIS LINE
-   
-
-    # AND THESE HERE
-    
-       # AND FINISHED HERE 
-              
     # updates plane position as it travels node 
     # draws the plane img on screen   
     for plane in planes:   
